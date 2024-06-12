@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:frontend/view/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -23,13 +24,16 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-        backgroundColor: Color(0xFFF8EFEA),
+    return Scaffold(
+        backgroundColor: Color.fromARGB(255, 248, 207, 184),
         body: Center(
-          child: Image(
-            image: AssetImage('assets/images/pawtient_logo.png'),
-            height: 270,
-            width: 270,
+          child: ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(130)),
+            child: Image(
+              image: AssetImage('assets/images/pawtient_logo.png'),
+              height: 270,
+              width: 270,
+            ),
           ),
         ));
   }
