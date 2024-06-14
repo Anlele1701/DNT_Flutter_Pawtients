@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:frontend/view/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -24,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
         backgroundColor: Color.fromARGB(255, 248, 207, 184),
         body: Center(
           child: ClipRRect(

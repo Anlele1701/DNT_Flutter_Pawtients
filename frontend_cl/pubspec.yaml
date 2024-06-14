@@ -9,10 +9,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  # For adding svg
+  flutter_svg: ^2.0.10+1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  glassmorphism: ^3.0.0
   flutter_lints: ^3.0.0
 
 flutter:
