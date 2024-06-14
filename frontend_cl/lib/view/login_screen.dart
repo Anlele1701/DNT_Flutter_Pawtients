@@ -1,10 +1,6 @@
 import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:frontend/view/widget/DownWaveClipper.dart';
 import 'package:frontend/view/widget/UpperWaveClipper.dart';
 import 'package:glassmorphism/glassmorphism.dart';
@@ -22,7 +18,7 @@ class _LoginScreenState extends State<LoginScreen>
   late Animation<Alignment> _topAlignmentAnimation;
   late Animation<Alignment> _bottomAlignmentAnimation;
   final textFieldFocusNode = FocusNode();
-  bool _obscured = false;
+  bool _obscured = true;
 
   @override
   void initState() {
@@ -124,12 +120,12 @@ class _LoginScreenState extends State<LoginScreen>
             ),
           ),
           Positioned(
-            top: 150,
+            top: 140,
             left: 50,
             right: 50,
             child: GlassmorphicContainer(
               width: 350,
-              height: 630,
+              height: 650,
               borderRadius: 50,
               blur: 45,
               alignment: Alignment.bottomCenter,
@@ -199,7 +195,8 @@ class _LoginScreenState extends State<LoginScreen>
                               isDense: true,
                               hintStyle: TextStyle(
                                   color:
-                                      const Color(0xff000000).withOpacity(.5)),
+                                      const Color(0xff000000).withOpacity(.5),
+                                  fontSize: 14),
                               hintText: "Password",
                               icon: const Icon(Icons.lock_outlined,
                                   color: Color(0xff808080), size: 23),
@@ -220,20 +217,58 @@ class _LoginScreenState extends State<LoginScreen>
                       ),
                     ),
                   ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 10),
                   const Text(
                     "Quên mật khẩu?",
                     style: TextStyle(color: Color(0xff723700), fontSize: 12),
                   ),
-                  FilledButton(onPressed: () {}, child: Text("Đăng nhập")),
-                  const SizedBox(height: 15),
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    Text("Bạn chưa có tài khoản?"),
-                    Text("Đăng ký",
-                        style:
-                            TextStyle(color: Color(0xff723700), fontSize: 12))
-                  ]),
-                  const Text("Copyright © 2024 Pawtient")
+                  const SizedBox(height: 20),
+                  Container(
+                    width: 167,
+                    height: 47,
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(30)),
+                        boxShadow: [
+                          BoxShadow(
+                              blurRadius: 4,
+                              color: const Color(0xff000000).withOpacity(.25),
+                              offset: const Offset(0, 4))
+                        ]),
+                    child: FilledButton(
+                      onPressed: () {},
+                      style: const ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll<Color>(Color(0xffFF810B)),
+                      ),
+                      child: const Text("Đăng nhập",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold)),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Bạn chưa có tài khoản?",
+                            style: TextStyle(
+                                color: Color(0xff474747), fontSize: 12)),
+                        Text(" Đăng ký",
+                            style: TextStyle(
+                                color: Color(0xff723700), fontSize: 12))
+                      ]),
+                  Expanded(
+                    child: Align(
+                        alignment: const Alignment(0.05, 0.6),
+                        child: Text(
+                          "Copyright © 2024 Pawtient",
+                          style: TextStyle(
+                              color: const Color(0xffFFFFFF).withOpacity(.6),
+                              fontSize: 12),
+                        )),
+                  )
                 ],
               ),
             ),
@@ -282,8 +317,9 @@ class _TextFieldLoginState extends State<TextFieldLogin> {
               decoration: InputDecoration(
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 isDense: true,
-                hintStyle:
-                    TextStyle(color: const Color(0xff000000).withOpacity(.5)),
+                hintStyle: TextStyle(
+                    color: const Color(0xff000000).withOpacity(.5),
+                    fontSize: 14),
                 hintText: widget.labelInput,
                 icon: Icon(widget.iconInput,
                     color: const Color(0xff808080), size: 23),
