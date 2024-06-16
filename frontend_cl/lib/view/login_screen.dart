@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:frontend/view/register_screen.dart';
 import 'package:frontend/view/widget/DownWaveClipper.dart';
 import 'package:frontend/view/widget/UpperWaveClipper.dart';
 import 'package:glassmorphism/glassmorphism.dart';
@@ -17,7 +19,6 @@ class _LoginScreenState extends State<LoginScreen>
   late AnimationController _controller;
   late Animation<Alignment> _topAlignmentAnimation;
   late Animation<Alignment> _bottomAlignmentAnimation;
-  final textFieldFocusNode = FocusNode();
   bool _obscured = true;
 
   @override
@@ -73,6 +74,12 @@ class _LoginScreenState extends State<LoginScreen>
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
@@ -89,52 +96,13 @@ class _LoginScreenState extends State<LoginScreen>
                 end: _bottomAlignmentAnimation.value)),
         child: Stack(
           children: [
-            // AnimatedBuilder(
-            //   animation: _controller,
-            //   builder: (context, child) => ClipPath(
-            //     clipper: UpperWaveClipper(),
-            //     child: Container(
-            //       height: 241,
-            //       decoration: BoxDecoration(
-            //           gradient: LinearGradient(
-            //               colors: const [
-            //             Color(0xffFF810B),
-            //             Color(0xffFB6D48),
-            //           ],
-            //               begin: _topAlignmentAnimation.value,
-            //               end: _bottomAlignmentAnimation.value)),
-            //     ),
-            //   ),
-            // ),
-            // Positioned(
-            //   bottom: 0,
-            //   left: 0,
-            //   right: 0,
-            //   child: AnimatedBuilder(
-            //     animation: _controller,
-            //     builder: (context, child) => ClipPath(
-            //       clipper: DownWaveClipper(),
-            //       child: Container(
-            //         height: 400,
-            //         decoration: BoxDecoration(
-            //             gradient: LinearGradient(
-            //                 colors: const [
-            //               Color(0xffFF810B),
-            //               Color(0xffFB6D48),
-            //             ],
-            //                 begin: _topAlignmentAnimation.value,
-            //                 end: _bottomAlignmentAnimation.value)),
-            //       ),
-            //     ),
-            //   ),
-            // ),
             Positioned(
               top: screenHeight * 0.1,
               left: 50,
               right: 50,
               child: GlassmorphicContainer(
                 width: 350,
-                height: screenHeight * 0.8,
+                height: screenHeight * 0.75,
                 borderRadius: 50,
                 blur: 45,
                 alignment: Alignment.bottomCenter,
@@ -197,7 +165,6 @@ class _LoginScreenState extends State<LoginScreen>
                           padding: const EdgeInsets.only(left: 14),
                           child: TextField(
                               obscureText: _obscured,
-                              focusNode: textFieldFocusNode,
                               decoration: InputDecoration(
                                 floatingLabelBehavior:
                                     FloatingLabelBehavior.never,
@@ -259,24 +226,30 @@ class _LoginScreenState extends State<LoginScreen>
                       ),
                     ),
                     const SizedBox(height: 20),
-                    const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("Bạn chưa có tài khoản?",
-                              style: TextStyle(
-                                  color: Color(0xff474747), fontSize: 12)),
-                          Text(" Đăng ký",
-                              style: TextStyle(
-                                  color: Color(0xff723700), fontSize: 12))
-                        ]),
-                    Expanded(
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      const Text("Bạn chưa có tài khoản?",
+                          style: TextStyle(
+                              color: Color(0xff474747), fontSize: 12)),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const RegisterScreen()));
+                        },
+                        child: Text(" Đăng ký",
+                            style: TextStyle(
+                                color: Color(0xff723700), fontSize: 12)),
+                      )
+                    ]),
+                    const Expanded(
                       child: Align(
-                          alignment: const Alignment(0.05, 0.6),
+                          alignment: Alignment(0.05, 0.9),
                           child: Text(
                             "Copyright © 2024 Pawtient",
                             style: TextStyle(
-                                color: const Color(0xffFFFFFF).withOpacity(.6),
-                                fontSize: 12),
+                                color: Color(0xffFFFFFF), fontSize: 12),
                           )),
                     )
                   ],
