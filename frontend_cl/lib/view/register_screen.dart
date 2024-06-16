@@ -64,6 +64,12 @@ class _RegisterScreenState extends State<RegisterScreen>
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
@@ -151,14 +157,14 @@ class _RegisterScreenState extends State<RegisterScreen>
                                 () => _confirmPasswordVisible = isVisible),
                           ),
                           const SizedBox(height: 24.75),
-                          TextFieldRegis(
+                          const TextFieldRegis(
                             keyboardInput: TextInputType.name,
                             labelInput: "Họ và tên",
                             iconInput: Icons.person_outlined,
                             textObscure: false,
                           ),
                           const SizedBox(height: 24.75),
-                          TextFieldRegis(
+                          const TextFieldRegis(
                             keyboardInput: TextInputType.phone,
                             labelInput: "Số điện thoại",
                             iconInput: Icons.phone_outlined,
@@ -202,11 +208,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                                         fontSize: 12)),
                                 GestureDetector(
                                   onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        CupertinoPageRoute(
-                                            builder: (context) =>
-                                                const LoginScreen()));
+                                    Navigator.pop(context);
                                   },
                                   child: Text(" Đăng nhập",
                                       style: TextStyle(
@@ -272,7 +274,7 @@ class _PasswordTFState extends State<PasswordTF> {
           borderRadius: BorderRadius.circular(22),
         ),
         child: Padding(
-          padding: const EdgeInsets.only(left: 14, right: 30),
+          padding: const EdgeInsets.only(left: 14, right: 8),
           child: TextField(
               obscureText: widget.textObscure,
               keyboardType: widget.keyboardInput,
@@ -286,19 +288,16 @@ class _PasswordTFState extends State<PasswordTF> {
                 icon: Icon(widget.iconInput,
                     color: const Color(0xff808080), size: 23),
                 border: InputBorder.none,
-                suffixIcon: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 4, 0),
-                  child: GestureDetector(
-                    onTap: () => setState(() {
-                      widget.onToggleVisibility(!widget.textObscure);
-                    }),
-                    child: Icon(
-                        !widget.textObscure
-                            ? Icons.visibility_rounded
-                            : Icons.visibility_off_rounded,
-                        size: 24,
-                        color: const Color(0xff808080)),
-                  ),
+                suffixIcon: GestureDetector(
+                  onTap: () => setState(() {
+                    widget.onToggleVisibility(!widget.textObscure);
+                  }),
+                  child: Icon(
+                      !widget.textObscure
+                          ? Icons.visibility_rounded
+                          : Icons.visibility_off_rounded,
+                      size: 24,
+                      color: const Color(0xff808080)),
                 ),
               )),
         ),
