@@ -280,7 +280,6 @@ class _PasswordTFState extends State<PasswordTF> {
               keyboardType: widget.keyboardInput,
               decoration: InputDecoration(
                 floatingLabelBehavior: FloatingLabelBehavior.never,
-                isDense: true,
                 hintStyle: TextStyle(
                     color: const Color(0xff000000).withOpacity(.5),
                     fontSize: 14),
@@ -342,7 +341,6 @@ class TextFieldRegis extends StatelessWidget {
               keyboardType: keyboardInput,
               decoration: InputDecoration(
                 floatingLabelBehavior: FloatingLabelBehavior.never,
-                isDense: true,
                 hintStyle: TextStyle(
                     color: const Color(0xff000000).withOpacity(.5),
                     fontSize: 14),

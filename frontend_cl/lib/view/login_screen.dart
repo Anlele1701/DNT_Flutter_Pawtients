@@ -168,7 +168,6 @@ class _LoginScreenState extends State<LoginScreen>
                               decoration: InputDecoration(
                                 floatingLabelBehavior:
                                     FloatingLabelBehavior.never,
-                                isDense: true,
                                 hintStyle: TextStyle(
                                     color:
                                         const Color(0xff000000).withOpacity(.5),
@@ -300,7 +299,6 @@ class _TextFieldLoginState extends State<TextFieldLogin> {
               obscureText: widget.textObscure,
               decoration: InputDecoration(
                 floatingLabelBehavior: FloatingLabelBehavior.never,
-                isDense: true,
                 hintStyle: TextStyle(
                     color: const Color(0xff000000).withOpacity(.5),
                     fontSize: 14),
