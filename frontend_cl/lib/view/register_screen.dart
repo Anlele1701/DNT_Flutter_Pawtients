@@ -89,10 +89,10 @@ class _RegisterScreenState extends State<RegisterScreen>
                 children: [
                   Positioned(
                     top: screenHeight * 0.12,
-                    left: 50,
-                    right: 50,
+                    left: 23,
+                    right: 23,
                     child: GlassmorphicContainer(
-                      width: 350,
+                      width: screenWidth,
                       height: screenHeight * 0.8,
                       borderRadius: 50,
                       blur: 45,
@@ -127,8 +127,8 @@ class _RegisterScreenState extends State<RegisterScreen>
                               child: Image(
                                 image: AssetImage(
                                     'assets/images/pawtient_logo.png'),
-                                height: 100,
-                                width: 100,
+                                height: 130,
+                                width: 130,
                               ),
                             ),
                           ),
@@ -280,7 +280,6 @@ class _PasswordTFState extends State<PasswordTF> {
               keyboardType: widget.keyboardInput,
               decoration: InputDecoration(
                 floatingLabelBehavior: FloatingLabelBehavior.never,
-                isDense: true,
                 hintStyle: TextStyle(
                     color: const Color(0xff000000).withOpacity(.5),
                     fontSize: 14),
@@ -342,7 +341,6 @@ class TextFieldRegis extends StatelessWidget {
               keyboardType: keyboardInput,
               decoration: InputDecoration(
                 floatingLabelBehavior: FloatingLabelBehavior.never,
-                isDense: true,
                 hintStyle: TextStyle(
                     color: const Color(0xff000000).withOpacity(.5),
                     fontSize: 14),
