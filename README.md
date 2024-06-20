@@ -9,7 +9,8 @@
 |4    | Nguyễn Tiến Thành | 21DH114111 |
 
 ## 💼 **Overview:**
-This comprehensive guide outlines the development of a pet care application for the Advanced Mobile Programming course. The project aims to showcase the successful implementation of a new technology in building a feature-rich and user-friendly pet care app.## :dart: **Objective:** 
+This comprehensive guide outlines the development of a pet care application for the Advanced Mobile Programming course. The project aims to showcase the successful implementation of a new technology in building a feature-rich and user-friendly pet care app.
+## :dart: **Objective:** 
 The primary objective of this project is to successfully apply a new technology in the development of a pet care application.
 
 ### :pushpin: Key goals: 
