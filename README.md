@@ -1,33 +1,34 @@
-# :computer: **PROJECT MÔN HỌC LẬP TRÌNH MOBILE NÂNG CAO - ĐỀ TÀI CHĂM SÓC THÚ CƯNG** :computer_mouse:
+# :computer: **ADVANCED MOBILE PROGRAMMING PROJECT - PET CARE APP PAWTIENTS** :computer_mouse:
 
-## :man_technologist: **Thành Viên Của Nhóm** :woman_technologist:
-|STT    | Họ và Tên          | Mã Sinh Viên |
+## :man_technologist: **Team members** :woman_technologist:
+|STT    | Name          | Student ID |
 |---    |--------------------|--------------|
 |1    | Lê Thành Duy Ân | 21DH110123   |
 |2    | Trương Quang Huy | 21DH112525   |
 |3    | Lê Thoại Bảo Ngọc | 21DH111233 |
 |4    | Nguyễn Tiến Thành | 21DH114111 |
 
-## :dart: **Mục Đích:** 
-Áp dụng thành công 1 công nghệ mới để xây dựng app chăm sóc thú cưng.
+## 💼 **Overview:**
+This comprehensive guide outlines the development of a pet care application for the Advanced Mobile Programming course. The project aims to showcase the successful implementation of a new technology in building a feature-rich and user-friendly pet care app.## :dart: **Objective:** 
+The primary objective of this project is to successfully apply a new technology in the development of a pet care application.
 
-### :pushpin: Mục Tiêu: 
-- Có đầy đủ các chức năng cơ bản
-- Code xong các giao diện
-- Kết nối database thành công
-- Hosting thành công
-- Làm được chức năng thanh toán
-- Làm được tính năng xác thực bằng tài khoản khác. VD: Đăng nhập bằng Google, facebook
-- Làm app quản lý bên Admin
-- Làm app cho khách hàng
-- Đảm bảo app ít bug nhất có thể
+### :pushpin: Key goals: 
+- Implement a comprehensive set of core functionalities
+- Develop complete user interfaces
+- Establish successful database connectivity
+- Achieve successful app hosting
+- Implement a payment feature
+- Integrate third-party authentication (e.g., Google, Facebook login)
+- Build an admin-side management app
+- Develop a user-facing app
+- Minimize app bugs and ensure a smooth user experience
 
-## :toolbox: **Công Nghệ Sử Dụng:**
+## :toolbox: **Technology Stack:**
 - `Frontend`: Flutter, Riverpod, Provider, 
 - `Backend`: Nest.js
-- `Cơ Sở Dữ Liệu`: MongoDB
-- `Quản Lý Phiên Bản`: Git (GitHub), GitKraken
-- `Quản Lý Dự Án`: [Jira](https://lethanhduyan-huflit.atlassian.net/jira/software/projects/ZONE/boards/7?selectedIssue=ZONE-57)
+- `Database`: MongoDB
+- `Version Control`: Git (GitHub), GitKraken
+- `Project Management`: [Jira](https://lethanhduyan-huflit.atlassian.net/jira/software/projects/ZONE/boards/7?selectedIssue=ZONE-57)
 <div align="left">
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" height="40" alt="javascript logo"  />
   <img width="12" />
