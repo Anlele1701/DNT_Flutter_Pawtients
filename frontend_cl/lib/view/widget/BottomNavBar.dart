@@ -22,9 +22,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      body: _pages[_selectedIndex],
       backgroundColor: const Color(0xffF2F2F2),
-      //bottomNavigationBar: NavBar(),
       bottomNavigationBar: SafeArea(
         child: Container(
           margin: const EdgeInsets.fromLTRB(15, 0, 15, 21),
@@ -70,7 +68,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
                       color: const Color(0xff474747),
                       clipBehavior: Clip.antiAlias,
                       child: IconButton(
-                        // IconButton inside Material
                         onPressed: () {
                           setState(() {
                             _selectedIndex = 2;
