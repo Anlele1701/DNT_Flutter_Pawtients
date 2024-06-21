@@ -28,7 +28,7 @@ class _MyWidgetState extends State<BottomNav> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    appBar: const CustomAppBar(),
+    appBar: CustomAppBar(),
     body: Center(
       child: body[_currentIndex],
       ),
