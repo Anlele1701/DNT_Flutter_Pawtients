@@ -1,7 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:frontend/view/widget/BottomNavBar.dart';
 import 'package:frontend/view/widget/Dich_Vu/service_content.dart';
+import 'package:frontend/view/widget/app_bar.dart';
 
 class ServicePage extends StatefulWidget {
   const ServicePage({super.key});
@@ -20,20 +24,18 @@ class _ServicePage extends State<ServicePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text("Đây là header"),
-        foregroundColor: Colors.white,
-        backgroundColor: Colors.purple[900],
-      ),
-      body: Container(
-          margin: EdgeInsets.all(5),
-          width: double.infinity,
-          height: double.infinity,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(kToolbarHeight),
+          child: MyAppBar(
+            title: "",
+          ),
+        ),
+        bottomNavigationBar: const BottomNavBar(),
+        body: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
+                alignment: Alignment.topLeft,
                 margin: EdgeInsets.fromLTRB(20, 5, 0, 0),
                 child: Text(
                   "Dịch vụ khám bệnh",
@@ -43,7 +45,7 @@ class _ServicePage extends State<ServicePage> {
                 ),
               ),
               // tạo ra một khung để chia ra các tab
-              SizedBox(
+              Container(
                   //* chỉnh độ dài của các tab tại đây vì đây là một tab dài cắt nhỏ
                   height: 70,
                   width: double.infinity,
@@ -111,7 +113,7 @@ class _ServicePage extends State<ServicePage> {
               //Content Body
               Container(
                 alignment: Alignment.center,
-                margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                margin: EdgeInsets.only(top: 10),
                 child: Column(children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -134,7 +136,7 @@ class _ServicePage extends State<ServicePage> {
                     ],
                   ),
                   SizedBox(
-                    height: 5,
+                    height: 3,
                   ),
                   Image(
                     image: AssetImage(
@@ -191,14 +193,7 @@ class _ServicePage extends State<ServicePage> {
                   ),
                 ]),
               ),
-            ],
-          )),
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(label: '1', icon: Icon(Icons.home)),
-          BottomNavigationBarItem(label: '2', icon: Icon(Icons.home))
-        ],
-      ),
-    );
+          ]),
+        ));
   }
 }

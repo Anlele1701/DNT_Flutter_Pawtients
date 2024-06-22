@@ -20,10 +20,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      backgroundColor: const Color(0xffF2F2F2),
-      bottomNavigationBar: SafeArea(
+    return SizedBox(
+      child:SafeArea(
         child: Container(
           margin: const EdgeInsets.fromLTRB(15, 0, 15, 21),
           decoration: const BoxDecoration(
