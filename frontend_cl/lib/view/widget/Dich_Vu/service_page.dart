@@ -112,86 +112,84 @@ class _ServicePage extends State<ServicePage> {
               Container(
                 alignment: Alignment.center,
                 margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                child: SingleChildScrollView(
-                  child: Column(children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image(
-                          image: AssetImage(icons[count]),
-                          color: Color(0xFFF48B29),
-                          height: 25,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          items[count],
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Color(0xFF8F6B51),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Image(
-                      image: AssetImage(
-                        pictures[count],
+                child: Column(children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image(
+                        image: AssetImage(icons[count]),
+                        color: Color(0xFFF48B29),
+                        height: 25,
                       ),
-                    ),
-                    SizedBox(
-                      height: 3,
-                    ),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
-                      height: 150,
-                      child: Text(
-                        contents[count],
-                        textAlign: TextAlign.justify,
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        items[count],
                         style: TextStyle(
-                          fontSize: 15,
+                          fontSize: 20,
+                          color: Color(0xFF8F6B51),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Image(
+                    image: AssetImage(
+                      pictures[count],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 3,
+                  ),
+                  Container(
+                    padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
+                    height: 150,
+                    child: Text(
+                      contents[count],
+                      textAlign: TextAlign.justify,
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.fromLTRB(50, 15, 45, 0),
+                    child: Column(children: Advantages(count)),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(20),
+                    child: SizedBox(
+                      width: 300,
+                      height: 45,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Color(0xFFFF7B00)),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image(
+                              image: AssetImage("assets/icons/Paws_Button.png"),
+                            ),
+                            SizedBox(
+                              width: 7,
+                            ),
+                            Text(
+                              "Đặt lịch ngay",
+                              style: TextStyle(
+                                  color: Color(0xFFFFFFFF), fontSize: 16),
+                            )
+                          ],
                         ),
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(50, 15, 45, 0),
-                      child: Column(children: Advantages(count)),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(20),
-                      child: SizedBox(
-                        width: 300,
-                        height: 45,
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Color(0xFFFF7B00)),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image(
-                                image: AssetImage("assets/icons/Paws_Button.png"),
-                              ),
-                              SizedBox(
-                                width: 7,
-                              ),
-                              Text(
-                                "Đặt lịch ngay",
-                                style: TextStyle(
-                                    color: Color(0xFFFFFFFF), fontSize: 16),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ]),
-                ),
+                  ),
+                ]),
               ),
             ],
           )),
