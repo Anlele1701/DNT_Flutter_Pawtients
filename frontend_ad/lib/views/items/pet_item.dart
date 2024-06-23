@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:frontend_ad/views/pets.dart';
+import 'package:frontend_ad/views/appointment_pet_histories.dart';
 
-class CustomerItem extends StatefulWidget {
-  const CustomerItem({super.key});
+class PetItem extends StatefulWidget {
+  const PetItem({super.key});
 
   @override
-  State<CustomerItem> createState() => _MyWidgetState();
+  State<PetItem> createState() => _MyWidgetState();
 }
 
-class _MyWidgetState extends State<CustomerItem> {
+class _MyWidgetState extends State<PetItem> {
   String a="hello";
   @override
   Widget build(BuildContext context) {
@@ -26,16 +26,15 @@ class _MyWidgetState extends State<CustomerItem> {
                 const CircleAvatar(
                   backgroundColor: Colors.black,
                   radius: 25,
-                  backgroundImage: AssetImage('images/personal.png'),
+                  backgroundImage: AssetImage('images/cat.png'),
                 ),
                 const SizedBox(width: 10,),
                 const Expanded(
-                  child: Text("Nguyễn Trịnh")
+                  child: Text("Chấu Đọ")
                 ),
+                const Text("Mèo"),
                 IconButton(onPressed: (){
-                  showModalBottomSheet(context: context, builder: (BuildContext context){
-                    return Pets();
-                  });
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>AppointmentPetHistory()));
                 }, icon: const Icon(Icons.keyboard_arrow_right, size: 40,))
               ],
             ),
