@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:frontend/view/register_screen.dart';
-import 'package:frontend/view/widget/DownWaveClipper.dart';
-import 'package:frontend/view/widget/UpperWaveClipper.dart';
+import 'package:frontend/view/widget/LoginScreen/DownWaveClipper.dart';
+import 'package:frontend/view/widget/LoginScreen/UpperWaveClipper.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 
 class LoginScreen extends StatefulWidget {
