@@ -12,7 +12,7 @@ class _MyAppBarState extends State<MyAppBar> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xffF2F2F2),
+        backgroundColor: Color(0xffF6F6F6),
         leading: IconButton(
             padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
             onPressed: () {},
