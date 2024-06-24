@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/view/addpetprofile_screen.dart';
 
 class AddPetCircle extends StatefulWidget {
   const AddPetCircle({super.key});
@@ -25,7 +26,10 @@ class _AddPetCircleState extends State<AddPetCircle> {
               shape: const CircleBorder(),
               child: InkWell(
                 splashColor: Color(0xffF48B29),
-                onTap: () {},
+                onTap: () => Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                        builder: (context) => AddPetProfileScreen())),
                 customBorder: const CircleBorder(),
                 child: Center(
                   child: Container(

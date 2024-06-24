@@ -6,7 +6,9 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:frontend/view/widget/AddPetCircle.dart';
+import 'package:frontend/view/widget/BottomNavBar.dart';
 import 'package:frontend/view/widget/PetCircle.dart';
+import 'package:frontend/view/widget/app_bar.dart';
 
 class PetProfileScreen extends StatefulWidget {
   const PetProfileScreen({super.key});
@@ -21,6 +23,9 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(50),
+          child: MyAppBar(title: "Hồ sơ thú cưng")),
       body: Container(
         height: screenHeight,
         width: screenWidth,
@@ -29,14 +34,6 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "Hồ sơ thú cưng",
-                style: TextStyle(
-                  fontSize: 24,
-                  color: Color(0xff000000),
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
               IntrinsicHeight(
                 child: Row(children: [
                   const Padding(
@@ -64,12 +61,12 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
                   ),
                 ]),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Center(
                 child: Stack(
                   children: [
                     Container(
-                        height: screenHeight * 0.65,
+                        height: screenHeight * 0.65 - 76,
                         width: screenWidth * 0.9,
                         decoration: BoxDecoration(
                             //   color: Colors.black,
@@ -84,7 +81,7 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
                         borderRadius: BorderRadius.circular(20),
                         child: const Image(
                           image: AssetImage('assets/images/cat.jpg'),
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ),
@@ -188,6 +185,7 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
           ),
         ),
       ),
+      bottomNavigationBar: const BottomNavBar(),
     );
   }
 }
