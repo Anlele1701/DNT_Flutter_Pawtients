@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:tuple/tuple.dart';
 List<String> getItems() {
   return [
     "Khám tại nhà",
@@ -174,4 +174,32 @@ List<Row> Advantages(int x) {
     default:
       return advantage6;
   }
+}
+final List<String> images = [
+    'assets/images/salon_1.png',
+    'assets/images/salon_2.png',
+    'assets/images/salon_3.png',
+    'assets/images/salon_4.png',
+    'assets/images/salon_5.png',
+    'assets/images/salon_6.png',
+    'assets/images/salon_7.png',
+  ];
+
+//Dịch vụ cắt tỉa
+
+final List<String> imagesbody = [
+    'assets/images/salon_body_1.png',
+    'assets/images/salon_body_2.png',
+];
+List<String> imagesbodytext = [
+    'Tắm rửa',
+    'Tỉa lông',
+];
+// sử dụng tuple để có thể map 2 chuỗi string
+List<Tuple2<String, String>> pairUpLists(imagebody,imagebodytext)  {
+  final List<Tuple2<String, String>> zippedList = [];
+  for (int i = 0; i < imagebody.length && i < imagebodytext.length; i++) {
+    zippedList.add(Tuple2(imagebody[i], imagebodytext[i]));
+  }
+  return zippedList;
 }

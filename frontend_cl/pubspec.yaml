@@ -7,11 +7,13 @@ environment:
   sdk: ">=3.3.4 <4.0.0"
 
 dependencies:
+  carousel_slider: ^4.2.1
   flutter:
     sdk: flutter
   # For adding svg
   flutter_svg: ^2.0.10+1
   material_symbols_icons: ^4.2762.0
+  tuple: ^2.0.2
 
 dev_dependencies:
   flutter_test:
