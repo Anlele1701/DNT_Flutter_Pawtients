@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:frontend_ad/api_services/api_urls.dart';
-import 'package:frontend_ad/models/pet_service.dart';
+import 'package:frontend_ad/models/pet_services.dart';
 
-class Pet_S_Service{
+class Pet_Services_Service{
   Future<PetService?> createNewPetService(PetService petService)async{
     final Dio dio= Dio();
     try {

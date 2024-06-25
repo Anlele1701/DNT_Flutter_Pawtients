@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend_ad/models/pet_service.dart';
-import 'package:frontend_ad/views_models/pet_service_view_model.dart';
+import 'package:frontend_ad/models/pet_services.dart';
+import 'package:frontend_ad/views_models/pet_services_view_model.dart';
 import 'package:provider/provider.dart';
 
 class CreatePetService extends StatefulWidget {
