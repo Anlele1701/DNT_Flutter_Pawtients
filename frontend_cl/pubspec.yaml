@@ -15,6 +15,7 @@ dependencies:
   intl: ^0.19.0
   material_symbols_icons: ^4.2762.0
   table_calendar: ^3.1.2
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:
