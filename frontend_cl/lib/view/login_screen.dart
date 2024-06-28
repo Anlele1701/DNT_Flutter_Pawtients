@@ -1,11 +1,17 @@
+import 'dart:ffi';
 import 'dart:ui';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:frontend/services/auth_services.dart';
 import 'package:frontend/view/forgetpass_screen.dart';
+import 'package:frontend/view/home_screen.dart';
 import 'package:frontend/view/register_screen.dart';
 import 'package:frontend/view/widget/LoginScreen/GradientAnimation.dart';
+import 'package:frontend/view_model/loading_state.dart';
 import 'package:glassmorphism/glassmorphism.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -16,7 +22,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _obscured = true;
-
+  TextEditingController username = TextEditingController();
+  TextEditingController password = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -78,55 +85,54 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              const TextFieldLogin(
+              TextFieldLogin(
                 labelInput: "Email",
                 iconInput: Icons.email_outlined,
                 textObscure: false,
+                username: username,
               ),
               const SizedBox(
                 height: 30,
               ),
-              SizedBox(
-                height: 44,
+              Container(
                 width: 274,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                          blurRadius: 14,
-                          color: const Color(0xff000000).withOpacity(.25),
-                          offset: const Offset(0, 0))
-                    ],
-                    borderRadius: BorderRadius.circular(22),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 14),
-                    child: TextField(
-                        obscureText: _obscured,
-                        decoration: InputDecoration(
-                          floatingLabelBehavior: FloatingLabelBehavior.never,
-                          hintStyle: TextStyle(
-                              color: const Color(0xff000000).withOpacity(.5),
-                              fontSize: 14),
-                          hintText: "Password",
-                          icon: const Icon(Icons.lock_outlined,
-                              color: Color(0xff808080), size: 23),
-                          suffixIcon: Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 4, 0),
-                            child: GestureDetector(
-                              onTap: _toggleObscured,
-                              child: Icon(
-                                  _obscured
-                                      ? Icons.visibility_rounded
-                                      : Icons.visibility_off_rounded,
-                                  size: 24,
-                                  color: const Color(0xff808080)),
-                            ),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                        blurRadius: 14,
+                        color: const Color(0xff000000).withOpacity(.25),
+                        offset: const Offset(0, 0))
+                  ],
+                  borderRadius: BorderRadius.circular(22),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 14),
+                  child: TextField(
+                      obscureText: _obscured,
+                      controller: password,
+                      decoration: InputDecoration(
+                        floatingLabelBehavior: FloatingLabelBehavior.never,
+                        hintStyle: TextStyle(
+                            color: const Color(0xff000000).withOpacity(.5),
+                            fontSize: 14),
+                        hintText: "Password",
+                        icon: const Icon(Icons.lock_outlined,
+                            color: Color(0xff808080), size: 23),
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 4, 0),
+                          child: GestureDetector(
+                            onTap: _toggleObscured,
+                            child: Icon(
+                                _obscured
+                                    ? Icons.visibility_rounded
+                                    : Icons.visibility_off_rounded,
+                                size: 20,
+                                color: const Color(0xff808080)),
                           ),
-                          border: InputBorder.none,
-                        )),
-                  ),
+                        ),
+                        border: InputBorder.none,
+                      )),
                 ),
               ),
               const SizedBox(height: 12),
@@ -153,7 +159,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           offset: const Offset(0, 4))
                     ]),
                 child: FilledButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    final response = await AuthServicess()
+                        .login(username.text, password.text, context);
+                  },
                   style: const ButtonStyle(
                     backgroundColor:
                         MaterialStatePropertyAll<Color>(Color(0xffFF810B)),
@@ -197,14 +206,17 @@ class _LoginScreenState extends State<LoginScreen> {
 }
 
 class TextFieldLogin extends StatefulWidget {
-  const TextFieldLogin(
-      {super.key,
-      required this.labelInput,
-      required this.iconInput,
-      required this.textObscure});
+  TextFieldLogin({
+    super.key,
+    required this.labelInput,
+    required this.iconInput,
+    required this.textObscure,
+    required this.username,
+  });
   final String labelInput;
   final IconData iconInput;
   final bool textObscure;
+  final TextEditingController username;
 
   @override
   State<TextFieldLogin> createState() => _TextFieldLoginState();
@@ -213,35 +225,32 @@ class TextFieldLogin extends StatefulWidget {
 class _TextFieldLoginState extends State<TextFieldLogin> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 44,
+    return Container(
       width: 274,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-                blurRadius: 14,
-                color: const Color(0xff000000).withOpacity(.25),
-                offset: const Offset(0, 0))
-          ],
-          borderRadius: BorderRadius.circular(22),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 14, right: 30),
-          child: TextField(
-              obscureText: widget.textObscure,
-              decoration: InputDecoration(
-                floatingLabelBehavior: FloatingLabelBehavior.never,
-                hintStyle: TextStyle(
-                    color: const Color(0xff000000).withOpacity(.5),
-                    fontSize: 14),
-                hintText: widget.labelInput,
-                icon: Icon(widget.iconInput,
-                    color: const Color(0xff808080), size: 23),
-                border: InputBorder.none,
-              )),
-        ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+              blurRadius: 14,
+              color: const Color(0xff000000).withOpacity(.25),
+              offset: const Offset(0, 0))
+        ],
+        borderRadius: BorderRadius.circular(22),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 14, right: 30),
+        child: TextField(
+            controller: widget.username,
+            obscureText: widget.textObscure,
+            decoration: InputDecoration(
+              floatingLabelBehavior: FloatingLabelBehavior.never,
+              hintStyle: TextStyle(
+                  color: const Color(0xff000000).withOpacity(.5), fontSize: 14),
+              hintText: widget.labelInput,
+              icon: Icon(widget.iconInput,
+                  color: const Color(0xff808080), size: 23),
+              border: InputBorder.none,
+            )),
       ),
     );
   }
