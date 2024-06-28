@@ -4,13 +4,14 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:frontend/services/auth_services.dart';
 import 'package:frontend/view/forgetpass_screen.dart';
 import 'package:frontend/view/home_screen.dart';
 import 'package:frontend/view/register_screen.dart';
 import 'package:frontend/view/widget/LoginScreen/GradientAnimation.dart';
+import 'package:frontend/view_model/loading_state.dart';
 import 'package:glassmorphism/glassmorphism.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -21,8 +22,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _obscured = true;
-  String username = "";
-  String password = "";
+  TextEditingController username = TextEditingController();
+  TextEditingController password = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -109,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: const EdgeInsets.only(left: 14),
                   child: TextField(
                       obscureText: _obscured,
-                      onChanged: (value) => password = value,
+                      controller: password,
                       decoration: InputDecoration(
                         floatingLabelBehavior: FloatingLabelBehavior.never,
                         hintStyle: TextStyle(
@@ -158,25 +159,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           offset: const Offset(0, 4))
                     ]),
                 child: FilledButton(
-                  onPressed: () {
-                    print("Username" + username);
-                    AuthServicess().login(username, password).then((value) {
-                      if (value.data["status"]) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const HomeScreen()));
-                      } else {
-                        Fluttertoast.showToast(
-                            msg: "Đăng nhập thất bại",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIosWeb: 1,
-                            backgroundColor: Colors.red,
-                            textColor: Colors.white,
-                            fontSize: 16.0);
-                      }
-                    });
+                  onPressed: () async {
+                    final response = await AuthServicess()
+                        .login(username.text, password.text, context);
                   },
                   style: const ButtonStyle(
                     backgroundColor:
@@ -231,7 +216,7 @@ class TextFieldLogin extends StatefulWidget {
   final String labelInput;
   final IconData iconInput;
   final bool textObscure;
-  String username;
+  final TextEditingController username;
 
   @override
   State<TextFieldLogin> createState() => _TextFieldLoginState();
@@ -255,7 +240,7 @@ class _TextFieldLoginState extends State<TextFieldLogin> {
       child: Padding(
         padding: const EdgeInsets.only(left: 14, right: 30),
         child: TextField(
-            onChanged: (value) => widget.username = value,
+            controller: widget.username,
             obscureText: widget.textObscure,
             decoration: InputDecoration(
               floatingLabelBehavior: FloatingLabelBehavior.never,

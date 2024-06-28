@@ -6,9 +6,9 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:frontend/view/widget/AddPetScreen/AddPetCircle.dart';
-import 'package:frontend/view/widget/BottomNavBar.dart';
+import 'package:frontend/view/widget/Layout/BottomNavBar.dart';
 import 'package:frontend/view/widget/AddPetScreen/PetCircle.dart';
-import 'package:frontend/view/widget/app_bar.dart';
+import 'package:frontend/view/widget/Layout/app_bar.dart';
 
 class PetProfileScreen extends StatefulWidget {
   const PetProfileScreen({super.key});

@@ -25,21 +25,21 @@ export class UsersService {
   }
   async loginUser(
     loginUserDto: LoginUserDto,
-  ): Promise<{ token?: String; success: boolean; message?: string }> {
+  ): Promise<{ token?: String; success: boolean }> {
     const user = await this.userModel.findOne({
       email: loginUserDto.email,
     });
     if (!user) {
-      return { success: false, message: 'User not found' };
+      return { success: false };
     }
     const passwordMatched = await bcrypt.compare(
       loginUserDto.password,
       user.password,
     );
     if (!passwordMatched) {
-      return { success: false, message: 'Password unmatched' };
+      return { success: false };
     }
     const token = this.jwtService.sign({ id: user._id });
-    return { success: true, message: 'Correct', token: token };
+    return { success: true, token: token };
   }
 }

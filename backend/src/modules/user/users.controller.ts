@@ -24,7 +24,7 @@ export class UsersController {
   @Post('login')
   async login(
     @Body() loginUserDto: LoginUserDto,
-  ): Promise<{ token?: String; message?: String; success: boolean }> {
+  ): Promise<{ token?: String; success: boolean }> {
     return this.usersService.loginUser(loginUserDto);
   }
 }

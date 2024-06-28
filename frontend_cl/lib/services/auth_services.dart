@@ -1,20 +1,31 @@
 import 'dart:convert';
-import 'package:dio/dio.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter/material.dart';
 import 'package:frontend/services/api_services.dart';
+import 'package:frontend/view/home_screen.dart';
+import 'package:frontend/view/widget/utils/ToastNoti.dart';
+import 'package:http/http.dart' as http;
 
 class AuthServicess {
-  Dio dio = Dio(BaseOptions(connectTimeout: Duration(seconds: 5)));
-  login(String email, String password) async {
+  Future login(String email, String password, BuildContext context) async {
     try {
-      return await dio.post(ApiUrls.CL_API_Authen + "login",
-          data: {"email": email, "password": password},
-          options: Options(
-            contentType: Headers.formUrlEncodedContentType,
-          ));
-    } on DioException catch (e) {
-      print(e.toString());
-      Fluttertoast.showToast(msg: e.toString());
+      final url = Uri.parse(devLogin);
+      final body = jsonEncode({'email': email, 'password': password});
+      final response = await http
+          .post(url, body: body, headers: {'Content-Type': 'application/json'});
+      final data = jsonDecode(response.body);
+
+      if (response.statusCode == 400) {
+        errorToast("Đăng nhập thất bại", "Sai tên đăng nhập hoặc mật khẩu");
+      } else if (data['success'] && response.statusCode == 201) {
+        successToast("Đăng nhập thành công");
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const HomeScreen()));
+      } else {
+        errorToast("Đăng nhập thất bại", "Sai tên đăng nhập hoặc mật khẩu");
+      }
+      return response;
+    } on Exception catch (e) {
+      errorToast("Đăng nhập thất bại", "Sai tên đăng nhập hoặc mật khẩu");
     }
   }
 }
