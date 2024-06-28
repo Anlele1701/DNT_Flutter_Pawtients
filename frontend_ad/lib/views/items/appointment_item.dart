@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend_ad/views/appointment_detail.dart';
 
 class AppointmentItem extends StatefulWidget {
   const AppointmentItem({super.key});
@@ -52,7 +53,9 @@ class _MyWidgetState extends State<AppointmentItem> {
                     Container(
                       child: b=="Đã xác nhận"?const Text("Đã xác nhận", style: TextStyle(color: Color(0xff00FF29), fontWeight: FontWeight.bold),)
                             : b=="Xem kết quả khám bệnh"?TextButton(onPressed: (){}, child: const Text("Xem kết quả khám bệnh", style: TextStyle(color: Color(0xffF48B29), fontWeight: FontWeight.bold),))
-                            : IconButton(onPressed: (){}, icon: const Icon(Icons.keyboard_arrow_right, size: 40,))
+                            : IconButton(onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>AppointmentDetail()));
+                            }, icon: const Icon(Icons.keyboard_arrow_right, size: 40,))
                     )
                   ],
                 ),
