@@ -8,7 +8,7 @@ import 'package:frontend/view/spash_screen.dart';
 import 'package:toastification/toastification.dart';
 
 void main() {
-  runApp(MainApp());
+  runApp(const ProviderScope(child: MainApp()));
 }
 
 class MainApp extends StatelessWidget {
