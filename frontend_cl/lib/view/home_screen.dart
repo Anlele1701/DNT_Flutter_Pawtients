@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/view/widget/BottomNavBar.dart';
+import 'package:frontend/view/widget/Layout/BottomNavBar.dart';
 import 'package:frontend/view/widget/app_bar.dart';
+import 'package:frontend/view/widget/item_list_view.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'widget/item_card_view.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -244,63 +246,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class ItemCardView extends StatelessWidget {
-  const ItemCardView({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      //padding: const EdgeInsets.symmetric(horizontal: 8),
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      width: 160,
-      height: 190,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Color(0xffD5D5D5).withOpacity(0.25),
-            blurRadius: 4,
-            spreadRadius: 1,
-            offset: const Offset(2, 4),
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 6),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              alignment: Alignment.center,
-              child: Image.network(
-                'https://hanvet.com.vn/uploads/S%E1%BA%A3n%20ph%E1%BA%A9m/v%E1%BA%AFc%20xin/Ch%C3%B3%20m%C3%A8o/Rabiva.png',
-                height: 120,
-              ),
-            ),
-            Text(
-              'Vaccine ngừa dại Rabiva',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            Text(
-              '300.000đ',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class CateItemView extends StatefulWidget {
   int index = 0;
   CateItemView({super.key, required this.index});
@@ -329,7 +274,6 @@ class _CateItemViewState extends State<CateItemView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        //padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
         height: 120,
         width: 100,
         child: Column(
@@ -356,97 +300,5 @@ class _CateItemViewState extends State<CateItemView> {
             ),
           ],
         ));
-  }
-}
-
-class ItemListView extends StatefulWidget {
-  const ItemListView({
-    super.key,
-    required this.textInput,
-  });
-  final String textInput;
-
-  @override
-  State<ItemListView> createState() => _ItemListViewState();
-}
-
-class _ItemListViewState extends State<ItemListView> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
-      decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 145, 229, 148),
-          borderRadius: BorderRadius.all(Radius.circular(16)),
-          boxShadow: [
-            BoxShadow(
-              color: Color.fromARGB(255, 56, 56, 56).withOpacity(0.25),
-              offset: const Offset(1, 2),
-              blurRadius: 8,
-              spreadRadius: 1,
-            )
-          ]),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 8),
-            width: 70,
-            height: 70,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(8)),
-                color: Color(0xffFFC368)),
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              child: Image.network(
-                "https://randomuser.me/api/portraits/med/men/8.jpg",
-                width: 30,
-                height: 30,
-              ),
-            ),
-          ),
-          const SizedBox(
-            width: 20,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                this.widget.textInput,
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              Text(
-                '9:00 - 20/7/2024',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              Text(
-                'Gâu Gâu - Bác sĩ Ngọc',
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-          const Spacer(),
-          Container(
-            alignment: Alignment.centerRight,
-            child: const Icon(
-              Icons.arrow_forward_ios_rounded,
-              size: 30,
-              opticalSize: 30,
-              color: Color(0xff555555),
-            ),
-          )
-        ],
-      ),
-    );
   }
 }

@@ -36,6 +36,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         child: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(18)),
           child: BottomNavigationBar(
+            backgroundColor: const Color(0xffF6F8FE),
             type: BottomNavigationBarType.fixed,
             currentIndex: _selectedIndex,
             onTap: _onItemTapped,

@@ -205,10 +205,10 @@ class _PasswordTFState extends State<PasswordTF> {
               keyboardType: widget.keyboardInput,
               decoration: InputDecoration(
                 floatingLabelBehavior: FloatingLabelBehavior.never,
-                hintStyle: TextStyle(
+                labelStyle: TextStyle(
                     color: const Color(0xff000000).withOpacity(.5),
                     fontSize: 14),
-                hintText: widget.labelInput,
+                labelText: widget.labelInput,
                 icon: Icon(widget.iconInput,
                     color: const Color(0xff808080), size: 23),
                 border: InputBorder.none,
