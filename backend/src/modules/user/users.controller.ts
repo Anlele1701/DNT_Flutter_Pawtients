@@ -17,7 +17,7 @@ export class UsersController {
   @Post('register')
   async register(
     @Body() createUserDto: RegisterUserDto,
-  ): Promise<{ token: String }> {
+  ): Promise<{ token: String; success: boolean }> {
     return this.usersService.createUser(createUserDto);
   }
   @UsePipes(new ValidationPipe())

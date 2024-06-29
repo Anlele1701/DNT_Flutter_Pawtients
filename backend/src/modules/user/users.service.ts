@@ -14,14 +14,16 @@ export class UsersService {
     private jwtService: JwtService,
   ) {}
 
-  async createUser(createUserDto: RegisterUserDto): Promise<{ token: String }> {
+  async createUser(
+    createUserDto: RegisterUserDto,
+  ): Promise<{ token: String; success: boolean }> {
     const hashedPassword = await bcrypt.hash(createUserDto.password, 12);
     const newUser = await this.userModel.create({
       ...createUserDto,
       password: hashedPassword,
     });
     const token = this.jwtService.sign({ id: newUser._id });
-    return { token };
+    return { token, success: true };
   }
   async loginUser(
     loginUserDto: LoginUserDto,
