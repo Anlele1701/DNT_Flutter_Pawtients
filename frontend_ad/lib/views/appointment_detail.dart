@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:frontend_ad/views/create_bill.dart';
 import 'package:frontend_ad/views/public_views/appbar.dart';
 
 class AppointmentDetail extends StatefulWidget {
@@ -194,7 +195,9 @@ class _MyWidgetState extends State<AppointmentDetail> {
                         color: const Color(0xff00A1E6),
                         borderRadius: BorderRadius.circular(30)),
                     child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>CreateBill()));
+                        },
                         child: const Text(
                           "Tạo hóa đơn",
                           style: TextStyle(
