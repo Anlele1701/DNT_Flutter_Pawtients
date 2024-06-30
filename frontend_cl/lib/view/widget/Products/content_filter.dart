@@ -10,6 +10,9 @@ bool selected = false;
 bool showChips = false;
 bool isIconRotated = false;
 
+
+int tag = 1;
+List<String> options2 = ['Bắt buộc', 'Hỗ trợ'];
 //Custom UI cho chíp
 class CustomChip extends StatelessWidget {
   final String label;
@@ -46,7 +49,6 @@ class CustomChip extends StatelessWidget {
         ));
   }
 }
-
 Widget GradientColor() {
   return Positioned.fill(
       child: Container(

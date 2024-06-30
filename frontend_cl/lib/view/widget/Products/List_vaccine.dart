@@ -6,14 +6,15 @@ import 'package:frontend/view/widget/app_bar.dart';
 import 'content_filter.dart';
 import 'package:chips_choice/chips_choice.dart';
 
-class Products extends StatefulWidget {
-  const Products({super.key});
+class VaccinePro extends StatefulWidget {
+  const VaccinePro({super.key});
 
   @override
-  State<Products> createState() => ProductsState();
+  State<VaccinePro> createState() => VaccineProState();
 }
 
-class ProductsState extends State<Products> {
+class VaccineProState extends State<VaccinePro> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,52 +28,85 @@ class ProductsState extends State<Products> {
       body: Padding(
         padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
         child: Column(children: [
-          Row(
-            children: [
-              Expanded(
-                flex: 1,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Stack(
-                    children: [
-                      GradientColor(),
-                      TextButton(
-                          onPressed: () {
-                            setState(() {
-                              showChips = !showChips;
-                              isIconRotated = !isIconRotated;
-                            });
-                          },
-                          child: AnimatedRotation(
-                            child: Icon(Icons.filter_list),
-                            turns: isIconRotated ? -0.25 : 0,
-                            duration: Duration(milliseconds: 100),
-                          ),
-                          style: ButtonStyle(
-                            iconSize: MaterialStatePropertyAll(28),
-                            iconColor:
-                                MaterialStatePropertyAll(Color(0xFFFFFFFF)),
-                            overlayColor:
-                                MaterialStateProperty.all(Colors.transparent),
-                          )),
-                    ],
+          Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Vaccine sử dụng gần đây nhất",
+                  style: TextStyle(
+                    fontSize: 20,
                   ),
                 ),
-              ),
-              SizedBox(
-                width: 5,
-              ),
-              Expanded(
-                flex: 7,
-                child: SingleChildScrollView(
-                  physics: ClampingScrollPhysics(),
-                  child: Visibility(
-                      visible: showChips,
-                      maintainAnimation: true,
-                      maintainSize: true,
-                      maintainState: true,
-                      child: MyChips()),
+                Container(
+                  margin: EdgeInsets.only(top: 10),
+                  width: double.infinity,
+                  height: 80,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black26,
+                          spreadRadius: 0.5,
+                          blurRadius: 15,
+                          offset: Offset(4, 4),
+                        ),
+                        BoxShadow(
+                          color: Colors.white,
+                          offset: Offset(0, 0),
+                        )
+                      ]),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(top: 10,left: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Vaccine ngừa dại chó mèo Biorabies",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500),),
+                              Text("300.000 Đ"),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: 80,
+                          height: 60,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              border: Border.all(width: 2,color: Colors.grey),
+                              ),
+                          child: Center(child: Image.asset("assets/images/productest.png",)),
+                        )
+                      ],
+                    ),
+                  ),
                 ),
+                Row()
+              ],
+            ),
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ChipsChoice<int>.single(
+                value: tag,
+                onChanged: (val) => setState(() => {
+                      tag = val,
+                    }),
+                choiceItems: C2Choice.listFrom<int, String>(
+                  source: options2,
+                  value: (i, v) => i,
+                  label: (i, v) => v,
+                ),
+                choiceBuilder: (item, i) {
+                  return CustomChip(
+                      label: item.label,
+                      selected: item.selected,
+                      onSelect: item.select!);
+                },
               ),
             ],
           ),
