@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/view/widget/Layout/BottomNavBar.dart';
-import 'package:frontend/view/widget/app_bar.dart';
 import 'package:frontend/view/widget/item_list_view.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -40,8 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     _showedItems = _isShowMore ? 10 : 2;
     return Scaffold(
-      appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(55), child: MyAppBar(title: '')),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: SingleChildScrollView(
@@ -241,7 +237,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ]),
         ),
       ),
-      bottomNavigationBar: BottomNavBar(),
     );
   }
 }
