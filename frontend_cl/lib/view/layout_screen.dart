@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/view/addpetprofile_screen.dart';
 import 'package:frontend/view/home_screen.dart';
+import 'package:frontend/view/petprofile_screen.dart';
 import 'package:frontend/view/widget/Layout/app_bar.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
@@ -27,7 +28,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
       HomeScreen(),
       HomeScreen(),
       AddPetProfileScreen(),
-      HomeScreen(),
+      PetProfileScreen(),
       AddPetProfileScreen()
     ];
   }
