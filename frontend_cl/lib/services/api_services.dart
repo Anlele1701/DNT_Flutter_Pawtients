@@ -5,3 +5,4 @@ const devRegister = "$devUrl/users/register";
 //? Production APIs
 const prodUrl = "https://dnt-flutter-pawtients.onrender.com";
 const prodLogin = "$prodUrl/users/login";
+const prodRegister = "$prodUrl/users/register";
