@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend/view/addpetprofile_screen.dart';
+import 'package:frontend/view/booking_screen.dart';
 import 'package:frontend/view/login_screen.dart';
 import 'package:frontend/view/petprofile_screen.dart';
+import 'package:frontend/view/spash_screen.dart';
+import 'package:toastification/toastification.dart';
 import 'package:frontend/view/widget/Products/List_products.dart';
 import 'package:frontend/view/widget/Products/List_vaccine.dart';
 import 'package:frontend/view/widget/Products/pro_detail.dart';
 import 'package:frontend/view/widget/spash_screen.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(const ProviderScope(child: MainApp()));
 }
 
 class MainApp extends StatelessWidget {
@@ -15,7 +20,10 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-        debugShowCheckedModeBanner: false, home: Prodetail());
+    return ToastificationWrapper(
+      child: MaterialApp(
+          theme: ThemeData(scaffoldBackgroundColor: const Color(0xffF6F6F6)),
+          debugShowCheckedModeBanner: false,
+    );
   }
 }
