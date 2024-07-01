@@ -178,7 +178,7 @@ buildCarouselIndicator() {
       for (int i = 0; i < images.length; i++)
         Container(
           margin: const EdgeInsets.all(5),
-          height: i == banner_cur ? 5 : 3,
+          height: i == banner_cur ? 3 : 3,
           width: i == banner_cur ? 25 : 15,
           decoration: BoxDecoration(
             color: i == banner_cur ? Color(0xFFF48B29) : Colors.grey,

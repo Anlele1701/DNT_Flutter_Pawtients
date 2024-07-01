@@ -182,7 +182,9 @@ class VaccineProState extends State<VaccinePro> {
                                 style: TextStyle(fontSize: 18),
                               ),
                               GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+                                  
+                                  },
                                 child: Container(
                                   width: 25,
                                   height: 25,
