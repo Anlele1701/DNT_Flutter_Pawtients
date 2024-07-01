@@ -97,23 +97,3 @@ class _MyChipsState extends State<MyChips> {
     );
   }
 }
-Widget MyButton() {
-  return GestureDetector(
-    onTap: () {
-      },
-    child: Container(
-      width: 25,
-      height: 25,
-      decoration: BoxDecoration(
-        color: Color(0xFFFF7B00),
-        borderRadius: BorderRadius.circular(5),
-      ),
-      child: 
-      Icon(
-        Icons.add,
-        size: 18,
-        color: Colors.white,
-        ),
-    ),
-  );
-}

@@ -14,7 +14,6 @@ class VaccinePro extends StatefulWidget {
 }
 
 class VaccineProState extends State<VaccinePro> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,11 +61,15 @@ class VaccineProState extends State<VaccinePro> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          padding: EdgeInsets.only(top: 10,left: 10),
+                          padding: EdgeInsets.only(top: 10, left: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Vaccine ngừa dại chó mèo Biorabies",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500),),
+                              Text(
+                                "Vaccine ngừa dại chó mèo Biorabies",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w500),
+                              ),
                               Text("300.000 Đ"),
                             ],
                           ),
@@ -75,10 +78,13 @@ class VaccineProState extends State<VaccinePro> {
                           width: 80,
                           height: 60,
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              border: Border.all(width: 2,color: Colors.grey),
-                              ),
-                          child: Center(child: Image.asset("assets/images/productest.png",)),
+                            borderRadius: BorderRadius.circular(15),
+                            border: Border.all(width: 2, color: Colors.grey),
+                          ),
+                          child: Center(
+                              child: Image.asset(
+                            "assets/images/productest.png",
+                          )),
                         )
                       ],
                     ),
@@ -175,7 +181,22 @@ class VaccineProState extends State<VaccinePro> {
                                 "300.000 Đ",
                                 style: TextStyle(fontSize: 18),
                               ),
-                              MyButton()
+                              GestureDetector(
+                                onTap: () {},
+                                child: Container(
+                                  width: 25,
+                                  height: 25,
+                                  decoration: BoxDecoration(
+                                    color: Color(0xFFFF7B00),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Icon(
+                                    Icons.add,
+                                    size: 18,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              )
                             ],
                           ),
                         ]),

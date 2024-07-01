@@ -141,7 +141,22 @@ class ProductsState extends State<Products> {
                                 "300.000 Đ",
                                 style: TextStyle(fontSize: 18),
                               ),
-                              MyButton()
+                              GestureDetector(
+                                onTap: () {},
+                                child: Container(
+                                  width: 25,
+                                  height: 25,
+                                  decoration: BoxDecoration(
+                                    color: Color(0xFFFF7B00),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Icon(
+                                    Icons.add,
+                                    size: 18,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              )
                             ],
                           ),
                         ]),
