@@ -1,14 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:frontend/view/widget/BottomNavBar.dart';
-import 'package:frontend/view/widget/app_bar.dart';
+import 'package:frontend/view/widget/Layout/app_bar.dart';
 import 'content_filter.dart';
 import 'package:chips_choice/chips_choice.dart';
 
 class VaccinePro extends StatefulWidget {
   const VaccinePro({super.key});
-
   @override
   State<VaccinePro> createState() => VaccineProState();
 }
@@ -23,7 +21,7 @@ class VaccineProState extends State<VaccinePro> {
           title: "",
         ),
       ),
-      bottomNavigationBar: const BottomNavBar(),
+      // bottomNavigationBar: const BottomNavBar(),
       body: Padding(
         padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
         child: Column(children: [

@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:frontend/view/widget/BottomNavBar.dart';
+// import 'package:frontend/view/widget/BottomNavBar.dart';
 import 'package:frontend/view/widget/Dich_Vu/service_content.dart';
-import 'package:frontend/view/widget/app_bar.dart';
+import 'package:frontend/view/widget/Layout/app_bar.dart';
 
 class ServicePage extends StatefulWidget {
   const ServicePage({super.key});
@@ -28,7 +28,7 @@ class _ServicePage extends State<ServicePage> {
             title: "",
           ),
         ),
-        bottomNavigationBar: const BottomNavBar(),
+        // bottomNavigationBar: const BottomNavBar(),
         body: SingleChildScrollView(
           child: Column(
             children: [

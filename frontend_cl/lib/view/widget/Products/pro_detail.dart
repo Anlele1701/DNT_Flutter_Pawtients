@@ -2,9 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:frontend/view/widget/BottomNavBar.dart';
 import 'package:frontend/view/widget/Products/content_filter.dart';
-import 'package:frontend/view/widget/app_bar.dart';
+import 'package:frontend/view/widget/Layout/app_bar.dart';
 
 class Prodetail extends StatefulWidget {
   const Prodetail({super.key});
@@ -23,7 +22,7 @@ class ProdetailState extends State<Prodetail> {
           Container(
             margin: const EdgeInsets.fromLTRB(5, 10, 5, 5),
             height: i == banner_cur ? 3 : 3,
-            width: i == banner_cur ? 25 : 15,
+            width: i == banner_cur ? 20 : 15,
             decoration: BoxDecoration(
               color: i == banner_cur ? Color(0xFFF6C953) : Colors.grey,
               shape: BoxShape.rectangle,
@@ -42,7 +41,7 @@ class ProdetailState extends State<Prodetail> {
           title: "",
         ),
       ),
-      bottomNavigationBar: const BottomNavBar(),
+      // bottomNavigationBar: const BottomNavBar(),
       body: SingleChildScrollView(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Container(
