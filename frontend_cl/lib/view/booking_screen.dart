@@ -31,7 +31,16 @@ class _BookingScreenState extends State<BookingScreen> {
           children: [
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              color: Colors.white,
+              margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(25),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(.25),
+                      blurRadius: 5,
+                    )
+                  ]),
               child: TableCalendar(
                 focusedDay: _focusDay,
                 headerStyle: const HeaderStyle(
