@@ -46,8 +46,8 @@ class _LayoutScreenState extends State<LayoutScreen> {
       body: IndexedStack(
         index: _selectedIndex,
         children: _pages,
-      bottomNavigationBar: SafeArea(
       ),
+      bottomNavigationBar: SafeArea(
         child: Container(
           margin: const EdgeInsets.fromLTRB(15, 0, 15, 15),
           decoration: const BoxDecoration(

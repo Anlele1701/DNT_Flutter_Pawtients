@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/view/widget/BottomNavBar.dart';
-import 'package:frontend/view/widget/app_bar.dart';
+// import 'package:frontend/view/widget/BottomNavBar.dart';
+import 'package:frontend/view/widget/Layout/app_bar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:frontend/view/widget/Dich_Vu/service_content.dart';
 
@@ -24,7 +24,7 @@ class _SalonServiceState extends State<SalonService> {
             title: "",
           ),
         ),
-        bottomNavigationBar: const BottomNavBar(),
+        // bottomNavigationBar: const BottomNavBar(),
         body: SingleChildScrollView(
           child: Column(children: [
             CarouselSlider(
@@ -179,7 +179,7 @@ buildCarouselIndicator() {
         Container(
           margin: const EdgeInsets.all(5),
           height: i == banner_cur ? 3 : 3,
-          width: i == banner_cur ? 25 : 15,
+          width: i == banner_cur ? 20 : 15,
           decoration: BoxDecoration(
             color: i == banner_cur ? Color(0xFFF48B29) : Colors.grey,
             shape: BoxShape.rectangle,
