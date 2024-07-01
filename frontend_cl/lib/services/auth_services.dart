@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/services/api_services.dart';
 import 'package:frontend/view/home_screen.dart';
 import 'package:frontend/view/login_screen.dart';
+import 'package:frontend/view/layout_screen.dart';
 import 'package:frontend/view/widget/utils/ToastNoti.dart';
 import 'package:frontend/view_model/loading_state.dart';
 import 'package:http/http.dart' as http;
@@ -31,8 +32,8 @@ class AuthServicess {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         String myToken = prefs.setString('token', data['token']).toString();
         successToast("Đăng nhập thành công");
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const HomeScreen()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => LayoutScreen()));
       } else {
         errorToast("Đăng nhập thất bại", "Sai tên đăng nhập hoặc mật khẩu");
       }
