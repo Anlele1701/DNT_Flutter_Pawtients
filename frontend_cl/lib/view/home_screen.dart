@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/view/widget/Dich_Vu/service_page.dart';
+import 'package:frontend/view/widget/Dich_Vu/service_salon.dart';
+import 'package:frontend/view/widget/Products/List_products.dart';
+import 'package:frontend/view/widget/Products/List_vaccine.dart';
 import 'package:frontend/view/widget/item_list_view.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -31,7 +35,6 @@ class _HomeScreenState extends State<HomeScreen> {
     'Tiêm Ngừa',
     'Thuốc',
     'Cắt Tỉa',
-    'Triệt Sản',
   ];
 
   @override
@@ -252,22 +255,21 @@ class CateItemView extends StatefulWidget {
 class _CateItemViewState extends State<CateItemView> {
   final List<String> categoryTitle = [
     'Khám Bệnh',
-    'Tiêm Ngừa',
+    'Vaccine',
     'Thuốc',
     'Cắt Tỉa',
-    'Triệt Sản',
   ];
 
   final List<IconData> categoryIcon = [
     Icons.medical_services_outlined,
     Icons.vaccines_outlined,
     Symbols.pill_rounded,
-    Icons.health_and_safety_outlined,
-    Symbols.surgical,
+    Icons.cut_rounded,
   ];
 
   @override
   Widget build(BuildContext context) {
+    int selectedIndex = widget.index;
     return Container(
         height: 120,
         width: 100,
@@ -284,7 +286,21 @@ class _CateItemViewState extends State<CateItemView> {
                   borderRadius: BorderRadius.all(Radius.circular(14))),
               child: IconButton(
                   color: Color(0xffE2BFB3),
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      if (selectedIndex == 0) {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => ServicePage()));
+                      } else if (selectedIndex == 1) {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => VaccinePro()));
+                      } else if (selectedIndex == 2) {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Products()));
+                      } else if (selectedIndex == 3) {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => SalonService()));
+                      } else {
+                        print('Value not in range (0-3)');
+                      }
+                    });
+                  },
                   icon: Icon(categoryIcon[widget.index]),
                   iconSize: 40),
             ),
