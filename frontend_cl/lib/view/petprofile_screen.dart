@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import 'package:frontend/view/widget/AddPetScreen/AddPetCircle.dart';
 import 'package:frontend/view/widget/AddPetScreen/PetCircle.dart';
 import 'package:frontend/view/widget/Layout/app_bar.dart';
+import 'package:frontend/view/widget/appointment_history.dart';
 
 class PetProfileScreen extends StatefulWidget {
   const PetProfileScreen({super.key});
@@ -165,7 +166,9 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
                     child: InkWell(
                       customBorder: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)),
-                      onTap: () {},
+                      onTap: () {
+                        showAnimatedDialog(context);
+                      },
                       child: ListTile(
                         title: Text("Xem lịch sử đã khám"),
                         trailing: const Icon(
