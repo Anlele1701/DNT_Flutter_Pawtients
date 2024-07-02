@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/view/addpetprofile_screen.dart';
-import 'package:frontend/view/booking_screen.dart';
-import 'package:frontend/view/login_screen.dart';
-import 'package:frontend/view/petprofile_screen.dart';
-import 'package:frontend/view/spash_screen.dart';
-import 'package:frontend/view/widget/Products/List_products.dart';
-import 'package:frontend/view/widget/Products/List_vaccine.dart';
-import 'package:frontend/view/widget/Products/pro_detail.dart';
+import 'package:frontend/view/widget/appointment_detail.dart';
 import 'package:toastification/toastification.dart';
 
 void main() {
@@ -24,7 +17,8 @@ class MainApp extends StatelessWidget {
           theme: ThemeData(
           scaffoldBackgroundColor: const Color(0xffF6F6F6)),
           debugShowCheckedModeBanner: false,
-          home: const Products(),
+          home: 
+            AppointmentDetail(),
     ));
   }
 }
