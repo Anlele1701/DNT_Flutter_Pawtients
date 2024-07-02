@@ -121,8 +121,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             hintText: "Password",
                             icon: const Icon(Icons.lock_outlined,
                                 color: Color(0xff808080), size: 23),
+                            suffixIconConstraints:
+                                const BoxConstraints(minWidth: 0, minHeight: 0),
                             suffixIcon: Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 0, 4, 0),
+                              padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
                               child: GestureDetector(
                                 onTap: _toggleObscured,
                                 child: Icon(
@@ -163,14 +165,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         ]),
                     child: FilledButton(
                       onPressed: () {
-                        // final loadingState =
-                        //     Provider.of<LoadingState>(context, listen: false);
                         AuthServicess()
                             .login(username.text, password.text, context);
                       },
                       style: const ButtonStyle(
                         backgroundColor:
-                            MaterialStatePropertyAll<Color>(Color(0xffFF810B)),
+                            WidgetStatePropertyAll<Color>(Color(0xffFF810B)),
                       ),
                       child: const Text("Đăng nhập",
                           style: TextStyle(
