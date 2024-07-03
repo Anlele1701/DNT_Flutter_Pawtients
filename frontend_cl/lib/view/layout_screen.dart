@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/view/addpetprofile_screen.dart';
+import 'package:frontend/view/appointment_screen.dart';
+import 'package:frontend/view/booking_screen.dart';
 import 'package:frontend/view/home_screen.dart';
 import 'package:frontend/view/petprofile_screen.dart';
 import 'package:frontend/view/widget/Layout/app_bar.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 class LayoutScreen extends StatefulWidget {
-  LayoutScreen({super.key});
+  const LayoutScreen({super.key});
 
   @override
   State<LayoutScreen> createState() => _LayoutScreenState();
@@ -15,6 +17,13 @@ class LayoutScreen extends StatefulWidget {
 class _LayoutScreenState extends State<LayoutScreen> {
   int _selectedIndex = 0;
   List<Widget> _pages = [];
+  List<String> _titles = [
+    '',
+    'Lịch hẹn',
+    'Đặt lịch',
+    'Hồ sơ thú cưng',
+    'Trang cá nhân'
+  ];
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -25,11 +34,11 @@ class _LayoutScreenState extends State<LayoutScreen> {
   void initState() {
     super.initState();
     _pages = [
-      HomeScreen(),
-      HomeScreen(),
-      AddPetProfileScreen(),
-      PetProfileScreen(),
-      AddPetProfileScreen()
+      const HomeScreen(),
+      const AppointmentScreen(),
+      const BookingScreen(),
+      const PetProfileScreen(),
+      const AddPetProfileScreen()
     ];
   }
 
@@ -42,7 +51,8 @@ class _LayoutScreenState extends State<LayoutScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(55), child: MyAppBar(title: '')),
+          preferredSize: const Size.fromHeight(55),
+          child: MyAppBar(title: _titles[_selectedIndex])),
       body: IndexedStack(
         index: _selectedIndex,
         children: _pages,
@@ -63,7 +73,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
           child: ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(18)),
             child: BottomNavigationBar(
-              backgroundColor: const Color(0xffF6F8FE),
+              backgroundColor: const Color(0xffFFFFFF),
               type: BottomNavigationBarType.fixed,
               currentIndex: _selectedIndex,
               onTap: _onItemTapped,

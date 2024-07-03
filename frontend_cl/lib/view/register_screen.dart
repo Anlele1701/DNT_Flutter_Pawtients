@@ -247,16 +247,21 @@ class _PasswordTFState extends State<PasswordTF> {
                 icon: Icon(widget.iconInput,
                     color: const Color(0xff808080), size: 23),
                 border: InputBorder.none,
-                suffixIcon: GestureDetector(
-                  onTap: () => setState(() {
-                    widget.onToggleVisibility(!widget.textObscure);
-                  }),
-                  child: Icon(
-                      !widget.textObscure
-                          ? Icons.visibility_rounded
-                          : Icons.visibility_off_rounded,
-                      size: 23,
-                      color: const Color(0xff808080)),
+                suffixIconConstraints:
+                    const BoxConstraints(minWidth: 0, minHeight: 0),
+                suffixIcon: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 14, 0),
+                  child: GestureDetector(
+                    onTap: () => setState(() {
+                      widget.onToggleVisibility(!widget.textObscure);
+                    }),
+                    child: Icon(
+                        !widget.textObscure
+                            ? Icons.visibility_rounded
+                            : Icons.visibility_off_rounded,
+                        size: 22,
+                        color: const Color(0xff808080)),
+                  ),
                 ),
               )),
         ),

@@ -39,13 +39,11 @@ class _ItemListViewState extends State<ItemListView> {
                 borderRadius: BorderRadius.all(Radius.circular(8)),
                 color: Color(0xffFFC368)),
             child: Container(
-              padding: const EdgeInsets.all(10),
-              child: Image.network(
-                "https://randomuser.me/api/portraits/med/men/8.jpg",
-                width: 15,
-                height: 15,
-              ),
-            ),
+                padding: const EdgeInsets.all(10),
+                child: Image(
+                  image: AssetImage('assets/images/catprofile.png'),
+                  fit: BoxFit.contain,
+                )),
           ),
           const SizedBox(
             width: 10,
