@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import 'package:frontend/view/widget/AddPetScreen/AddPetCircle.dart';
 import 'package:frontend/view/widget/AddPetScreen/PetCircle.dart';
 import 'package:frontend/view/widget/Layout/app_bar.dart';
+import 'package:frontend/view/widget/appointment_history.dart';
 
 class PetProfileScreen extends StatefulWidget {
   const PetProfileScreen({super.key});
@@ -114,6 +115,39 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
                                     labelInput: "Cân nặng",
                                   ),
                                 ],
+                              )))
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.05, vertical: 15),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: const [
+                        BoxShadow(blurRadius: 14, color: Colors.grey)
+                      ]),
+                  child: Material(
+                    borderRadius: BorderRadius.circular(20),
+                    child: InkWell(
+                      customBorder: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      onTap: () {
+                        showAnimatedDialog(context);
+                      },
+                      child: ListTile(
+                        title: Text("Xem lịch sử đã khám"),
+                        trailing: const Icon(
+                          Icons.arrow_forward_ios,
+                          size: 18,
+                        ),
+                        leading: const Icon(Icons.history),
+                        dense: false,
+                        visualDensity:
+                            VisualDensity(horizontal: -2, vertical: -2),
+                      ),
+
                               ),
                               Divider(
                                 color: const Color(0xffE2E2E2),
@@ -162,7 +196,9 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
                 child: InkWell(
                   customBorder: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
-                  onTap: () {},
+                    onTap: () {
+                        showAnimatedDialog(context);
+                      },
                   child: ListTile(
                     title: Text("Xem lịch sử đã khám"),
                     trailing: const Icon(

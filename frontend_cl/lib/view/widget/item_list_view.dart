@@ -46,7 +46,7 @@ class _ItemListViewState extends State<ItemListView> {
                 )),
           ),
           const SizedBox(
-            width: 20,
+            width: 10,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,14 +54,14 @@ class _ItemListViewState extends State<ItemListView> {
               Text(
                 this.widget.textInput,
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 15,
                   fontWeight: FontWeight.w700,
                 ),
               ),
               Text(
                 '9:00 - 20/7/2024',
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: 12,
                   fontWeight: FontWeight.w500,
                 ),
               ),
