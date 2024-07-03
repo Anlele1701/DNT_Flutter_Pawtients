@@ -15,17 +15,17 @@ class _ItemListViewState extends State<ItemListView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8),
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
       padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(16)),
           boxShadow: [
             BoxShadow(
-              color: Color.fromARGB(255, 56, 56, 56).withOpacity(0.25),
-              offset: const Offset(1, 2),
+              color: Color.fromARGB(255, 56, 56, 56).withOpacity(0.2),
+              offset: const Offset(0, 0),
               blurRadius: 8,
-              spreadRadius: 1,
+              // spreadRadius: 1,
             )
           ]),
       child: Row(
