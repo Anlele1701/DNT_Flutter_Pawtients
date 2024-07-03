@@ -15,17 +15,17 @@ class _ItemListViewState extends State<ItemListView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8),
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
       padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(16)),
           boxShadow: [
             BoxShadow(
-              color: Color.fromARGB(255, 56, 56, 56).withOpacity(0.25),
-              offset: const Offset(1, 2),
+              color: Color.fromARGB(255, 56, 56, 56).withOpacity(0.2),
+              offset: const Offset(0, 0),
               blurRadius: 8,
-              spreadRadius: 1,
+              // spreadRadius: 1,
             )
           ]),
       child: Row(
@@ -46,7 +46,7 @@ class _ItemListViewState extends State<ItemListView> {
                 )),
           ),
           const SizedBox(
-            width: 20,
+            width: 10,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,14 +54,14 @@ class _ItemListViewState extends State<ItemListView> {
               Text(
                 this.widget.textInput,
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 15,
                   fontWeight: FontWeight.w700,
                 ),
               ),
               Text(
                 '9:00 - 20/7/2024',
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: 12,
                   fontWeight: FontWeight.w500,
                 ),
               ),
