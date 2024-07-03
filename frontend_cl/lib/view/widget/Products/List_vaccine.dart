@@ -54,35 +54,47 @@ class VaccineProState extends State<VaccinePro> {
                         )
                       ]),
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          padding: EdgeInsets.only(top: 10, left: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Vaccine ngừa dại chó mèo Biorabies",
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w500),
-                              ),
-                              Text("300.000 Đ"),
-                            ],
+                        Expanded(
+                          flex: 7,
+                          child: Container(
+                            padding: EdgeInsets.only(top: 10, left: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Vaccine ngừa dại chó mèo Biorabies",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                      overflow: TextOverflow.ellipsis),
+                                ),
+                                Text(
+                                  "300.000 Đ",
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        Container(
-                          width: 80,
-                          height: 60,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            border: Border.all(width: 2, color: Colors.grey),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              border: Border.all(width: 2, color: Colors.grey),
+                            ),
+                            child: Center(
+                                child: Image.asset(
+                              "assets/images/productest.png",
+                            )),
                           ),
-                          child: Center(
-                              child: Image.asset(
-                            "assets/images/productest.png",
-                          )),
                         )
                       ],
                     ),
@@ -136,7 +148,7 @@ class VaccineProState extends State<VaccinePro> {
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Color.fromARGB(26, 190, 182, 182),
+                            color: Colors.white,
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(20),
                               topRight: Radius.circular(20),
@@ -149,53 +161,45 @@ class VaccineProState extends State<VaccinePro> {
                       ),
                       Container(
                         decoration: BoxDecoration(
-                            color: Color(0xFFF7F2F2),
+                            color: Color.fromARGB(255, 255, 255, 255),
                             borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(20),
                               bottomRight: Radius.circular(20),
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black26,
-                                offset: Offset(0, 7),
-                              )
+                                  color: Colors.black26,
+                                  offset: Offset(0, 3),
+                                  blurRadius: 14,
+                                  blurStyle: BlurStyle.inner),
                             ]),
                         padding: const EdgeInsets.fromLTRB(10, 5, 10, 15),
                         child: Column(children: [
+                          Divider(
+                            thickness: .25,
+                          ),
                           Text(
                             "Vaccine ngừa dại chó mèo Biorabies",
                             style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
                             ),
                           ),
                           SizedBox(
-                            height: 20,
+                            height: 10,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "300.000 Đ",
-                                style: TextStyle(fontSize: 18),
+                                "300.000 VND",
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Color(0xffFF7B00),
+                                    fontWeight: FontWeight.bold),
                               ),
                               GestureDetector(
-                                onTap: () {
-                                  
-                                  },
-                                child: Container(
-                                  width: 25,
-                                  height: 25,
-                                  decoration: BoxDecoration(
-                                    color: Color(0xFFFF7B00),
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Icon(
-                                    Icons.add,
-                                    size: 18,
-                                    color: Colors.white,
-                                  ),
-                                ),
+                                onTap: () {},
+                                child: Container(),
                               )
                             ],
                           ),

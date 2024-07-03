@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:frontend/view/widget/Layout/app_bar.dart';
+import 'package:frontend/view/widget/Products/pro_detail.dart';
 import 'content_filter.dart';
 import 'package:chips_choice/chips_choice.dart';
 
@@ -142,7 +143,7 @@ class ProductsState extends State<Products> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Prodetail()));
                                 },
                                 child: Container(
                                   width: 25,
