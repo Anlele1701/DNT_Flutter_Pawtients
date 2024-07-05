@@ -4,6 +4,8 @@ import 'package:frontend/view/petprofile_screen.dart';
 import 'package:frontend/view/widget/AddPetScreen/AddPetCircle.dart';
 import 'package:frontend/view/widget/AddPetScreen/PetCircle.dart';
 import 'package:frontend/view/widget/LoginScreen/UpperWaveClipper.dart';
+import 'package:frontend/view/widget/LoginScreen/UpperWaveClipper.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});
@@ -217,6 +219,7 @@ class UserProfileInfo extends StatelessWidget {
             ),
           ),
         ],
+
       ),
     );
   }
