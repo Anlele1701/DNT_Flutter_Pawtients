@@ -12,18 +12,24 @@ class _MyAppBarState extends State<MyAppBar> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xffF6F6F6),
-        leading: IconButton(
-            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
-            onPressed: () {},
-            icon: const Icon(
-              Icons.menu_rounded,
-              weight: 400,
-              opticalSize: 30,
-              size: 30,
-            )),
+        toolbarHeight: 100,
+        backgroundColor: Colors.transparent,
+        leadingWidth: 80,
+        leading: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+          child: IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.menu_rounded,
+                color: Color(0xff474747),
+                weight: 400,
+                opticalSize: 30,
+                size: 35,
+              )),
+        ),
         title: Center(
           child: Text(
+            textAlign: TextAlign.center,
             widget.title ?? "",
             style: const TextStyle(
                 color: Color(0xff474747),
@@ -32,15 +38,18 @@ class _MyAppBarState extends State<MyAppBar> {
           ),
         ),
         actions: [
-          IconButton(
-              padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
-              onPressed: () {},
-              icon: const Icon(
-                Icons.notifications_none_rounded,
-                weight: 400,
-                opticalSize: 30,
-                size: 30,
-              ))
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 22),
+            child: IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.notifications_none_rounded,
+                  color: Color(0xff474747),
+                  weight: 400,
+                  opticalSize: 30,
+                  size: 35,
+                )),
+          )
         ],
       ),
     );

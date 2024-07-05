@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/view/addpetprofile_screen.dart';
 import 'package:frontend/view/appointment_screen.dart';
 import 'package:frontend/view/booking_screen.dart';
 import 'package:frontend/view/home_screen.dart';
 import 'package:frontend/view/petprofile_screen.dart';
+import 'package:frontend/view/user_profile_screen.dart';
 import 'package:frontend/view/widget/Layout/app_bar.dart';
 import 'package:frontend/services/auth_services.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -64,9 +64,11 @@ class _LayoutScreenState extends State<LayoutScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(55),
-          child: MyAppBar(title: _titles[_selectedIndex])),
+      appBar: _selectedIndex == 4
+          ? null
+          : PreferredSize(
+              preferredSize: const Size.fromHeight(60),
+              child: MyAppBar(title: _titles[_selectedIndex])),
       body: IndexedStack(
         index: _selectedIndex,
         children: _pages,
@@ -149,6 +151,48 @@ class _LayoutScreenState extends State<LayoutScreen> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class UserProfileAppBar extends StatefulWidget {
+  const UserProfileAppBar({super.key});
+
+  @override
+  State<UserProfileAppBar> createState() => _UserProfileAppBarState();
+}
+
+class _UserProfileAppBarState extends State<UserProfileAppBar> {
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      leading: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+        child: IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Symbols.home_filled_rounded,
+              color: Colors.white,
+              weight: 400,
+              opticalSize: 30,
+              size: 40,
+            )),
+      ),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 22),
+          child: IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.edit_rounded,
+                color: Colors.white,
+                weight: 400,
+                opticalSize: 30,
+                size: 35,
+              )),
+        )
+      ],
     );
   }
 }
