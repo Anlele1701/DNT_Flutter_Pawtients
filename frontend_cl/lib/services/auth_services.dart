@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/services/api_services.dart';
 import 'package:frontend/view/login_screen.dart';
@@ -33,7 +31,6 @@ class AuthServicess {
       } else if (data['success'] && response.statusCode == 201) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         String myToken = prefs.getString('token') ?? data['token'];
-        // Map<String, dynamic> decodedToken = JwtDecoder.decode(myToken);
         successToast("Đăng nhập thành công");
         Navigator.pushReplacement(
             context,
