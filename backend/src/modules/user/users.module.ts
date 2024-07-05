@@ -15,13 +15,15 @@ import { ConfigService } from '@nestjs/config';
       inject: [ConfigService],
       useFactory: (config: ConfigService) => {
         return {
+          global: true,
           secret: config.get<string>('JWT_SECRET'),
-          signOptions: { expiresIn: config.get<string | number>('JWT_EXPIRE') },
+          //  signOptions: { expiresIn: config.get<string | number>('JWT_EXPIRE') },
         };
       },
     }),
   ],
   providers: [UsersService],
   controllers: [UsersController],
+  exports: [PassportModule],
 })
 export class UsersModule {}

@@ -10,7 +10,6 @@ import 'package:frontend/view/widget/utils/LoadingIndicator.dart';
 import 'package:frontend/view_model/loading_state.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:provider/provider.dart';
-import 'package:riverpod/src/framework.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
