@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/view/widget/Dich_Vu/service_page.dart';
+import 'package:frontend/view/widget/Dich_Vu/service_salon.dart';
+import 'package:frontend/view/widget/Products/List_products.dart';
+import 'package:frontend/view/widget/Products/List_vaccine.dart';
 import 'package:frontend/view/widget/item_list_view.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'widget/item_card_view.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({super.key, required this.userNameInput});
+  final String userNameInput;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -18,7 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isShowMore = false;
   //số lượng items hiển thị ban đầu của list lịch hẹn sắp tới
   int _showedItems = 0;
-
   //ảnh tạm
   final List<String> imgList = [
     'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
@@ -31,8 +35,36 @@ class _HomeScreenState extends State<HomeScreen> {
     'Tiêm Ngừa',
     'Thuốc',
     'Cắt Tỉa',
-    'Triệt Sản',
   ];
+  //lời chào dựa vào thời gian
+  String greetingText = "";
+  void _updateGreetingText() {
+    final now = DateTime.now();
+    int hour = now.hour;
+    if (hour >= 5 && hour < 12) {
+      setState(() {
+        greetingText = 'Chào buổi sáng,';
+      });
+    } else if (hour >= 12 && hour < 13) {
+      setState(() {
+        greetingText = 'Chào buổi trưa,';
+      });
+    } else if (hour >= 13 && hour < 17) {
+      setState(() {
+        greetingText = 'Chào buổi chiều,';
+      });
+    } else {
+      setState(() {
+        greetingText = 'Chào buổi tối,';
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _updateGreetingText();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,12 +76,13 @@ class _HomeScreenState extends State<HomeScreen> {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             //TIÊU ĐỀ THAY ĐỔI THEO THỜI GIAN + TÊN NGƯỜI DÙNG
-            const Text(
-              'Chào buổi sáng,',
-              style: TextStyle(fontSize: 35, fontWeight: FontWeight.w700),
+            Text(
+              greetingText,
+              style: const TextStyle(fontSize: 35, fontWeight: FontWeight.w700),
             ),
-            const Text(
-              'Duy Ân!',
+            Text(
+              // 'Test',
+              '${widget.userNameInput}!',
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.w400),
             ),
             //CÁC BANNER QUẢNG CÁO
@@ -127,9 +160,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   return ListTile(
                     title: Text(item),
                     onTap: () {
-                      setState(() {
-                        controller.closeView(item);
-                      });
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ServicePage()));
                     },
                   );
                 });
@@ -252,22 +286,21 @@ class CateItemView extends StatefulWidget {
 class _CateItemViewState extends State<CateItemView> {
   final List<String> categoryTitle = [
     'Khám Bệnh',
-    'Tiêm Ngừa',
+    'Vaccine',
     'Thuốc',
     'Cắt Tỉa',
-    'Triệt Sản',
   ];
 
   final List<IconData> categoryIcon = [
     Icons.medical_services_outlined,
     Icons.vaccines_outlined,
     Symbols.pill_rounded,
-    Icons.health_and_safety_outlined,
-    Symbols.surgical,
+    Icons.cut_rounded,
   ];
 
   @override
   Widget build(BuildContext context) {
+    int selectedIndex = widget.index;
     return Container(
         height: 120,
         width: 100,
@@ -284,7 +317,33 @@ class _CateItemViewState extends State<CateItemView> {
                   borderRadius: BorderRadius.all(Radius.circular(14))),
               child: IconButton(
                   color: Color(0xffE2BFB3),
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      if (selectedIndex == 0) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ServicePage()));
+                      } else if (selectedIndex == 1) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => VaccinePro()));
+                      } else if (selectedIndex == 2) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Products()));
+                      } else if (selectedIndex == 3) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SalonService()));
+                      } else {
+                        print('Value not in range (0-3)');
+                      }
+                    });
+                  },
                   icon: Icon(categoryIcon[widget.index]),
                   iconSize: 40),
             ),
