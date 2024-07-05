@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ItemCardView extends StatefulWidget {
-  const ItemCardView({
-    super.key,
-  });
-
+  ItemCardView({super.key, this.title});
+  String? title;
   @override
   State<ItemCardView> createState() => _ItemCardViewState();
 }
@@ -42,7 +40,7 @@ class _ItemCardViewState extends State<ItemCardView> {
               ),
             ),
             Text(
-              'Vaccine ngừa dại Rabiva',
+              widget.title ?? "Vaccine ngừa dại Rabiva",
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,

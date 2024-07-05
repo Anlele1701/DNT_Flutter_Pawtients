@@ -5,10 +5,16 @@ import {
   UsePipes,
   ValidationPipe,
   Get,
+  Param,
+  UseGuards,
+  Request,
+  NotFoundException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { RegisterUserDto } from './dto/RegisterUser.dto';
 import { LoginUserDto } from './dto/LoginUser.dto';
+import { AuthGuard } from '../auth.guard';
+import mongoose from 'mongoose';
 
 @Controller('users')
 export class UsersController {
@@ -26,5 +32,26 @@ export class UsersController {
     @Body() loginUserDto: LoginUserDto,
   ): Promise<{ token?: String; success: boolean }> {
     return this.usersService.loginUser(loginUserDto);
+  }
+  // }
+  // @UseGuards(AuthGuard)
+  // @Get('getUser')
+  // async getUser(@Request() req) {
+  //   console.log('req.user:' + req.user.payload);
+  //   const userID = req.user.payload.id;
+  //   console.log(userID);
+  //   if (!mongoose.Types.ObjectId.isValid(userID)) {
+  //     throw new NotFoundException('Invalid user ID');
+  //   }
+  //   const user = await this.usersService.findById(userID);
+  //   if (!user) {
+  //     throw new NotFoundException('User not found');
+  //   }
+  //   return user;
+
+  @Get('getUser/:id')
+  async getUserByID(@Param('id') id: string): Promise<{}> {
+    mongoose.Types.ObjectId.isValid(id);
+    return this.usersService.findByID(id);
   }
 }
