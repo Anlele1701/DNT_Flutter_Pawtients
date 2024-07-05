@@ -5,10 +5,12 @@ import 'package:frontend/view/booking_screen.dart';
 import 'package:frontend/view/home_screen.dart';
 import 'package:frontend/view/petprofile_screen.dart';
 import 'package:frontend/view/widget/Layout/app_bar.dart';
+import 'package:frontend/services/auth_services.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 class LayoutScreen extends StatefulWidget {
-  const LayoutScreen({super.key});
+  const LayoutScreen({super.key, required this.token});
+  final String token;
 
   @override
   State<LayoutScreen> createState() => _LayoutScreenState();
@@ -16,6 +18,9 @@ class LayoutScreen extends StatefulWidget {
 
 class _LayoutScreenState extends State<LayoutScreen> {
   int _selectedIndex = 0;
+  late String userID;
+  late String userName = '';
+  late String userEmail;
   List<Widget> _pages = [];
   List<String> _titles = [
     '',
@@ -33,13 +38,22 @@ class _LayoutScreenState extends State<LayoutScreen> {
   @override
   void initState() {
     super.initState();
-    _pages = [
-      const HomeScreen(),
-      const AppointmentScreen(),
-      const BookingScreen(),
-      const PetProfileScreen(),
-      const AddPetProfileScreen()
-    ];
+    AuthServicess().getInfo(widget.token).then((val) {
+      setState(() {
+        userID = val['_id'].toString();
+        userName = val['hoTen'].toString();
+        userEmail = val['email'].toString();
+      });
+      _pages = [
+        HomeScreen(
+          userNameInput: userName,
+        ),
+        const AppointmentScreen(),
+        const BookingScreen(),
+        const PetProfileScreen(),
+        const AddPetProfileScreen()
+      ];
+    });
   }
 
   @override
