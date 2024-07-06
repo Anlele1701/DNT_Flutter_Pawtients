@@ -16,7 +16,7 @@ class _ItemListViewState extends State<ItemListView> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
-      padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
+      padding: const EdgeInsets.only(right: 8),
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(16)),
@@ -32,11 +32,12 @@ class _ItemListViewState extends State<ItemListView> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 8),
             width: 70,
             height: 70,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(8)),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(8),
+                    bottomLeft: Radius.circular(8)),
                 color: Color(0xffFFC368)),
             child: Container(
                 padding: const EdgeInsets.all(10),
@@ -45,9 +46,7 @@ class _ItemListViewState extends State<ItemListView> {
                   fit: BoxFit.contain,
                 )),
           ),
-          const SizedBox(
-            width: 10,
-          ),
+          const SizedBox(width: 16),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

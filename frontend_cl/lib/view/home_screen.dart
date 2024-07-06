@@ -311,12 +311,21 @@ class _CateItemViewState extends State<CateItemView> {
             Container(
               width: 70,
               height: 70,
-              decoration: const BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  color: Color(0xffFEECE2),
-                  borderRadius: BorderRadius.all(Radius.circular(14))),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color(0xffF48B29),
+                borderRadius: BorderRadius.all(Radius.circular(14)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0xffD5D5D5).withOpacity(0.25),
+                    blurRadius: 4,
+                    spreadRadius: 2,
+                    offset: const Offset(4, 5),
+                  ),
+                ],
+              ),
               child: IconButton(
-                  color: Color(0xffE2BFB3),
+                  color: Colors.white,
                   onPressed: () {
                     setState(() {
                       if (selectedIndex == 0) {
