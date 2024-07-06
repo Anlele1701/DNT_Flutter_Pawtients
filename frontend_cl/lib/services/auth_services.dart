@@ -29,7 +29,8 @@ class AuthServicess {
         errorToast("Đăng nhập thất bại", "Sai tên đăng nhập hoặc mật khẩu");
       } else if (data['success'] && response.statusCode == 201) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        String myToken = prefs.getString('token') ?? data['token'];
+        prefs.setString('token', data['token']);
+        String myToken = data['token'];
         successToast("Đăng nhập thành công");
         Navigator.pushReplacement(
             context,
@@ -98,7 +99,6 @@ class AuthServicess {
       'Authorization': 'Bearer $token',
     });
     final data = jsonDecode(response.body);
-    print(data['_id']);
     return data;
     // Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
     // final userID = decodedToken['id'];
@@ -114,7 +114,7 @@ class AuthServicess {
 
   getUserID(userID) async {
     final response =
-        await http.get(Uri.parse('$prodUserInfo/$userID'), headers: {
+        await http.get(Uri.parse('$devUserInfo/$userID'), headers: {
       'Content-Type': 'application/json',
     });
     final data = jsonDecode(response.body);

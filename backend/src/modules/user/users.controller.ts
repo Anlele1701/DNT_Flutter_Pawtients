@@ -47,11 +47,10 @@ export class UsersController {
       throw new NotFoundException('User not found');
     }
     return user;
-
-    // @Get('getUser/:id')
-    // async getUserByID(@Param('id') id: string): Promise<{}> {
-    //   mongoose.Types.ObjectId.isValid(id);
-    //   return this.usersService.findByID(id);
-    // }
+  }
+  @Get('getUser/:id')
+  async getUserByID(@Param('id') id: string): Promise<{}> {
+    mongoose.Types.ObjectId.isValid(id);
+    return this.usersService.findByID(id);
   }
 }
