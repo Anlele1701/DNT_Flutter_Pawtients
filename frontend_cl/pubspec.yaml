@@ -28,6 +28,7 @@ dependencies:
   shared_preferences: ^2.2.3
   table_calendar: ^3.1.2
   toastification: ^2.0.0
+  searchable_listview: ^2.14.0
 
 dev_dependencies:
   flutter_test:
