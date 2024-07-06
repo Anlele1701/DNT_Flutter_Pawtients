@@ -56,7 +56,7 @@ class _AddPetProfileScreenState extends State<AddPetProfileScreen> {
                 GestureDetector(
                     onTap: () => Navigator.pop(context),
                     child: const Padding(
-                      padding: EdgeInsets.only(left: 16, top: 25),
+                      padding: EdgeInsets.only(left: 16, top: 10),
                       child: Icon(Icons.arrow_back_ios_new),
                     )),
                 const Padding(
