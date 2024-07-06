@@ -102,22 +102,20 @@ class AuthServicess {
     //  'Authorization' : 'Bearer $token',
     //     });
     final userID = decodedToken['id'];
-    final response = await http.get(
-        Uri.parse('http://localhost:3000/users/getUser/$userID'),
-        headers: {
-          'Content-Type': 'application/json',
-        });
+    final response =
+        await http.get(Uri.parse('$prodUserInfo/$userID'), headers: {
+      'Content-Type': 'application/json',
+    });
     final data = jsonDecode(response.body);
     print(data);
     return data;
   }
 
   getUserID(userID) async {
-    final response = await http.get(
-        Uri.parse('http://localhost:3000/users/getUser/$userID'),
-        headers: {
-          'Content-Type': 'application/json',
-        });
+    final response =
+        await http.get(Uri.parse('$prodUserInfo/$userID'), headers: {
+      'Content-Type': 'application/json',
+    });
     final data = jsonDecode(response.body);
 
     return data;
