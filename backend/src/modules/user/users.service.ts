@@ -41,7 +41,14 @@ export class UsersService {
     if (!passwordMatched) {
       return { success: false };
     }
-    const token = this.jwtService.sign({ id: user._id });
+    const payload = { id: user._id };
+    const token = await this.jwtService.signAsync({ payload });
     return { success: true, token: token };
+  }
+  // async findById(id: string) {
+  //   return this.userModel.findById(id);
+  // }
+  async findByID(id: String): Promise<{}> {
+    return this.userModel.findById(id);
   }
 }
