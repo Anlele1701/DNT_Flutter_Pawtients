@@ -6,7 +6,6 @@ import 'package:frontend/view/layout_screen.dart';
 import 'package:frontend/view/widget/utils/ToastNoti.dart';
 import 'package:frontend/view_model/loading_state.dart';
 import 'package:http/http.dart' as http;
-import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -94,21 +93,23 @@ class AuthServicess {
   }
 
   getInfo(token) async {
-    Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
-    //  final response = await http.get(
-    //     Uri.parse('http://localhost:3000/users/getUser/$userID'),
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //  'Authorization' : 'Bearer $token',
-    //     });
-    final userID = decodedToken['id'];
-    final response =
-        await http.get(Uri.parse('$prodUserInfo/$userID'), headers: {
+    final response = await http.get(Uri.parse(prodUserInfo), headers: {
       'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
     });
     final data = jsonDecode(response.body);
-    print(data);
+    print(data['_id']);
     return data;
+    // Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+    // final userID = decodedToken['id'];
+    // final response =
+    //     await http.get(Uri.parse('$prodUserInfo/$userID'), headers: {
+    //   'Content-Type': 'application/json',
+    // });
+    // final data = jsonDecode(response.body);
+    // print(data);
+    // return response;
+    // return {"": ""};
   }
 
   getUserID(userID) async {
@@ -117,7 +118,6 @@ class AuthServicess {
       'Content-Type': 'application/json',
     });
     final data = jsonDecode(response.body);
-
     return data;
   }
 }

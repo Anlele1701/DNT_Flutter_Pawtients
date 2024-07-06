@@ -33,25 +33,25 @@ export class UsersController {
   ): Promise<{ token?: String; success: boolean }> {
     return this.usersService.loginUser(loginUserDto);
   }
-  // }
-  // @UseGuards(AuthGuard)
-  // @Get('getUser')
-  // async getUser(@Request() req) {
-  //   console.log('req.user:' + req.user.payload);
-  //   const userID = req.user.payload.id;
-  //   console.log(userID);
-  //   if (!mongoose.Types.ObjectId.isValid(userID)) {
-  //     throw new NotFoundException('Invalid user ID');
-  //   }
-  //   const user = await this.usersService.findById(userID);
-  //   if (!user) {
-  //     throw new NotFoundException('User not found');
-  //   }
-  //   return user;
 
-  @Get('getUser/:id')
-  async getUserByID(@Param('id') id: string): Promise<{}> {
-    mongoose.Types.ObjectId.isValid(id);
-    return this.usersService.findByID(id);
+  @UseGuards(AuthGuard)
+  @Get('getUser')
+  async getUser(@Request() req) {
+    const userID = req.user.payload.id;
+    console.log(userID);
+    if (!mongoose.Types.ObjectId.isValid(userID)) {
+      throw new NotFoundException('Invalid user ID');
+    }
+    const user = await this.usersService.findById(userID);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user;
+
+    // @Get('getUser/:id')
+    // async getUserByID(@Param('id') id: string): Promise<{}> {
+    //   mongoose.Types.ObjectId.isValid(id);
+    //   return this.usersService.findByID(id);
+    // }
   }
 }
