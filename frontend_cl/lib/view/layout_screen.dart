@@ -51,7 +51,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
         const AppointmentScreen(),
         const BookingScreen(),
         const PetProfileScreen(),
-        const AddPetProfileScreen()
+        UserProfileScreen(userID: userID)
       ];
     });
   }
