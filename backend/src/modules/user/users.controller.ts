@@ -15,7 +15,6 @@ import { RegisterUserDto } from './dto/RegisterUser.dto';
 import { LoginUserDto } from './dto/LoginUser.dto';
 import { AuthGuard } from '../auth.guard';
 import mongoose from 'mongoose';
-
 @Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
@@ -33,7 +32,6 @@ export class UsersController {
   ): Promise<{ token?: String; success: boolean }> {
     return this.usersService.loginUser(loginUserDto);
   }
-
   @UseGuards(AuthGuard)
   @Get('getUser')
   async getUser(@Request() req) {
@@ -52,5 +50,16 @@ export class UsersController {
   async getUserByID(@Param('id') id: string): Promise<{}> {
     mongoose.Types.ObjectId.isValid(id);
     return this.usersService.findByID(id);
+  }
+  @Post('sendMail')
+  sendMail(@Body('email') email: string) {
+    return this.usersService.sendMail(email);
+  }
+  @Post('verifyPinCode')
+  verifyPinCode(
+    @Body('email') email: string,
+    @Body('pinCode') pinCode: string,
+  ) {
+    return this.usersService.verifyPinCode(email, pinCode);
   }
 }
