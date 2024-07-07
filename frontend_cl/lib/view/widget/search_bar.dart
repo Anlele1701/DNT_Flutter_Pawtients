@@ -1,57 +1,15 @@
+import 'dart:math';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/view/widget/Layout/app_bar.dart';
-import 'package:frontend/view/widget/item_card_view.dart';
-
-class MySearchBar extends StatefulWidget {
-  const MySearchBar({super.key});
-
-  @override
-  State<MySearchBar> createState() => MySearchBarState();
-}
-
-class MySearchBarState extends State<MySearchBar> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight),
-        child: MyAppBar(
-          title: "",
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide(width: 10),
-                ),
-                hintText: "Vaccine, thuốc, ...",
-                prefixIcon: Icon(
-                  Icons.search,
-                  size: 30,
-                ),
-                suffixIcon: Icon(
-                  Icons.cancel,
-                  size: 30,
-                ),
-              ),
-              onTap: () {
-                showSearch(context: context, delegate: CustomDelegate());
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 class CustomDelegate extends SearchDelegate {
-  List<String> test = ["Thuốc 1", "Thuốc 2", "Thuốc 3", "Thuốc 4"];
+  List<String> test = [
+    "Vaccine ngừa dại chó mèo Biorabies",
+    "Vaccine ngừa dại chó mèo JKSADKAHDaaaaaaaaabbbbbbbbbbcccccccccccc",
+    "Vaccine ngừa dại chó mèo fijweoifjw",
+    "Thuốc skdajsdjkkasdiwoowiid",
+  ];
   @override
   List<Widget>? buildActions(BuildContext context) {
     // TODO: implement buildActions
@@ -89,14 +47,7 @@ class CustomDelegate extends SearchDelegate {
       itemCount: testres.length,
       itemBuilder: (context, index) {
         var result = testres[index];
-        return Container(
-          margin: EdgeInsets.all(8),
-          height: 20,
-          padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20), color: Colors.red),
-          child: Text(result),
-        );
+        return ListViewBuild(result);
       },
     );
   }
@@ -115,39 +66,128 @@ class CustomDelegate extends SearchDelegate {
       itemCount: testres.length,
       itemBuilder: (context, index) {
         var result = testres[index];
-        return Container(
-          margin: EdgeInsets.all(8),
-          height: 70,
-          padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20), border: Border.all()),
-          child: Row(
-            children: [
-              Expanded(
-                flex: 8,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(result),
-                    Text("300,000đ"),
-                  ],
+        return ListViewBuild(result);
+      },
+    );
+  }
+}
+
+Widget ListViewBuild(var result) {
+  return Container(
+    margin: EdgeInsets.fromLTRB(8, 12, 8, 8),
+    height: 250,
+    padding: EdgeInsets.all(15),
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        border: Border.all(width: 0.1),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            spreadRadius: 0.5,
+            blurRadius: 5,
+            offset: Offset(0.5, 0.5),
+          ),
+          BoxShadow(
+            color: Colors.white,
+            offset: Offset(0, 0),
+          )
+        ]),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 70,
+              width: 150,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      spreadRadius: 0.5,
+                      blurRadius: 5,
+                      offset: Offset(0.5, 0.5),
+                    ),
+                    BoxShadow(
+                      color: Colors.white,
+                      offset: Offset(0, 0),
+                    )
+                  ]),
+              child: Image.asset("assets/images/productest.png"),
+            ),
+            SizedBox(
+              width: 40,
+            ),
+            Container(
+              height: 70,
+              width: 190,
+              child: Text(
+                result,
+                style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
                 ),
+                maxLines:
+                    2, // Adjust maxLines based on the desired number of visible lines
+                overflow: TextOverflow
+                    .ellipsis, // Display ellipsis when text overflows
               ),
-              Expanded(
-                flex: 2,
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(20),
-                          bottomRight: Radius.circular(20)),
-                      color: Colors.red),
+            )
+          ],
+        ),
+        Container(
+          margin: EdgeInsets.only(top: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Phòng bệnh : aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                "1.300.000 VNĐ",
+                style: TextStyle(
+                    color: Color(0xFFF48B29),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              GestureDetector(
+                onTap: () {},
+                child: Center(
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: 300,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(width: 0.1),
+                        gradient: LinearGradient(
+                          colors: [Color(0xFFF1B237), Color(0xFFFB7E09)],
+                          stops: [0.12, 1],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        )),
+                    child: Text(
+                      "Xem chi tiết",
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                 ),
               )
             ],
           ),
-        );
-      },
-    );
-  }
+        ),
+      ],
+    ),
+  );
 }
