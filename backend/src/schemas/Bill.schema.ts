@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory, raw } from "@nestjs/mongoose";
 import { Vacxin } from "./Vacxin.schema";
 import { Drug } from "./Drug.schema";
 import mongoose from "mongoose";
-import { Image } from "./Image.schema";
+import { Image } from "./Image";
 import { PetService } from "./PetService.schema";
 import { Appointment } from "./Appointment.schema";
 

@@ -66,7 +66,7 @@ class AuthServicess {
       final loadingState = Provider.of<LoadingState>(context, listen: false);
       loadingState.isLoading = true;
       _validateInput(password, confirmPassword);
-      final url = Uri.parse(devRegister);
+      final url = Uri.parse(prodRegister);
       final body = jsonEncode({
         'hoTen': username,
         'email': email,
@@ -114,7 +114,7 @@ class AuthServicess {
 
   getUserID(userID) async {
     final response =
-        await http.get(Uri.parse('$devUserInfo/$userID'), headers: {
+        await http.get(Uri.parse('http://192.168.1.100:3000/users/getUser/$userID'), headers: {
       'Content-Type': 'application/json',
     });
     final data = jsonDecode(response.body);
