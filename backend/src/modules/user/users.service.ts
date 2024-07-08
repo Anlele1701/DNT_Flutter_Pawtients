@@ -75,12 +75,25 @@ export class UsersService {
       return { success: false, message: 'Không tìm thấy người dùng' };
     }
   }
-  async verifyPinCode(email: string, pinCode: string) {
+  async verifyPinCode(
+    email: string,
+    pinCode: string,
+  ): Promise<{ success: boolean; message: string }> {
     const user = await this.userModel.findOne({ email: email });
     if (user.pinCode === pinCode) {
       return { success: true, message: 'Xác thực thành công' };
     } else {
       return { success: false, message: 'Xác thực thất bại' };
     }
+  }
+  async updatePassword(
+    email: string,
+    password: string,
+  ): Promise<{ success: boolean; message: string }> {
+    const user = await this.userModel.findOne({ email: email });
+    const hashedPassword = await bcrypt.hash(password, 12);
+    user.password = hashedPassword;
+    await user.save();
+    return { success: true, message: 'Cập nhật mật khẩu thành công' };
   }
 }

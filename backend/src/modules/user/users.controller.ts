@@ -9,6 +9,7 @@ import {
   UseGuards,
   Request,
   NotFoundException,
+  Patch,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { RegisterUserDto } from './dto/RegisterUser.dto';
@@ -61,5 +62,12 @@ export class UsersController {
     @Body('pinCode') pinCode: string,
   ) {
     return this.usersService.verifyPinCode(email, pinCode);
+  }
+  @Patch('updatePassword')
+  updatePassword(
+    @Body('email') email: string,
+    @Body('password') password: string,
+  ) {
+    return this.usersService.updatePassword(email, password);
   }
 }
