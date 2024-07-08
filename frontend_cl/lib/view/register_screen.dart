@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/services/auth_services.dart';
 import 'package:frontend/view/widget/LoginScreen/GradientAnimation.dart';
@@ -150,7 +149,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 context);
                           },
                           style: const ButtonStyle(
-                            backgroundColor: MaterialStatePropertyAll<Color>(
+                            backgroundColor: WidgetStatePropertyAll<Color>(
                                 Color(0xffFF810B)),
                           ),
                           child: const Text("Đăng ký",
@@ -171,7 +170,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               onTap: () {
                                 Navigator.pop(context);
                               },
-                              child: Text(" Đăng nhập",
+                              child: const Text(" Đăng nhập",
                                   style: TextStyle(
                                       color: Color(0xff723700), fontSize: 12)),
                             )
