@@ -41,15 +41,15 @@ class _HomeScreenState extends State<HomeScreen> {
   void _updateGreetingText() {
     final now = DateTime.now();
     int hour = now.hour;
-    if (hour >= 5 && hour < 12) {
+    if (hour >= 1 && hour < 11) {
       setState(() {
         greetingText = 'Chào buổi sáng,';
       });
-    } else if (hour >= 12 && hour < 13) {
+    } else if (hour >= 11 && hour < 13) {
       setState(() {
         greetingText = 'Chào buổi trưa,';
       });
-    } else if (hour >= 13 && hour < 17) {
+    } else if (hour >= 13 && hour < 19) {
       setState(() {
         greetingText = 'Chào buổi chiều,';
       });
@@ -295,7 +295,7 @@ class _CateItemViewState extends State<CateItemView> {
     Icons.medical_services_outlined,
     Icons.vaccines_outlined,
     Symbols.pill_rounded,
-    Icons.cut_rounded,
+    Symbols.health_and_beauty_rounded,
   ];
 
   @override
