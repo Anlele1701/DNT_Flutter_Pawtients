@@ -5,18 +5,32 @@ import { Pet } from "src/schemas/Pet.schema";
 import { CreatePetDto } from "./dto/create_pet.dto";
 import { Image } from "src/schemas/Image";
 import { parse } from "date-fns";
+import { User } from "src/schemas/User.schema";
 
 @Injectable()
 export class PetService{
-    constructor(@InjectModel(Pet.name) private petModel: Model<Pet>){}
-    async createNewPet(image: Express.Multer.File, createNewPetDto: CreatePetDto):Promise<Pet>{
-        const hinhAnh=new Image(image.originalname,image.buffer,image.mimetype);
-        createNewPetDto.hinhAnh=hinhAnh;
-        // createNewPetDto.ngaySinh=parse(createNewPetDto.ngaySinh, 'dd/MM/yyyy', new Date());
-        // if(createNewPetDto.gioiTinh=='BT') createNewPetDto.gioiTinh=true;
-        // else createNewPetDto.gioiTinh=false;
-        const newPet= new this.petModel(createNewPetDto)
-        console.log(newPet);
-        return await newPet.save();
+    constructor(@InjectModel(Pet.name) private petModel: Model<Pet>, @InjectModel(User.name) private userModel: Model<User>){}
+    async createNewPet(image: Express.Multer.File, createNewPetDto: CreatePetDto, userID: String):Promise<Pet>{
+        try{
+            console.log(userID);
+            const hinhAnh=new Image(image.originalname,image.buffer,image.mimetype);
+            createNewPetDto.hinhAnh=hinhAnh;
+            const newPet= new this.petModel(createNewPetDto)
+            await newPet.save()
+            if(newPet){
+                const id=newPet.id;
+                const user=await this.userModel.findById(userID);
+                if (!user) {
+                    throw new Error('User not found');
+                  }
+                  user.dsThuCung.push(id);
+                  await user.save();
+            }
+            return newPet;
+        }
+        catch(e){
+            console.log(e);
+            return e;
+        }
     }
 }

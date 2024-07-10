@@ -270,7 +270,7 @@ class _AddPetProfileScreenState extends State<AddPetProfileScreen> {
                                       if(_genderType=='BT') pet.gioiTinh=true;
                                       else pet.gioiTinh=false;
                                       pet.canNang=canNangController.text;
-                                      final result=await petViewModel.createNewPet(pet, hinhAnh!);
+                                      final result=await petViewModel.createNewPet(pet, hinhAnh!, widget.userID, context);
                                       if(result==null) print('null');
                                       else print('hello ${result.tenThuCung}');
                                     },

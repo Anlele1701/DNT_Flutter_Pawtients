@@ -11,8 +11,8 @@ export class PetController{
     @Post('/create-new-pet')
     @UseInterceptors(FileInterceptor('hinhAnh'))
     @UsePipes(new ValidationPipe())
-    async createNewPet(@UploadedFile() file: Express.Multer.File, @Body('pet') createPetDto: CreatePetDto):Promise<Pet>{
-        const createPet= await this.petService.createNewPet(file, createPetDto);
+    async createNewPet(@UploadedFile() file: Express.Multer.File, @Body('pet') createPetDto: CreatePetDto, @Body("userID") userID: String):Promise<Pet>{
+        const createPet= await this.petService.createNewPet(file, createPetDto, userID);
         return createPet;
     }
 }

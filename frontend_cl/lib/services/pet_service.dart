@@ -4,7 +4,7 @@ import 'package:frontend/model/pet_model.dart';
 import 'dart:typed_data';
 
 class PetService{
-  Future<Pet?> createNewPet(Pet pet, ImagePet image)async{
+  Future<Pet?> createNewPet(Pet pet, ImagePet image, String userID)async{
     final Dio dio=Dio();
     try{
       FormData formData=FormData.fromMap({
@@ -12,8 +12,9 @@ class PetService{
         'hinhAnh':MultipartFile.fromBytes(
           image.data,
           filename: image.filename,
-          contentType: DioMediaType.parse(image.mimetype)
-        )
+          contentType: DioMediaType.parse(image.mimetype),
+        ),
+        'userID':userID
       });
       Response response= await dio.post(
         'http://192.168.1.100:3000/pet/create-new-pet',

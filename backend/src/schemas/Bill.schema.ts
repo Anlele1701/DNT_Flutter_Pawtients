@@ -11,12 +11,12 @@ export class Bill{
     @Prop({trim: true})
     chanDoan: String;
     @Prop([raw({
-        idThuoc: {type: mongoose.Schema.Types.ObjectId},
+        idThuoc: {type: String},
         soLuong: {type: mongoose.Schema.Types.Number, default: 1},
         thanhTien: {type: mongoose.Schema.Types.Number, default: 0}
     })])
-    @Prop({type: mongoose.Schema.Types.ObjectId, ref: 'PetService'})
-    phiDichVu: PetService;
+    @Prop({type: String})
+    phiDichVu: String;
     keDonThuoc: [
         {
             idThuoc: Vacxin | Drug;
@@ -28,8 +28,8 @@ export class Bill{
     hinhAnh: [Image]
     @Prop({default: 0})
     tongTien: number;
-    @Prop({type: mongoose.Schema.Types.ObjectId, ref: 'Appointment'})
-    idLichKham: Appointment;
+    @Prop({type: String})
+    idLichKham: String;
 }
 
 export const BillSchema= SchemaFactory.createForClass(Bill);

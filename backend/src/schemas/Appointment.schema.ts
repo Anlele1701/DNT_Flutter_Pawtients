@@ -8,18 +8,18 @@ import { Pet } from "./Pet.schema";
 export class Appointment{
     @Prop({type: Date, required: true})
     ngayKham: Date;
-    @Prop({type: mongoose.Schema.Types.ObjectId, ref: 'PetService'})
-    loaiDichVu: PetService;
+    @Prop({type: String})
+    loaiDichVu: String;
     @Prop({trim: true})
     tinhTrangBenh: String;
     @Prop({default: 'Chưa xác nhận'})
     trangThai: String;
-    @Prop({type: mongoose.Schema.Types.ObjectId, ref: 'Employee'})
+    @Prop({type: String})
     idNV: String;
-    @Prop({type: mongoose.Schema.Types.ObjectId, ref: 'Bill'})
-    idHoaDon: Bill;
-    @Prop({type: mongoose.Schema.Types.ObjectId, ref: 'Pet'})
-    idThuCung: Pet;
+    @Prop({type: String})
+    idHoaDon: String;
+    @Prop({type: String})
+    idThuCung: String;
     @Prop({required: true, default: false})
     thongBao: boolean;
 }

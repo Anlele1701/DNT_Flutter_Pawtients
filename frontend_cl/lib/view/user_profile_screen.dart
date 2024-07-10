@@ -177,7 +177,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         ),
                       ],
                     ),
-                    child: const Row(
+                    child: Row(
                       children: [
                         PetCircle(),
                         SizedBox(width: 24),
@@ -185,7 +185,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         SizedBox(width: 24),
                         PetCircle(),
                         SizedBox(width: 24),
-                        AddPetCircle(),
+                        AddPetCircle(userID: widget.userID),
                       ],
                     ),
                   ),

@@ -19,7 +19,7 @@ export class Pet{
     canNang: String;
     @Prop({required: false, type: Image})
     hinhAnh: Image;
-    @Prop({required: false, type: [{type: mongoose.Schema.Types.ObjectId, ref:'Appointment'}]})
-    dsLichKham: [Appointment]
+    @Prop({required: false, type: [{type: String}]})
+    dsLichKham: [String]
 }
 export const PetSchema=SchemaFactory.createForClass(Pet);
