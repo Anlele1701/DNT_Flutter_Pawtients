@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Image } from './Image.schema';
 
 @Schema()
 export class User {
@@ -33,5 +34,7 @@ export class User {
   pinCode: string;
   @Prop({ type: [String] })
   dsThuCung: string[];
+  @Prop({ required: false, trim: true })
+  hinhAnh: Image;
 }
 export const UserSchema = SchemaFactory.createForClass(User);

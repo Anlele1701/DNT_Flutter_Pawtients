@@ -46,9 +46,6 @@ export class UsersService {
     const token = await this.jwtService.signAsync({ payload });
     return { success: true, token: token };
   }
-  async findById(id: string) {
-    return this.userModel.findById(id);
-  }
   async findByID(id: String): Promise<{}> {
     return this.userModel.findById(id);
   }

@@ -20,6 +20,11 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.14.1",
+    "@langchain/cohere": "^0.2.0",
+    "@langchain/community": "^0.2.18",
+    "@langchain/google-genai": "^0.0.21",
+    "@langchain/mongodb": "^0.0.4",
     "@nestjs-modules/mailer": "^2.0.2",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.2.2",
@@ -33,6 +38,8 @@
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "mongodb": "^6.8.0",
+    "mongoose": "^8.4.1",
     "nodemailer": "^6.9.14",
     "date-fns": "^3.6.0",
     "mongoose": "^8.4.4",
