@@ -6,7 +6,7 @@ import { PetService, PetServiceSchema } from "src/schemas/PetService.schema";
 
 @Module({
     imports:[
-        MongooseModule.forFeature([{name: PetService.name, schema: PetServiceSchema}])
+        MongooseModule.forFeature([{name: PetService.name, schema: PetServiceSchema}]),
     ],
     controllers:[Pet_Services_Controller],
     providers:[Pet_Services_Service]

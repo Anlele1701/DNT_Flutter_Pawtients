@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:frontend/view/addpetprofile_screen.dart';
 
 class AddPetCircle extends StatefulWidget {
-  const AddPetCircle({super.key});
+  const AddPetCircle({super.key, this.userID=""});
+  final String userID;
 
   @override
   State<AddPetCircle> createState() => _AddPetCircleState();
@@ -29,7 +30,7 @@ class _AddPetCircleState extends State<AddPetCircle> {
                 onTap: () => Navigator.push(
                     context,
                     CupertinoPageRoute(
-                        builder: (context) => AddPetProfileScreen())),
+                        builder: (context) => AddPetProfileScreen(userID: widget.userID,))),
                 customBorder: const CircleBorder(),
                 child: Center(
                   child: Container(

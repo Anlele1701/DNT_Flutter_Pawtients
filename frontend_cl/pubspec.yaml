@@ -30,6 +30,8 @@ dependencies:
   toastification: ^2.0.0
   jwt_decoder: ^2.0.1
   widget_and_text_animator: ^1.1.5
+  path: ^1.9.0
+  mime: ^1.0.5
 
 dev_dependencies:
   flutter_test:
