@@ -4,15 +4,19 @@ import { Pet_S_Module } from './modules/pet_service/pet_services.module';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PetModule } from './modules/pet/pet.module';
+import { EmployeesModule } from './modules/employee/employees.module';
+import { ChatbotModule } from './modules/chatbot/chatbot.module';
 @Module({
-  imports: [ConfigModule.forRoot({
-    envFilePath: '.env',
-    isGlobal: true
-  }),
-  MongooseModule.forRoot(process.env.DB_URI),
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+      isGlobal: true,
+    }),
+    MongooseModule.forRoot(process.env.DB_URI),
     UsersModule,
     Pet_S_Module,
-    PetModule,
+    EmployeesModule,
+    ChatbotModule,
   ],
   controllers: [],
   providers: [],
