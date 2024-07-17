@@ -17,7 +17,7 @@ class PetService{
         'userID':userID
       });
       Response response= await dio.post(
-        'http://192.168.1.100:3000/pet/create-new-pet',
+        'http://10.20.1.76:3000/pet/create-new-pet',
         data: formData
       );
       if (response.statusCode == 201) {
@@ -30,6 +30,25 @@ class PetService{
     }
     catch(e){
       print(e);
+    }
+  }
+
+  Future<List<Pet?>> getPetList(String userID)async{
+    final dio=Dio();
+    try{
+      List<Pet?> listPet=[];
+      Response response=await dio.get('http://10.20.1.76:3000/pet/get-pet-list', queryParameters: {'userID': userID});
+      if(response.statusCode==200){
+        List<dynamic> petListJson=response.data;
+        listPet=petListJson.map((petJson)=>Pet.fromJson(petJson)).toList();
+        return listPet;
+      }
+      else{
+        throw Exception('Failed to load Pet');
+      }
+    }catch(e){
+      print(e);
+      return [];
     }
   }
 }

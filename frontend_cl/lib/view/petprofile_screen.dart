@@ -1,16 +1,34 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:frontend/model/pet_model.dart';
 import 'package:frontend/view/widget/AddPetScreen/AddPetCircle.dart';
 import 'package:frontend/view/widget/AddPetScreen/PetCircle.dart';
 import 'package:frontend/view/widget/appointment_history.dart';
+import 'package:frontend/view_model/pet_view_model.dart';
 
 class PetProfileScreen extends StatefulWidget {
-  const PetProfileScreen({super.key});
+  const PetProfileScreen({super.key, required this.userID});
+  final String userID;
 
   @override
   State<PetProfileScreen> createState() => _PetProfileScreenState();
 }
 
 class _PetProfileScreenState extends State<PetProfileScreen> {
+  final PetViewModel petViewModel = PetViewModel();
+  Future<List<Pet?>?>? petList;
+  final int currentIndex = 0;
+  @override
+  void initState() {
+    super.initState();
+    petList = fetchData();
+  }
+
+  Future<List<Pet?>?> fetchData() async {
+    return petViewModel.getPetList(widget.userID);
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -22,160 +40,189 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
       color: const Color(0xffF2F2F2),
       child: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              IntrinsicHeight(
-                child: Row(children: [
-                  const Padding(
-                      padding: EdgeInsets.all(10), child: AddPetCircle()),
-                  const VerticalDivider(
-                    color: Color(0xffE2E2E2),
-                    thickness: 1,
-                    width: 1,
-                    indent: 10,
-                    endIndent: 10,
-                  ),
-                  Expanded(
-                    child: SizedBox(
-                      height: 75,
-                      child: ListView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 5,
-                        itemBuilder: (context, index) => const Padding(
-                          padding: EdgeInsets.only(left: 13.0, right: 5),
-                          child: PetCircle(),
+          child: Container(
+            child: FutureBuilder<List<Pet?>?>(
+                future: petList,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return Center(child: Text('No pets found.'));
+                  } else {
+                    List<Pet?>? petList = snapshot.data;
+                    print(petList?[0]?.tenThuCung);
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        IntrinsicHeight(
+                          child: Row(children: [
+                            const Padding(
+                                padding: EdgeInsets.all(10),
+                                child: AddPetCircle()),
+                            const VerticalDivider(
+                              color: Color(0xffE2E2E2),
+                              thickness: 1,
+                              width: 1,
+                              indent: 10,
+                              endIndent: 10,
+                            ),
+                            Expanded(
+                              child: SizedBox(
+                                height: 75,
+                                child: ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: petList?.length,
+                                  itemBuilder: (context, index) => Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 13.0, right: 5),
+                                    child: PetCircle(
+                                      pet: petList?[index],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ]),
                         ),
-                      ),
-                    ),
-                  ),
-                ]),
-              ),
-              const SizedBox(height: 10),
-              Center(
-                child: Stack(
-                  children: [
-                    Container(
-                        height: screenHeight * 0.65 - 76,
-                        width: screenWidth * 0.9,
-                        decoration: BoxDecoration(
-                            //   color: Colors.black,
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: const [
-                              BoxShadow(blurRadius: 14, color: Colors.grey)
-                            ])),
-                    SizedBox(
-                      height: screenHeight * 0.5,
-                      width: screenWidth * 0.9,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: const Image(
-                          image: AssetImage('assets/images/cat.jpg'),
-                          fit: BoxFit.cover,
+                        const SizedBox(height: 10),
+                        Center(
+                          child: Stack(
+                            children: [
+                              Container(
+                                  height: screenHeight * 0.65 - 76,
+                                  width: screenWidth * 0.9,
+                                  decoration: BoxDecoration(
+                                      //   color: Colors.black,
+                                      borderRadius: BorderRadius.circular(20),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                            blurRadius: 14, color: Colors.grey)
+                                      ])),
+                              SizedBox(
+                                height: screenHeight * 0.5,
+                                width: screenWidth * 0.9,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: const Image(
+                                    image: AssetImage('assets/images/cat.jpg'),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                  bottom: 0,
+                                  child: Container(
+                                      width: screenWidth * 0.9,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          const SizedBox(height: 15),
+                                          const Text(
+                                            "Mi Mi",
+                                            style: TextStyle(
+                                                fontSize: 22,
+                                                fontWeight: FontWeight.w700),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              PetInfoBox(
+                                                screenWidth: screenWidth,
+                                                labelInput: "Tuổi",
+                                              ),
+                                              PetInfoBox(
+                                                screenWidth: screenWidth,
+                                                labelInput: "Giới tính",
+                                                ageValue: petList?[0]
+                                                    ?.gioiTinh
+                                                    .toString(),
+                                              ),
+                                              PetInfoBox(
+                                                screenWidth: screenWidth,
+                                                labelInput: "Cân nặng",
+                                                ageValue: petList?[0]
+                                                    ?.canNang
+                                                    .toString(),
+                                              ),
+                                            ],
+                                          ),
+                                          Divider(
+                                            color: const Color(0xffE2E2E2),
+                                            indent: screenWidth * 0.075,
+                                            endIndent: screenWidth * 0.075,
+                                          ),
+                                          const Row(
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 30),
+                                                child: Text(
+                                                  "#ID_THUCUNG",
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          PetDetailInfo(
+                                            screenWidth: screenWidth,
+                                            iconInput:
+                                                Icons.calendar_today_outlined,
+                                            labelInput: "Ngày sinh",
+                                          ),
+                                          PetDetailInfo(
+                                              screenWidth: screenWidth,
+                                              iconInput: Icons.pets,
+                                              labelInput: "Giống loài"),
+                                          const SizedBox(
+                                            height: 15,
+                                          )
+                                        ],
+                                      )))
+                            ],
+                          ),
                         ),
-                      ),
-                    ),
-                    Positioned(
-                        bottom: 0,
-                        child: Container(
-                            width: screenWidth * 0.9,
-                            decoration: BoxDecoration(
+                        Container(
+                          margin: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.05, vertical: 15),
+                          decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(20),
+                              boxShadow: const [
+                                BoxShadow(blurRadius: 14, color: Colors.grey)
+                              ]),
+                          child: Material(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            child: InkWell(
+                              customBorder: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              onTap: () {
+                                showAnimatedDialog(context);
+                              },
+                              child: const ListTile(
+                                title: Text("Xem lịch sử đã khám"),
+                                trailing: Icon(
+                                  Icons.arrow_forward_ios,
+                                  size: 18,
+                                ),
+                                leading: Icon(Icons.history),
+                                dense: false,
+                                visualDensity:
+                                    VisualDensity(horizontal: -2, vertical: -2),
+                              ),
                             ),
-                            child: Column(
-                              children: [
-                                const SizedBox(height: 15),
-                                const Text(
-                                  "Mi Mi",
-                                  style: TextStyle(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.w700),
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    PetInfoBox(
-                                      screenWidth: screenWidth,
-                                      labelInput: "Tuổi",
-                                    ),
-                                    PetInfoBox(
-                                      screenWidth: screenWidth,
-                                      labelInput: "Giới tính",
-                                    ),
-                                    PetInfoBox(
-                                      screenWidth: screenWidth,
-                                      labelInput: "Cân nặng",
-                                    ),
-                                  ],
-                                ),
-                                Divider(
-                                  color: const Color(0xffE2E2E2),
-                                  indent: screenWidth * 0.075,
-                                  endIndent: screenWidth * 0.075,
-                                ),
-                                const Row(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 30),
-                                      child: Text(
-                                        "#ID_THUCUNG",
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                PetDetailInfo(
-                                  screenWidth: screenWidth,
-                                  iconInput: Icons.calendar_today_outlined,
-                                  labelInput: "Ngày sinh",
-                                ),
-                                PetDetailInfo(
-                                    screenWidth: screenWidth,
-                                    iconInput: Icons.pets,
-                                    labelInput: "Giống loài"),
-                                const SizedBox(
-                                  height: 15,
-                                )
-                              ],
-                            )))
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(
-                    horizontal: screenWidth * 0.05, vertical: 15),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: const [
-                      BoxShadow(blurRadius: 14, color: Colors.grey)
-                    ]),
-                child: Material(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  child: InkWell(
-                    customBorder: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    onTap: () {
-                      showAnimatedDialog(context);
-                    },
-                    child: const ListTile(
-                      title: Text("Xem lịch sử đã khám"),
-                      trailing: Icon(
-                        Icons.arrow_forward_ios,
-                        size: 18,
-                      ),
-                      leading: Icon(Icons.history),
-                      dense: false,
-                      visualDensity:
-                          VisualDensity(horizontal: -2, vertical: -2),
-                    ),
-                  ),
-                ),
-              )
-            ],
+                          ),
+                        )
+                      ],
+                    );
+                  }
+                }),
           ),
         ),
       ),

@@ -5,6 +5,8 @@ import 'package:frontend_ad/views/bills.dart';
 import 'package:frontend_ad/views/customers.dart';
 import 'package:frontend_ad/views/homepage.dart';
 import 'package:frontend_ad/views/public_views/appbar.dart';
+import 'package:frontend_ad/views/web_views/create_drug.dart';
+import 'package:frontend_ad/views/web_views/drugs.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key, required this.token});
@@ -54,6 +56,10 @@ class _MyWidgetState extends State<BottomNav> {
               label: 'KHÁCH HÀNG', icon: Icon(Icons.people)),
           BottomNavigationBarItem(
               label: 'LỊCH KHÁM', icon: Icon(Icons.calendar_month)),
+          BottomNavigationBarItem(
+            label: 'THUỐC MEN',
+            icon: Icon(Icons.money),
+          ),
           BottomNavigationBarItem(
             label: 'HÓA ĐƠN',
             icon: Icon(Icons.money),
