@@ -113,14 +113,19 @@ class _MyWidgetState extends State<CreateDrug> {
                         ),
                 ),
               )),
-          TextButton(onPressed: () {
+          TextButton(onPressed: () async{
             drug.tenThuoc=tenThuocController.text;
             drug.hangThuoc=hangThuocController.text;
             drug.thanhPhan=thanhPhanController.text;
             drug.giaTien=int.tryParse(giaTienController.text);
             drug.phongBenh=phongBenhController.text;
             drug.moTa=moTaController.text;
-            drugViewModel.createNewDrug(drug, hinhAnh!);
+            final result=await drugViewModel.createNewDrug(drug, hinhAnh!);
+            if(result is Drug){
+              Navigator.pop(context);
+              print(result.tenThuoc);
+            }
+            else print("null");
           }, child: Text("Xác nhận"))
         ],
       ),

@@ -19,7 +19,7 @@ class DrugService{
         ),
       });
       Response response= await dio.post('${devURL}/drug/create-new-drug', data: formData);
-      return response.data;
+      return Drug.fromJson(response.data);
     }catch(e){
       print(e);
       return null;
