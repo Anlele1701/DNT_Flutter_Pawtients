@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Image } from './Image.schema';
+import { Image } from 'src/schemas/Image';
 
 @Schema()
 export class User {

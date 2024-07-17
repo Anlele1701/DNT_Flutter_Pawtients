@@ -4,6 +4,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
 import { Employee, EmployeeSchema } from 'src/schemas/Employee.schema';
+import { EmployeesService } from './employees.service';
+import { EmployeesController } from './employees.controller';
 
 @Module({
   imports: [
@@ -21,8 +23,8 @@ import { Employee, EmployeeSchema } from 'src/schemas/Employee.schema';
       },
     }),
   ],
-  providers: [],
-  controllers: [],
+  providers: [EmployeesService],
+  controllers: [EmployeesController],
   exports: [PassportModule],
 })
 export class EmployeesModule {}
