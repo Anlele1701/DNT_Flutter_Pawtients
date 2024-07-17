@@ -14,6 +14,7 @@ export class DrugService{
             createDrugDto.hinhAnh=hinhAnh;
             const newDrug= new this.drugModel(createDrugDto);
             await newDrug.save();
+            console.log(newDrug);
             if(newDrug){
                 return newDrug;
             }

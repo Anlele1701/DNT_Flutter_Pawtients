@@ -20,7 +20,7 @@ class _MyWidgetState extends State<BottomNav> {
   int _currentIndex = 0;
   late String hoten;
   late String chucVu;
-  List<Widget> body = const [HomePage(), Customers(), Appointments(), Bills()];
+  List<Widget> body = [HomePage(), Customers(), Appointments(), Drugs(), Bills()];
   void _onItemTapped(int index) {
     setState(() {
       _currentIndex = index;

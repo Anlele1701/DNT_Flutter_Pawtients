@@ -7,14 +7,9 @@ import 'dart:typed_data';
 import 'package:http_parser/http_parser.dart';
 
 class DrugService{
-  String? api;
-  Future<String?> getApi() async{
-    return await ApiUrls().getIpAddress();
-  }
   Future<Drug?> createNewDrug(Drug drug, ImagePet image) async{
     final dio=Dio();
     try{
-      api= await getApi();
       FormData formData=FormData.fromMap({
         'drug':drug.toJson(),
         'hinhAnh':MultipartFile.fromBytes(
@@ -23,7 +18,8 @@ class DrugService{
           contentType: MediaType.parse(image.mimetype),
         ),
       });
-      Response response= await dio.post(api! + '/drug/create-new-drug', data: formData);
+      Response response= await dio.post('${devURL}/drug/create-new-drug', data: formData);
+      return response.data;
     }catch(e){
       print(e);
       return null;

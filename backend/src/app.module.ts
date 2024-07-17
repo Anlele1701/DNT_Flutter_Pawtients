@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { PetModule } from './modules/pet/pet.module';
 import { EmployeesModule } from './modules/employee/employees.module';
 import { ChatbotModule } from './modules/chatbot/chatbot.module';
+import { DrugModule } from './modules/drug/drug.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -17,6 +18,7 @@ import { ChatbotModule } from './modules/chatbot/chatbot.module';
     Pet_S_Module,
     EmployeesModule,
     ChatbotModule,
+    DrugModule
   ],
   controllers: [],
   providers: [],

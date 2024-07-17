@@ -45,83 +45,85 @@ class _MyWidgetState extends State<CreateDrug> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextField(
-          controller: tenThuocController,
-          decoration: const InputDecoration(
-              labelText: "Tên thuốc",
-              labelStyle: TextStyle(color: Colors.black)),
-        ),
-        TextField(
-          controller: hangThuocController,
-          decoration: const InputDecoration(
-              labelText: "Hãng thuốc",
-              labelStyle: TextStyle(color: Colors.black)),
-        ),
-        TextField(
-          controller: moTaController,
-          decoration: const InputDecoration(
-              labelText: "Mô tả", labelStyle: TextStyle(color: Colors.black)),
-        ),
-        TextField(
-          controller: thanhPhanController,
-          decoration: const InputDecoration(
-              labelText: "Thành phần",
-              labelStyle: TextStyle(color: Colors.black)),
-        ),
-        TextField(
-          controller: giaTienController,
-          decoration: const InputDecoration(
-              labelText: "Giá tiền",
-              labelStyle: TextStyle(color: Colors.black)),
-        ),
-        TextField(
-          controller: phongBenhController,
-          decoration: const InputDecoration(
-              labelText: "Phòng bệnh",
-              labelStyle: TextStyle(color: Colors.black)),
-        ),
-        Material(
-            borderRadius: BorderRadius.circular(30),
-            child: InkWell(
-              onTap: () => openImageGallery(),
-              child: Container(
-                height: 200,
-                width: 200,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(30)),
-                child: _image == null
-                    ? const Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.add_photo_alternate_outlined,
-                              size: 80, color: Color(0xff635C5C)),
-                          Text("Chọn ảnh",
-                              style: TextStyle(
-                                  color: Color(0xff635C5C), fontSize: 16))
-                        ],
-                      )
-                    : ClipRRect(
-                        borderRadius: BorderRadius.circular(30),
-                        child: Image.file(
-                          _image!,
-                          fit: BoxFit.cover,
+    return Scaffold(
+      body: Column(
+        children: [
+          TextField(
+            controller: tenThuocController,
+            decoration: const InputDecoration(
+                labelText: "Tên thuốc",
+                labelStyle: TextStyle(color: Colors.black)),
+          ),
+          TextField(
+            controller: hangThuocController,
+            decoration: const InputDecoration(
+                labelText: "Hãng thuốc",
+                labelStyle: TextStyle(color: Colors.black)),
+          ),
+          TextField(
+            controller: moTaController,
+            decoration: const InputDecoration(
+                labelText: "Mô tả", labelStyle: TextStyle(color: Colors.black)),
+          ),
+          TextField(
+            controller: thanhPhanController,
+            decoration: const InputDecoration(
+                labelText: "Thành phần",
+                labelStyle: TextStyle(color: Colors.black)),
+          ),
+          TextField(
+            controller: giaTienController,
+            decoration: const InputDecoration(
+                labelText: "Giá tiền",
+                labelStyle: TextStyle(color: Colors.black)),
+          ),
+          TextField(
+            controller: phongBenhController,
+            decoration: const InputDecoration(
+                labelText: "Phòng bệnh",
+                labelStyle: TextStyle(color: Colors.black)),
+          ),
+          Material(
+              borderRadius: BorderRadius.circular(30),
+              child: InkWell(
+                onTap: () => openImageGallery(),
+                child: Container(
+                  height: 200,
+                  width: 200,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30)),
+                  child: _image == null
+                      ? const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.add_photo_alternate_outlined,
+                                size: 80, color: Color(0xff635C5C)),
+                            Text("Chọn ảnh",
+                                style: TextStyle(
+                                    color: Color(0xff635C5C), fontSize: 16))
+                          ],
+                        )
+                      : ClipRRect(
+                          borderRadius: BorderRadius.circular(30),
+                          child: Image.file(
+                            _image!,
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                      ),
-              ),
-            )),
-        TextButton(onPressed: () {
-          drug.tenThuoc=tenThuocController.text;
-          drug.hangThuoc=hangThuocController.text;
-          drug.thanhPhan=thanhPhanController.text;
-          drug.giaTien=int.tryParse(giaTienController.text);
-          drug.phongBenh=phongBenhController.text;
-          drug.moTa=moTaController.text;
-          drugViewModel.createNewDrug(drug, hinhAnh!);
-        }, child: Text("Xác nhận"))
-      ],
+                ),
+              )),
+          TextButton(onPressed: () {
+            drug.tenThuoc=tenThuocController.text;
+            drug.hangThuoc=hangThuocController.text;
+            drug.thanhPhan=thanhPhanController.text;
+            drug.giaTien=int.tryParse(giaTienController.text);
+            drug.phongBenh=phongBenhController.text;
+            drug.moTa=moTaController.text;
+            drugViewModel.createNewDrug(drug, hinhAnh!);
+          }, child: Text("Xác nhận"))
+        ],
+      ),
     );
   }
 }
