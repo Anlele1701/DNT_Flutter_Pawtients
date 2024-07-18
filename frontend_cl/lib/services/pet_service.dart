@@ -3,6 +3,8 @@ import 'package:frontend/model/image_model.dart';
 import 'package:frontend/model/pet_model.dart';
 import 'dart:typed_data';
 
+import 'package:frontend/services/api_services.dart';
+
 class PetService{
   Future<Pet?> createNewPet(Pet pet, ImagePet image, String userID)async{
     final Dio dio=Dio();
@@ -17,7 +19,7 @@ class PetService{
         'userID':userID
       });
       Response response= await dio.post(
-        'http://10.20.1.76:3000/pet/create-new-pet',
+        '${devUrl}/pet/create-new-pet',
         data: formData
       );
       if (response.statusCode == 201) {
@@ -37,7 +39,7 @@ class PetService{
     final dio=Dio();
     try{
       List<Pet?> listPet=[];
-      Response response=await dio.get('http://10.20.1.76:3000/pet/get-pet-list', queryParameters: {'userID': userID});
+      Response response=await dio.get('${devUrl}/pet/get-pet-list', queryParameters: {'userID': userID});
       if(response.statusCode==200){
         List<dynamic> petListJson=response.data;
         listPet=petListJson.map((petJson)=>Pet.fromJson(petJson)).toList();

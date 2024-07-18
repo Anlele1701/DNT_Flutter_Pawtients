@@ -7,6 +7,7 @@ import { PetModule } from './modules/pet/pet.module';
 import { EmployeesModule } from './modules/employee/employees.module';
 import { ChatbotModule } from './modules/chatbot/chatbot.module';
 import { DrugModule } from './modules/drug/drug.module';
+import { AppointmentModule } from './modules/appointment/appointment.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -18,7 +19,9 @@ import { DrugModule } from './modules/drug/drug.module';
     Pet_S_Module,
     EmployeesModule,
     ChatbotModule,
-    DrugModule
+    DrugModule,
+    PetModule,
+    AppointmentModule
   ],
   controllers: [],
   providers: [],
