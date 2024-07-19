@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend_ad/models/vacxin.dart';
+import 'package:frontend_ad/views/web_views/edit_vacxin.dart';
 
 class VacxinItem extends StatefulWidget {
   VacxinItem({super.key, this.vacxinItem});
@@ -27,7 +28,8 @@ class _MyWidgetState extends State<VacxinItem> {
                 child: ClipRRect(
                     // Set to 0 for square corners
                     child: widget.vacxinItem?.hinhAnh?.data != null
-                        ? Image.memory(widget.vacxinItem!.hinhAnh!.data)
+                        ? Image.memory(widget.vacxinItem!.hinhAnh!.data,
+                            fit: BoxFit.cover)
                         : Container()),
               )),
           SizedBox(
@@ -50,7 +52,14 @@ class _MyWidgetState extends State<VacxinItem> {
                   Row(
                     children: [
                       IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return EditVacxin(
+                                vacxinItem: widget.vacxinItem,
+                              );
+                            }));
+                          },
                           icon: Icon(Icons.mode_edit_outlined)),
                       IconButton(
                           onPressed: () {}, icon: Icon(Icons.delete_outline))

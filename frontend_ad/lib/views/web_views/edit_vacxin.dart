@@ -1,43 +1,45 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:frontend_ad/models/drug.dart';
 import 'package:frontend_ad/models/image_model.dart';
-import 'package:frontend_ad/views_models/drug_view_model.dart';
+import 'package:frontend_ad/models/vacxin.dart';
+import 'package:frontend_ad/views_models/vacxin_view_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart' as path;
 
-class EditDrug extends StatefulWidget {
-  const EditDrug({super.key, required this.drugItem});
-  final Drug? drugItem;
+class EditVacxin extends StatefulWidget {
+  const EditVacxin({super.key, required this.vacxinItem});
+  final Vacxin? vacxinItem;
   @override
-  State<EditDrug> createState() => _MyWidgetState();
+  State<EditVacxin> createState() => _MyWidgetState();
 }
 
-class _MyWidgetState extends State<EditDrug> {
-  Drug? drug;
-  TextEditingController? tenthuocController;
-  TextEditingController? hangThuocController;
+class _MyWidgetState extends State<EditVacxin> {
+  Vacxin? vacxin;
+  TextEditingController? tenVacxinController;
+  TextEditingController? hangVacxinController;
   TextEditingController? moTaController;
   TextEditingController? thanhPhanController;
   TextEditingController? giaTienController;
   TextEditingController? phongBenhController;
+  TextEditingController? quocGiaController;
   File? _image;
   ImagePet? hinhAnh;
   final picker = ImagePicker();
-  DrugViewModel drugViewModel=DrugViewModel();
+  VacxinViewModel vacxinViewModel=VacxinViewModel();
   @override
   void initState() {
     super.initState();
-    drug = widget.drugItem;
-    tenthuocController = TextEditingController(text: "${drug?.tenThuoc}");
-    hangThuocController = TextEditingController(text: "${drug?.hangThuoc}");
-    moTaController = TextEditingController(text: "${drug?.moTa}");
-    thanhPhanController = TextEditingController(text: "${drug?.thanhPhan}");
-    giaTienController = TextEditingController(text: "${drug?.giaTien}");
-    phongBenhController = TextEditingController(text: "${drug?.phongBenh}");
-    hinhAnh = drug?.hinhAnh;
+    vacxin = widget.vacxinItem;
+    tenVacxinController = TextEditingController(text: "${vacxin?.tenVacxin}");
+    hangVacxinController = TextEditingController(text: "${vacxin?.hangVacxin}");
+    moTaController = TextEditingController(text: "${vacxin?.moTa}");
+    thanhPhanController = TextEditingController(text: "${vacxin?.thanhPhan}");
+    giaTienController = TextEditingController(text: "${vacxin?.giaTien}");
+    phongBenhController = TextEditingController(text: "${vacxin?.phongBenh}");
+    quocGiaController=TextEditingController(text: "${vacxin?.quocGia}");
+    hinhAnh = vacxin?.hinhAnh;
   }
 
   Future openImageGallery() async {
@@ -94,18 +96,27 @@ class _MyWidgetState extends State<EditDrug> {
                     Container(
                       margin: const EdgeInsets.only(bottom: 16),
                       child: TextField(
-                        controller: tenthuocController,
+                        controller: tenVacxinController,
                         decoration: const InputDecoration(
-                            labelText: "Tên thuốc",
+                            labelText: "Tên vacxin",
                             labelStyle: TextStyle(color: Colors.black)),
                       ),
                     ),
                     Container(
                       margin: const EdgeInsets.only(bottom: 16),
                       child: TextField(
-                        controller: hangThuocController,
+                        controller: hangVacxinController,
                         decoration: const InputDecoration(
-                            labelText: "Hãng thuốc",
+                            labelText: "Hãng vacxin",
+                            labelStyle: TextStyle(color: Colors.black)),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 16),
+                      child: TextField(
+                        controller: quocGiaController,
+                        decoration: const InputDecoration(
+                            labelText: "Quốc gia",
                             labelStyle: TextStyle(color: Colors.black)),
                       ),
                     ),
@@ -200,15 +211,15 @@ class _MyWidgetState extends State<EditDrug> {
                   width: double.infinity,
                   child: FilledButton(
                       onPressed: () async{
-                        drug!.id=widget.drugItem?.id;
-                          drug!.tenThuoc = tenthuocController!.text;
-                          drug!.hangThuoc = hangThuocController!.text;
-                          drug!.moTa = moTaController!.text;
-                          drug!.thanhPhan = thanhPhanController!.text;
-                          drug!.giaTien = int.parse(giaTienController!.text);
-                          drug!.phongBenh = phongBenhController!.text;
-                          final result=await drugViewModel.updateDrug(drug!, hinhAnh!);
-                          if(result is Drug){
+                        vacxin!.id=widget.vacxinItem?.id;
+                          vacxin!.tenVacxin = tenVacxinController!.text;
+                          vacxin!.hangVacxin = hangVacxinController!.text;
+                          vacxin!.moTa = moTaController!.text;
+                          vacxin!.thanhPhan = thanhPhanController!.text;
+                          vacxin!.giaTien = int.parse(giaTienController!.text);
+                          vacxin!.phongBenh = phongBenhController!.text;
+                          final result=await vacxinViewModel.updateVacxin(vacxin!, hinhAnh!);
+                          if(result is Vacxin){
                             Navigator.pop(context);
                           }
                       },

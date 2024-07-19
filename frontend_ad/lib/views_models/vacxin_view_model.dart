@@ -21,4 +21,24 @@ class VacxinViewModel{
       return null;
     }
   }
+
+  Future<List<Vacxin?>?> searchVacxinList(int skip, int limit, String search)async{
+    try{
+      return await VacxinService().searchVacxinList(skip, limit, search);
+    }catch(e){
+      print(e);
+      return null;
+    }
+  }
+
+  Future<Vacxin?> updateVacxin(Vacxin vacxin, ImagePet hinhAnh)async{
+    try{
+      Vacxin? updateVacxin=await VacxinService().updateVacxin(vacxin, hinhAnh);
+      if(updateVacxin!=null) return updateVacxin;
+      else return null;
+    }catch(e){
+      print(e);
+      return null;
+    }
+  }
 }

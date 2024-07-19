@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post, UploadedFile, UseInterceptors, UsePipes, ValidationPipe } from "@nestjs/common";
+import { Body, Controller, Get, Patch, Post, Query, UploadedFile, UseInterceptors, UsePipes, ValidationPipe } from "@nestjs/common";
 import { VacxinService } from "./vacxin.service";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { CreateNewVacxinDto } from "./dto/create_new_vacxin.dto";
+import { UpdateVacxinDto } from "./dto/update_vacxin.dto";
 
 @Controller('vacxin')
 export class VacxinController{
@@ -18,5 +19,19 @@ export class VacxinController{
     async getVacxinList(skip: number, limit: number){
         const vacxinList=await this.vacxinService.getVacxinList(skip, limit);
         return vacxinList;
+    }
+
+    @Get('/search-vacxin-list')
+    async searchVacxinList(@Query('skip') skip: number, @Query('limit') limit: number, @Query('search') search: string){
+        const vacxinList=await this.vacxinService.searchVacxinList(skip, limit, search);
+        return vacxinList;
+    }
+
+    @Patch('/update-vacxin')
+    @UseInterceptors(FileInterceptor('hinhAnh'))
+    @UsePipes(new ValidationPipe())
+    async updateVacxin(@UploadedFile() file: Express.Multer.File ,@Body('vacxin') updateVacxinDto: UpdateVacxinDto){
+        const updateVacxin=this.vacxinService.updateVacxin(file, updateVacxinDto);
+        return updateVacxin;
     }
 }

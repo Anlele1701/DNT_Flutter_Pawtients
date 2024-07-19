@@ -19,19 +19,21 @@ class Drugs extends StatefulWidget {
 class _MyWidgetState extends State<Drugs> {
   int skip = 0;
   final int limit = 6;
-  final ScrollController controller = ScrollController();
+  final ScrollController scrollController = ScrollController();
   String? cateChoose = "Thuốc";
   final List<String> listCate = ["Thuốc", "Vacxin"];
   DrugViewModel drugViewModel = DrugViewModel();
   VacxinViewModel vacxinViewModel = VacxinViewModel();
   List<dynamic>? listDrug = [];
   bool isLoadingMore = false;
+  TextEditingController searchController = TextEditingController();
   @override
   void initState() {
     super.initState();
     fetchData(skip, limit);
-    controller.addListener(() {
-      if (controller.position.maxScrollExtent == controller.offset) {
+    scrollController.addListener(() {
+      if (scrollController.position.maxScrollExtent ==
+          scrollController.offset) {
         setState(() {
           skip += limit;
           isLoadingMore = true;
@@ -43,7 +45,7 @@ class _MyWidgetState extends State<Drugs> {
 
   @override
   void dispose() {
-    controller.dispose();
+    scrollController.dispose();
     super.dispose();
   }
 
@@ -53,6 +55,24 @@ class _MyWidgetState extends State<Drugs> {
       newList = await drugViewModel.getDrugList(skip, limit);
     else
       newList = await vacxinViewModel.getVacxinList(skip, limit);
+    if (newList != null && newList.isNotEmpty) {
+      setState(() {
+        listDrug!.addAll(newList!);
+        isLoadingMore = false;
+      });
+    } else {
+      setState(() {
+        isLoadingMore = false;
+      });
+    }
+  }
+
+  Future<void> searchData(int skip, int limit, String search) async {
+    List<dynamic>? newList = [];
+    if (cateChoose == "Thuốc")
+      newList = await drugViewModel.searchDrugList(skip, limit, search);
+    else
+      newList = await vacxinViewModel.searchVacxinList(skip, limit, search);
     if (newList != null && newList.isNotEmpty) {
       setState(() {
         listDrug!.addAll(newList!);
@@ -111,33 +131,68 @@ class _MyWidgetState extends State<Drugs> {
                   )
                 ],
               ),
-              Container(
-                margin: const EdgeInsets.only(left: 10),
-                decoration: BoxDecoration(
-                    color: Color(0xffffffff),
-                    border: Border.all(color: (Colors.grey)),
-                    borderRadius: BorderRadius.circular(10)),
-                child: DropdownButton<String>(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  value: cateChoose,
-                  icon: const Icon(Icons.arrow_drop_down),
-                  iconSize: 30,
-                  underline: const SizedBox(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      skip = 0;
-                      cateChoose = newValue;
-                      listDrug!.clear();
-                    });
-                    fetchData(skip, limit);
-                  },
-                  items: listCate.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(left: 10),
+                    decoration: BoxDecoration(
+                        color: Color(0xffffffff),
+                        border: Border.all(color: (Colors.grey)),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: DropdownButton<String>(
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      value: cateChoose,
+                      icon: const Icon(Icons.arrow_drop_down),
+                      iconSize: 30,
+                      underline: const SizedBox(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          skip = 0;
+                          cateChoose = newValue;
+                          listDrug!.clear();
+                        });
+                        fetchData(skip, limit);
+                      },
+                      items: listCate
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(right: 10),
+                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.grey)),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 150,
+                          child: TextField(
+                            decoration: const InputDecoration(
+                                hintText: "Tìm kiếm", border: InputBorder.none),
+                            controller: searchController,
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.search),
+                          onPressed: () {
+                            setState(() {
+                              skip = 0;
+                              listDrug!.clear();
+                            });
+                            searchData(skip, limit, searchController.text);
+                          },
+                        )
+                      ],
+                    ),
+                  )
+                ],
               ),
               const SizedBox(
                 height: 10,
@@ -149,7 +204,7 @@ class _MyWidgetState extends State<Drugs> {
                           child: CircularProgressIndicator(),
                         )
                       : ListView.builder(
-                          controller: controller,
+                          controller: scrollController,
                           itemCount: listDrug!.length + 1,
                           itemBuilder: (context, index) {
                             if (index == listDrug!.length) {
