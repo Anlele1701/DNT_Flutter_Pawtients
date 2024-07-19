@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend_ad/models/drug.dart';
+import 'package:frontend_ad/views/items/drug_item.dart';
 import 'package:frontend_ad/views/web_views/create_drug.dart';
+import 'package:frontend_ad/views_models/drug_view_model.dart';
 
 class Drugs extends StatefulWidget {
   const Drugs({super.key});
@@ -10,33 +13,140 @@ class Drugs extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<Drugs> {
+  int skip = 0;
+  final int limit = 6;
+  final ScrollController controller = ScrollController();
+  String? cateChoose = "Thuốc";
+  final List<String> listCate = ["Thuốc", "Vacxin"];
+  DrugViewModel drugViewModel = DrugViewModel();
+  List<Drug?> listDrug = [];
+  bool isLoadingMore = false;
+  @override
+  void initState() {
+    super.initState();
+    fetchData(skip, limit);
+    controller.addListener(() {
+      if (controller.position.maxScrollExtent == controller.offset) {
+        setState(() {
+          skip += limit;
+          isLoadingMore = true;
+        });
+        fetchData(skip, limit);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  Future<void> fetchData(int skip, int limit) async {
+    List<Drug?>? newList = await drugViewModel.getDrugList(skip, limit);
+    if (newList != null && newList.isNotEmpty) {
+      setState(() {
+        listDrug.addAll(newList);
+        isLoadingMore = false;
+      });
+    } else {
+      setState(() {
+        isLoadingMore = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: Container(
-              padding: const EdgeInsets.all(5),
-              decoration: const BoxDecoration(
-                  color: Color(0xffF48B29), shape: BoxShape.circle),
-              child: IconButton(
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context)=> CreateDrug()));
-                },
-                icon: const Icon(
-                  Icons.add,
-                  size: 40,
-                ),
-                color: Colors.white,
+    return Scaffold(
+      body: RefreshIndicator(
+        onRefresh: (){
+          listDrug.clear();
+          skip=0;
+          return fetchData(0, limit);
+        },
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.arrow_back_ios,
+                        size: 35,
+                      )),
+                  Text(
+                    "Sản phẩm",
+                    style: TextStyle(fontSize: 25),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => CreateDrug()));
+                    },
+                    icon: const Icon(
+                      Icons.add,
+                      size: 35,
+                    ),
+                  )
+                ],
               ),
-            ),
+              Container(
+                margin: const EdgeInsets.only(left: 10),
+                decoration: BoxDecoration(
+                    color: Color(0xffffffff),
+                    border: Border.all(color: (Colors.grey)),
+                    borderRadius: BorderRadius.circular(10)),
+                child: DropdownButton<String>(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  value: cateChoose,
+                  icon: const Icon(Icons.arrow_drop_down),
+                  iconSize: 30,
+                  underline: const SizedBox(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      cateChoose = newValue;
+                    });
+                  },
+                  items: listCate.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                  height: 580,
+                  child: listDrug.isEmpty
+                      ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : ListView.builder(
+                        controller: controller,
+                          itemCount: listDrug.length + 1,
+                          itemBuilder: (context, index) {
+                            if (index == listDrug.length) {
+                              return isLoadingMore
+                                  ? Center(child: CircularProgressIndicator())
+                                  : Container();
+                            }
+                            return DrugItem(
+                              drugItem: listDrug[index],
+                            );
+                          },
+                        )),
+            ],
           ),
-        )
-      ],
+        ),
+      ),
+      backgroundColor: const Color(0xffF8F8F8),
     );
   }
 }

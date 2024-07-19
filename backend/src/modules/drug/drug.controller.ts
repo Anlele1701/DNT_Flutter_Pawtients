@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UploadedFile, UseInterceptors, UsePipes, ValidationPipe } from "@nestjs/common";
+import { Body, Controller, Get, Post, Query, UploadedFile, UseInterceptors, UsePipes, ValidationPipe } from "@nestjs/common";
 import { CreateDrugDto } from "./dto/create_new_drug.dto";
 import { DrugService } from "./drug.service";
 import { FileInterceptor } from "@nestjs/platform-express";
@@ -15,8 +15,8 @@ export class DrugController{
     }
 
     @Get('/get-drug-list')
-    async getDrugList(){
-        const drugList=await this.drugService.getDrugList();
+    async getDrugList(@Query('skip') skip:number, @Query('limit')limit: number){
+        const drugList=await this.drugService.getDrugList(skip, limit);
         return drugList;
     }
 }

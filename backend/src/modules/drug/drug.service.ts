@@ -26,9 +26,11 @@ export class DrugService{
         }
     }
 
-    async getDrugList(): Promise<Drug[]>{
+    async getDrugList(skip: number, limit: number): Promise<Drug[]>{
         try{
-            const drugList= await this.drugModel.find();
+            const drugList= await this.drugModel.find().skip(skip).limit(limit);
+            console.log(skip);
+            console.log(limit);
             return drugList;
         }catch(e){
             console.log(e);

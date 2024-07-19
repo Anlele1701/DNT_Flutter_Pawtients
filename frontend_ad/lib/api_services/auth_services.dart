@@ -17,7 +17,7 @@ class AuthServices {
       loadingState.isLoading = true;
       final body = jsonEncode({'tenTK': tenTK, 'matKhau': matKhau});
       final response =
-          await dio.post("http://10.20.1.76:3000/employees/login", data: body);
+          await dio.post("${devURL}/employees/login", data: body);
       if (response.data['success'] == true) {
         successToast("Đăng nhập thành công");
         SharedPreferences prefs = await SharedPreferences.getInstance();

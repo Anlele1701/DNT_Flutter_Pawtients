@@ -9,4 +9,8 @@ class DrugViewModel{
     if(createDrug!=null) return createDrug;
     else return null;
   }
+
+  Future<List<Drug?>?> getDrugList(int skip, int limit)async {
+    return await DrugService().getDrugList(skip, limit);
+  }
 }

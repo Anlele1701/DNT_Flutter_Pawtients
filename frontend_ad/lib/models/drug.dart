@@ -1,6 +1,7 @@
 import 'package:frontend_ad/models/image_model.dart';
 
 class Drug{
+  String? id;
   String? tenThuoc;
   String? hangThuoc;
   String? moTa;
@@ -8,8 +9,9 @@ class Drug{
   int? giaTien;
   String? phongBenh;
   ImagePet? hinhAnh;
-  Drug({this.tenThuoc, this.hangThuoc, this.moTa, this.thanhPhan, this.giaTien, this.phongBenh, this.hinhAnh,});
+  Drug({this.id, this.tenThuoc, this.hangThuoc, this.moTa, this.thanhPhan, this.giaTien, this.phongBenh, this.hinhAnh,});
   Drug.fromJson(Map<String, dynamic> json){
+    id=json['_id'];
     tenThuoc= json['tenThuoc'];
     hangThuoc=json['hangThuoc'];
     moTa=json['moTa'];
