@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:frontend_ad/views/public_views/appbar.dart';
 
-class MyWidget extends StatefulWidget {
-  const MyWidget({super.key});
+class Vacxins extends StatefulWidget {
+  const Vacxins({super.key});
 
   @override
-  State<MyWidget> createState() => _MyWidgetState();
+  State<Vacxins> createState() => _MyWidgetState();
 }
 
-class _MyWidgetState extends State<MyWidget> {
+class _MyWidgetState extends State<Vacxins> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: CustomAppBar(),
+    );
   }
 }

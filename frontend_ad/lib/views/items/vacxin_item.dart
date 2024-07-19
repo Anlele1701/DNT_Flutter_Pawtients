@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:frontend_ad/models/drug.dart';
-import 'package:frontend_ad/views/web_views/edit_drug.dart';
+import 'package:frontend_ad/models/vacxin.dart';
 
-class DrugItem extends StatefulWidget {
-  DrugItem({super.key, this.drugItem});
-  Drug? drugItem;
+class VacxinItem extends StatefulWidget {
+  VacxinItem({super.key, this.vacxinItem});
+  Vacxin? vacxinItem;
   @override
-  State<DrugItem> createState() => _MyWidgetState();
+  State<VacxinItem> createState() => _MyWidgetState();
 }
 
-class _MyWidgetState extends State<DrugItem> {
+class _MyWidgetState extends State<VacxinItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,15 +26,8 @@ class _MyWidgetState extends State<DrugItem> {
                     borderRadius: BorderRadius.circular(5)),
                 child: ClipRRect(
                     // Set to 0 for square corners
-                    child: widget.drugItem?.hinhAnh?.data != null
-                        ? Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Image.memory(
-                              widget.drugItem!.hinhAnh!.data,
-                              fit: BoxFit.cover,
-                            ),
-                          )
+                    child: widget.vacxinItem?.hinhAnh?.data != null
+                        ? Image.memory(widget.vacxinItem!.hinhAnh!.data)
                         : Container()),
               )),
           SizedBox(
@@ -47,25 +39,18 @@ class _MyWidgetState extends State<DrugItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "${widget.drugItem?.tenThuoc}",
+                    "${widget.vacxinItem?.tenVacxin}",
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "Product ID: ${widget.drugItem?.id}",
+                    "Product ID: ${widget.vacxinItem?.id}",
                     style: TextStyle(color: Color(0xffB5B5B5)),
                   ),
                   Row(
                     children: [
                       IconButton(
-                          onPressed: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return EditDrug(
-                                drugItem: widget.drugItem,
-                              );
-                            }));
-                          },
+                          onPressed: () {},
                           icon: Icon(Icons.mode_edit_outlined)),
                       IconButton(
                           onPressed: () {}, icon: Icon(Icons.delete_outline))

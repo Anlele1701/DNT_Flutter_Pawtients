@@ -1,9 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend_ad/models/drug.dart';
+import 'package:frontend_ad/models/vacxin.dart';
 import 'package:frontend_ad/views/items/drug_item.dart';
+import 'package:frontend_ad/views/items/vacxin_item.dart';
 import 'package:frontend_ad/views/web_views/create_drug.dart';
+import 'package:frontend_ad/views/web_views/create_vacxin.dart';
 import 'package:frontend_ad/views_models/drug_view_model.dart';
+import 'package:frontend_ad/views_models/vacxin_view_model.dart';
 
 class Drugs extends StatefulWidget {
   const Drugs({super.key});
@@ -19,7 +23,8 @@ class _MyWidgetState extends State<Drugs> {
   String? cateChoose = "Thuốc";
   final List<String> listCate = ["Thuốc", "Vacxin"];
   DrugViewModel drugViewModel = DrugViewModel();
-  List<Drug?> listDrug = [];
+  VacxinViewModel vacxinViewModel = VacxinViewModel();
+  List<dynamic>? listDrug = [];
   bool isLoadingMore = false;
   @override
   void initState() {
@@ -43,10 +48,14 @@ class _MyWidgetState extends State<Drugs> {
   }
 
   Future<void> fetchData(int skip, int limit) async {
-    List<Drug?>? newList = await drugViewModel.getDrugList(skip, limit);
+    List<dynamic>? newList = [];
+    if (cateChoose == "Thuốc")
+      newList = await drugViewModel.getDrugList(skip, limit);
+    else
+      newList = await vacxinViewModel.getVacxinList(skip, limit);
     if (newList != null && newList.isNotEmpty) {
       setState(() {
-        listDrug.addAll(newList);
+        listDrug!.addAll(newList!);
         isLoadingMore = false;
       });
     } else {
@@ -60,9 +69,9 @@ class _MyWidgetState extends State<Drugs> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: RefreshIndicator(
-        onRefresh: (){
-          listDrug.clear();
-          skip=0;
+        onRefresh: () {
+          listDrug!.clear();
+          skip = 0;
           return fetchData(0, limit);
         },
         child: SingleChildScrollView(
@@ -84,8 +93,16 @@ class _MyWidgetState extends State<Drugs> {
                   ),
                   IconButton(
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => CreateDrug()));
+                      if (cateChoose == "Vacxin") {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CreateVacxin()));
+                      } else
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CreateDrug()));
                     },
                     icon: const Icon(
                       Icons.add,
@@ -108,8 +125,11 @@ class _MyWidgetState extends State<Drugs> {
                   underline: const SizedBox(),
                   onChanged: (String? newValue) {
                     setState(() {
+                      skip = 0;
                       cateChoose = newValue;
+                      listDrug!.clear();
                     });
+                    fetchData(skip, limit);
                   },
                   items: listCate.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
@@ -124,22 +144,24 @@ class _MyWidgetState extends State<Drugs> {
               ),
               SizedBox(
                   height: 580,
-                  child: listDrug.isEmpty
+                  child: listDrug!.isEmpty
                       ? Center(
                           child: CircularProgressIndicator(),
                         )
                       : ListView.builder(
-                        controller: controller,
-                          itemCount: listDrug.length + 1,
+                          controller: controller,
+                          itemCount: listDrug!.length + 1,
                           itemBuilder: (context, index) {
-                            if (index == listDrug.length) {
+                            if (index == listDrug!.length) {
                               return isLoadingMore
                                   ? Center(child: CircularProgressIndicator())
                                   : Container();
                             }
-                            return DrugItem(
-                              drugItem: listDrug[index],
-                            );
+                            return cateChoose == "Thuốc"
+                                ? DrugItem(
+                                    drugItem: listDrug![index],
+                                  )
+                                : VacxinItem(vacxinItem: listDrug![index]);
                           },
                         )),
             ],
