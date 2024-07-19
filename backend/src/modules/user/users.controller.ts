@@ -41,7 +41,7 @@ export class UsersController {
     if (!mongoose.Types.ObjectId.isValid(userID)) {
       throw new NotFoundException('Invalid user ID');
     }
-    const user = await this.usersService.findById(userID);
+    const user = await this.usersService.findByID(userID);
     if (!user) {
       throw new NotFoundException('User not found');
     }

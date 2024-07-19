@@ -1,4 +1,10 @@
-class ApiUrls{
-  static const String PAWTIENT_URL="http://localhost:3000";
-  
-}
+//? Developments APIs
+const devURL = "http://localhost:3000";
+const devLogin = "$devURL/employees/login";
+const devEmpCreate = "$devURL/employees/create";
+const devEmpAuth = "$devURL/employees/getUser";
+//? Production APIs
+const prodURL = "https://dnt-flutter-pawtients.onrender.com";
+const prodLogin = "$prodURL/employees/login";
+const prodEmpCreate = "$prodURL/employees/create";
+const prodEmpAuth = "$prodURL/employees/getUser";
