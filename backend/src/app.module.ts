@@ -6,6 +6,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { PetModule } from './modules/pet/pet.module';
 import { EmployeesModule } from './modules/employee/employees.module';
 import { ChatbotModule } from './modules/chatbot/chatbot.module';
+import { DrugModule } from './modules/drug/drug.module';
+import { AppointmentModule } from './modules/appointment/appointment.module';
+import { VacxinModule } from './modules/vacxin/vacxin.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -17,6 +20,10 @@ import { ChatbotModule } from './modules/chatbot/chatbot.module';
     Pet_S_Module,
     EmployeesModule,
     ChatbotModule,
+    DrugModule,
+    PetModule,
+    AppointmentModule,
+    VacxinModule
   ],
   controllers: [],
   providers: [],

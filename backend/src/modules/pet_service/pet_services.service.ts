@@ -11,4 +11,13 @@ export class Pet_Services_Service{
         const newService= new this.petServiceModel(createPetServiceDto)
         return await newService.save()
     }
+    async findIDPeTService(nameService: String):Promise<String>{
+        try{
+            const service= await this.petServiceModel.findOne({tenDichVu: nameService});
+            return service.id;
+        }catch(e){
+            console.log(e);
+            return e;
+        }
+    }
 }

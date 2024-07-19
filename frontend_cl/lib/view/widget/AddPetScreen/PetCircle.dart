@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:frontend/model/pet_model.dart';
 
 class PetCircle extends StatefulWidget {
-  const PetCircle({super.key});
+  const PetCircle({Key? key, this.pet}) : super(key: key);
+  final Pet? pet;
 
   @override
   State<PetCircle> createState() => _PetCircleState();
@@ -38,7 +40,7 @@ class _PetCircleState extends State<PetCircle> {
                 ),
               ),
             )),
-        Text("Mi Mi")
+        Text("${widget.pet?.tenThuCung}")
       ],
     );
   }

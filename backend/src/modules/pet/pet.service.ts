@@ -33,4 +33,21 @@ export class PetService{
             return e;
         }
     }
+
+    async getPetList(userID: String): Promise<Pet[]>{
+        try{
+            const listPetID=(await this.userModel.findById(userID)).dsThuCung;
+            const petList=await Promise.all(
+                listPetID.map(async petID=>{
+                    const pet=await this.petModel.findById(petID);
+                    return pet;
+                })
+            )
+            console.log(petList);
+            return petList;
+        }catch(e){
+            console.log(e);
+            return e;
+        }
+    }
 }

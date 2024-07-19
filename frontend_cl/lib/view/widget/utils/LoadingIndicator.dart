@@ -6,17 +6,17 @@ import 'dart:ui';
 class LoadingContainer extends StatelessWidget {
   const LoadingContainer({
     super.key,
-    required this.child,
+    this.child,
   });
 
-  final Widget child;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
     final state = context.watch<LoadingState>().isLoading;
     return Stack(
       children: [
-        child,
+        child!,
         state
             ? BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
