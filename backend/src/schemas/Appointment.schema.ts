@@ -6,7 +6,7 @@ import { Pet } from "./Pet.schema";
 
 @Schema()
 export class Appointment{
-    @Prop({type: Date, required: true})
+    @Prop({type: Date})
     ngayKham: Date;
     @Prop({type: String})
     loaiDichVu: String;

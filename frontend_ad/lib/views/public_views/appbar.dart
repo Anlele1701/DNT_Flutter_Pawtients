@@ -15,8 +15,8 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
-  late String hoten;
-  late String chucVu;
+  late String hoten="";
+  late String chucVu="";
   final List<NotificationItem> items = List.generate(
     5,
     (index) => const NotificationItem(),
