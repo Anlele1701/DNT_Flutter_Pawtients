@@ -15,89 +15,48 @@ class OnBoarding extends StatefulWidget {
 class OnBoardingState extends State<OnBoarding> {
   final controller = BoardingItem();
   final pageController = PageController();
-
   bool islastpage = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-      padding: EdgeInsets.fromLTRB(20, 70, 20, 50),
-      child: Stack(
-        children: [
-          SmoothPageIndicator(
-            controller: pageController,
-            axisDirection: Axis.horizontal,
-            count: BoardingItem().items.length,
-            effect: WormEffect(
+        bottomSheet:Container(
+        padding: EdgeInsets.symmetric(vertical: 70, horizontal: 30),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SmoothPageIndicator(
+              controller: pageController,
+              axisDirection: Axis.horizontal,
+              count: BoardingItem().items.length,
+              effect: ExpandingDotsEffect(
                 spacing: 10.0,
                 radius: 2.0,
-                dotWidth: 30,
-                dotHeight: 6.0,
+                dotWidth: 12,
+                dotHeight: 6,
                 paintStyle: PaintingStyle.fill,
                 dotColor: Colors.grey,
                 activeDotColor: Color(0xFFF48B29),
-                ),
-          ),
-          PageView.builder(
-            onPageChanged: (value) => setState(() {
-              islastpage = controller.items.length - 1 == value;
-            }),
-            itemCount: controller.items.length,
-            controller: pageController,
-            itemBuilder: (context, index) {
-              return Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(top: 50),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            controller.items[index].title,
-                            style: TextStyle(
-                                fontSize: 45,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFFF48B29)),
-                          ),
-                          Text(controller.items[index].Description,
-                              style: TextStyle(
-                                  fontSize: 20, color: Colors.black54)),
-                        ],
-                      ),
-                    ),
-                    Container(
-                        height: 450,
-                        alignment: Alignment.center,
-                        child: Image.asset(
-                          controller.items[index].image,
-                        )),
-                  ],
-                ),
-              );
-            },
-          ),
-          Positioned(
-            bottom: 80,
-            child: Row(
+              ),
+            ),
+            Row(
               children: [
                 GestureDetector(
                     child: AnimatedContainer(
                       duration: Duration(milliseconds: 300),
                       decoration: BoxDecoration(
-                        color: Color(0xFFF48B29),
-                        borderRadius: BorderRadius.circular(15),
+                        color: islastpage ?Color(0xFFF48B29) :Colors.black45, //0xFFF48B29
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      width: islastpage ? 380 : 180,
+                      width: 110,
                       padding: EdgeInsets.all(15),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(islastpage ? "Bắt đầu ngay" : "Tiếp tục",
+                          Text(islastpage ? "Bắt đầu" : "Tiếp tục",
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 18,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600
                               )),
                           Icon(
                             Icons.double_arrow_outlined,
@@ -120,29 +79,67 @@ class OnBoardingState extends State<OnBoarding> {
                                 builder: (context) => LoginScreen()));
                       }
                     }),
-                islastpage? SizedBox.shrink(): SizedBox(
-                  width: 320,
-                  child: TextButton(
-                    onPressed: () async {
-                      final press = await SharedPreferences.getInstance();
-                      press.setBool("onboarding", true);
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) => LoginScreen()));
-                    },
-                    child: Text(
-                      "Bỏ qua",
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.black87
-                      ),
-                    ),
-                  ),
-                )
               ],
             ),
-          )
-        ],
+          ],
+        ),
       ),
-    ));
+      body: AnimatedContainer(
+        duration: Duration(milliseconds: 300),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(colors: [
+            Color(0xFFF48B29),
+            Color.fromARGB(15, 255, 255, 255)
+          ],  
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          stops:[0.1,0.35]
+          ),
+        ),
+        padding: EdgeInsets.fromLTRB(0, 150, 0, 0),
+        child: PageView.builder(
+          onPageChanged: (value) => setState(() {
+            islastpage = controller.items.length - 1 == value;
+          }),
+          itemCount: controller.items.length,
+          controller: pageController,
+          itemBuilder: (context, index) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                    height: 280,
+                    alignment: Alignment.center,
+                    child: Image.asset(
+                      controller.items[index].image,
+                    )),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.only(left: 20,right: 20),
+                      child: Text(controller.items[index].Description,
+                          style: TextStyle(fontSize: 17, color: Colors.black87,),
+                          textAlign: TextAlign.center,),
+                    ),
+                    Center(
+                      child: Text(
+                        controller.items[index].title,
+                        style: TextStyle(
+                            fontSize: 70,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFFF48B29)),
+                            textAlign: TextAlign.center
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+    );
   }
 }

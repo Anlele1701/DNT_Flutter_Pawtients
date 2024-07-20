@@ -10,9 +10,8 @@ class BoardingInfo {
 
 class BoardingItem {
   List<BoardingInfo> items = [
-    BoardingInfo(title: "Khám Bệnh", Description: "Khám bệnh tận tâm, sức khỏe vẹn toàn.", image: "assets/images/boarding_6.png"),
-    BoardingInfo(title: "Uy Tín", Description: "Dịch vụ cao cấp, thú y chuyên nghiệp.", image: "assets/images/boarding_11.png"),
-    BoardingInfo(title: "Bảo Vệ", Description: "Bảo vệ sức khỏe, lan tỏa yêu thương.", image: "assets/images/boarding_7.png"),
-    BoardingInfo(title: "Sắc Đẹp", Description: "Làm đẹp nhanh chống, tự tin rạng ngời.", image: "assets/images/boarding_3.png"),
+    BoardingInfo(title: "PAWTIENT", Description: "CHÀO MỪNG BẠN ĐẾN VỚI", image: "assets/images/boarding_6.png"),
+    BoardingInfo(title: "", Description: "Thú cưng là những người bạn đồng hành đáng tin cậy và mang lại niềm vui, hạnh phúc cho gia đình. Để thú cưng luôn khỏe mạnh và tràn đầy năng lượng, việc chăm sóc sức khỏe cho chúng là vô cùng quan trọng.", image: "assets/images/boarding_7.png"),
+    BoardingInfo(title: "", Description: "Hãy để chúng tôi đồng hành cùng bạn trong hành trình này, từ việc cung cấp dinh dưỡng phù hợp, thăm khám định kỳ cho đến các hoạt động vui chơi và rèn luyện của thú cưng.", image: "assets/images/boarding_3.png"),
   ];
 }
