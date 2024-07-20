@@ -10,7 +10,7 @@ class CustomTopSheet extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: Container(
-        height: 630,
+        height: 300,
         width: 500,
         padding: const EdgeInsets.all(16),
         decoration: const BoxDecoration(

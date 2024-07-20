@@ -4,7 +4,7 @@ import 'package:frontend/view/widget/utils/notification_item.dart';
 
 class MyAppBar extends StatefulWidget {
   final String title;
-  MyAppBar({super.key, required this.title});
+  const MyAppBar({super.key, required this.title});
   @override
   State<MyAppBar> createState() => _MyAppBarState();
 }
@@ -20,7 +20,7 @@ class _MyAppBarState extends State<MyAppBar> {
       pageBuilder: (context, animation1, animation2) {
         return Align(
           alignment: Alignment.topCenter,
-          child: Container(child: CustomTopSheet(child: child)),
+          child: CustomTopSheet(child: child),
         );
       },
       transitionBuilder: (context, animation1, animation2, child) {
@@ -77,19 +77,9 @@ class _MyAppBarState extends State<MyAppBar> {
                       ListView.builder(
                         itemCount: 2,
                         itemBuilder: (context, index) {
-                          return NotificationItem();
+                          return const NotificationItem();
                         },
                       ),
-                      Align(
-                          alignment: Alignment.bottomCenter,
-                          child: TextButton(
-                            onPressed: () {},
-                            child: const Text(
-                              "Xem tất cả",
-                              style: TextStyle(
-                                  decoration: TextDecoration.underline),
-                            ),
-                          ))
                     ],
                   ),
                 );

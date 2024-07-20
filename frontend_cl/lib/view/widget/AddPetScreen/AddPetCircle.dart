@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/view/addpetprofile_screen.dart';
 
 class AddPetCircle extends StatefulWidget {
-  const AddPetCircle({super.key, this.userID=""});
+  const AddPetCircle({super.key, this.userID = ""});
   final String userID;
 
   @override
@@ -18,19 +18,21 @@ class _AddPetCircleState extends State<AddPetCircle> {
         Container(
             height: 52,
             width: 52,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               shape: BoxShape.circle,
-              color: const Color(0xffF9B26F),
+              color: Color(0xffF9B26F),
             ),
             child: Material(
               color: Colors.transparent,
               shape: const CircleBorder(),
               child: InkWell(
-                splashColor: Color(0xffF48B29),
+                splashColor: const Color(0xffF48B29),
                 onTap: () => Navigator.push(
                     context,
                     CupertinoPageRoute(
-                        builder: (context) => AddPetProfileScreen(userID: widget.userID,))),
+                        builder: (context) => AddPetProfileScreen(
+                              userID: widget.userID,
+                            ))),
                 customBorder: const CircleBorder(),
                 child: Center(
                   child: Container(
@@ -39,9 +41,9 @@ class _AddPetCircleState extends State<AddPetCircle> {
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(
-                            color: Color.fromARGB(255, 255, 255, 255),
+                            color: const Color.fromARGB(255, 255, 255, 255),
                             width: 2)),
-                    child: Padding(
+                    child: const Padding(
                         padding: EdgeInsets.all(2),
                         child: Icon(
                           Icons.add,
@@ -51,7 +53,7 @@ class _AddPetCircleState extends State<AddPetCircle> {
                 ),
               ),
             )),
-        Text("Tạo hồ sơ")
+        const Text("Tạo hồ sơ")
       ],
     );
   }

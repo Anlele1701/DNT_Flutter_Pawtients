@@ -34,7 +34,9 @@ class _PetCircleState extends State<PetCircle> {
                 child: Padding(
                   padding: EdgeInsets.all(2),
                   child: Image(
-                      image: AssetImage('assets/images/catprofile.png'),
+                      image: widget.pet?.loaiThuCung == "Mèo"
+                          ? AssetImage('assets/images/catprofile.png')
+                          : AssetImage('assets/images/dogprofile.png'),
                       width: 20,
                       height: 27),
                 ),
