@@ -20,7 +20,9 @@ class OnBoardingState extends State<OnBoarding> {
   Widget build(BuildContext context) {
     return Scaffold(
         bottomSheet:Container(
-        padding: EdgeInsets.symmetric(vertical: 70, horizontal: 30),
+        padding: EdgeInsets.fromLTRB(30, 0, 30,0),
+        margin: EdgeInsets.only(bottom: 80),
+        color: Color.fromARGB(15, 255, 255, 255),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -45,24 +47,13 @@ class OnBoardingState extends State<OnBoarding> {
                       duration: Duration(milliseconds: 300),
                       decoration: BoxDecoration(
                         color: islastpage ?Color(0xFFF48B29) :Colors.black45, //0xFFF48B29
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                      width: 110,
-                      padding: EdgeInsets.all(15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(islastpage ? "Bắt đầu" : "Tiếp tục",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600
-                              )),
-                          Icon(
-                            Icons.double_arrow_outlined,
-                            color: Colors.white,
-                          )
-                        ],
+                      width: 60,
+                      height: 45,
+                      child: Icon(
+                        Icons.double_arrow_outlined,
+                        color: Colors.white,
                       ),
                     ),
                     onTap: () async {
