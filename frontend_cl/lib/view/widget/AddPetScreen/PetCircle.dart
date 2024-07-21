@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:frontend/model/pet_model.dart';
 
 class PetCircle extends StatefulWidget {
-  const PetCircle({ Key? key, this.pet}) : super(key: key);
+  const PetCircle({Key? key, this.pet}) : super(key: key);
   final Pet? pet;
 
   @override
@@ -34,7 +34,9 @@ class _PetCircleState extends State<PetCircle> {
                 child: Padding(
                   padding: EdgeInsets.all(2),
                   child: Image(
-                      image: AssetImage('assets/images/catprofile.png'),
+                      image: widget.pet?.loaiThuCung == "Mèo"
+                          ? AssetImage('assets/images/catprofile.png')
+                          : AssetImage('assets/images/dogprofile.png'),
                       width: 20,
                       height: 27),
                 ),

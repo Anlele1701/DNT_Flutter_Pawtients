@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:frontend/model/image_model.dart';
 import 'package:mime/mime.dart';
@@ -12,7 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class AddPetProfileScreen extends StatefulWidget {
-  const AddPetProfileScreen({super.key, this.userID=""});
+  const AddPetProfileScreen({super.key, this.userID = ""});
   final String userID;
   @override
   State<AddPetProfileScreen> createState() => _AddPetProfileScreenState();
@@ -25,20 +24,23 @@ class _AddPetProfileScreenState extends State<AddPetProfileScreen> {
   final picker = ImagePicker();
   TextEditingController nameController = TextEditingController();
   TextEditingController datePickerController = TextEditingController();
-  TextEditingController giongLoaiController=TextEditingController();
-  TextEditingController canNangController=TextEditingController();
-  Pet pet=Pet();
+  TextEditingController giongLoaiController = TextEditingController();
+  TextEditingController canNangController = TextEditingController();
+  Pet pet = Pet();
   ImagePet? hinhAnh;
-  final PetViewModel petViewModel=PetViewModel();
+  final PetViewModel petViewModel = PetViewModel();
   Future openImageGallery() async {
     final pickedFile =
         await picker.pickImage(source: ImageSource.gallery, imageQuality: 80);
     if (pickedFile != null) {
       _image = File(pickedFile.path);
       final imageData = await _image!.readAsBytes();
-      final mimeType=lookupMimeType(pickedFile.path);
+      final mimeType = lookupMimeType(pickedFile.path);
       setState(() {
-        hinhAnh=ImagePet(filename: path.basename(_image!.path), data: imageData, mimetype: mimeType!);
+        hinhAnh = ImagePet(
+            filename: path.basename(_image!.path),
+            data: imageData,
+            mimetype: mimeType!);
       });
     }
   }
@@ -262,17 +264,24 @@ class _AddPetProfileScreenState extends State<AddPetProfileScreen> {
                               SizedBox(
                                 width: screenWidth,
                                 child: OutlinedButton(
-                                    onPressed: ()async {
-                                      pet.tenThuCung=nameController.text;
-                                      pet.loaiThuCung=_animalType;
-                                      pet.ngaySinh=DateFormat('dd/MM/yyyy').parse(datePickerController.text);
-                                      pet.giongLoai=giongLoaiController.text;
-                                      if(_genderType=='BT') pet.gioiTinh=true;
-                                      else pet.gioiTinh=false;
-                                      pet.canNang=canNangController.text;
-                                      final result=await petViewModel.createNewPet(pet, hinhAnh!, widget.userID, context);
-                                      if(result==null) print('null');
-                                      else print('hello ${result.tenThuCung}');
+                                    onPressed: () async {
+                                      pet.tenThuCung = nameController.text;
+                                      pet.loaiThuCung = _animalType;
+                                      pet.ngaySinh = DateFormat('dd/MM/yyyy')
+                                          .parse(datePickerController.text);
+                                      pet.giongLoai = giongLoaiController.text;
+                                      if (_genderType == 'BT')
+                                        pet.gioiTinh = true;
+                                      else
+                                        pet.gioiTinh = false;
+                                      pet.canNang = canNangController.text;
+                                      final result =
+                                          await petViewModel.createNewPet(pet,
+                                              hinhAnh!, widget.userID, context);
+                                      if (result == null)
+                                        print('null');
+                                      else
+                                        print('hello ${result.tenThuCung}');
                                     },
                                     style: OutlinedButton.styleFrom(
                                         padding: const EdgeInsets.symmetric(

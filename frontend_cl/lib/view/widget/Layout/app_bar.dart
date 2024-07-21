@@ -1,18 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/view/widget/utils/Notification.dart';
+import 'package:frontend/view/widget/utils/notification_item.dart';
 
 class MyAppBar extends StatefulWidget {
   final String title;
-  MyAppBar({super.key, required this.title});
+  const MyAppBar({super.key, required this.title});
   @override
   State<MyAppBar> createState() => _MyAppBarState();
 }
 
 class _MyAppBarState extends State<MyAppBar> {
+  void showTopSheet(BuildContext context, Widget child) {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: '',
+      barrierColor: Colors.black54,
+      transitionDuration: const Duration(milliseconds: 300),
+      pageBuilder: (context, animation1, animation2) {
+        return Align(
+          alignment: Alignment.topCenter,
+          child: CustomTopSheet(child: child),
+        );
+      },
+      transitionBuilder: (context, animation1, animation2, child) {
+        return SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(0, -1),
+            end: const Offset(0, 0),
+          ).animate(animation1),
+          child: child,
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
       toolbarHeight: 100,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       leadingWidth: 80,
       leading: Padding(
         padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
@@ -42,7 +69,21 @@ class _MyAppBarState extends State<MyAppBar> {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 22),
           child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                showTopSheet(
+                  context,
+                  Stack(
+                    children: [
+                      ListView.builder(
+                        itemCount: 2,
+                        itemBuilder: (context, index) {
+                          return const NotificationItem();
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              },
               icon: const Icon(
                 Icons.notifications_none_rounded,
                 color: Color(0xff474747),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:frontend/view/addpetprofile_screen.dart';
 import 'package:frontend/view/appointment_screen.dart';
 import 'package:frontend/view/booking_screen.dart';
 import 'package:frontend/view/home_screen.dart';
@@ -28,7 +27,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
   late String userName = '';
   late String userEmail = '';
   List<Widget> _pages = [];
-  List<String> _titles = [
+  final List<String> _titles = [
     '',
     'Lịch hẹn',
     'Đặt lịch',
@@ -158,11 +157,11 @@ class _LayoutScreenState extends State<LayoutScreen> {
         ),
       ),
       drawer: Drawer(
-        backgroundColor: Color(0xffF6F6F6),
+        backgroundColor: const Color(0xffF6F6F6),
         child: ListView(
           children: [
             UserAccountsDrawerHeader(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     gradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
@@ -187,8 +186,8 @@ class _LayoutScreenState extends State<LayoutScreen> {
                         "https://randomuser.me/api/portraits/thumb/women/17.jpg"),
                   ),
                 ),
-                accountName: Text('$userName'),
-                accountEmail: Text('$userEmail')),
+                accountName: Text(userName),
+                accountEmail: Text(userEmail)),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
@@ -346,13 +345,36 @@ class _LayoutScreenState extends State<LayoutScreen> {
                         ),
                       ],
                     ),
-                    child: const Column(
+                    child: Column(
                       children: [
-                        DrawerItem(
-                          icon: Symbols.move_item,
-                          title: 'Đăng xuất',
+                        GestureDetector(
+                          onTap: () {
+                            AuthServicess().logout(context);
+                          },
+                          child: Container(
+                            color: Colors.transparent,
+                            padding: const EdgeInsets.only(bottom: 8),
+                            child: Row(
+                              children: [
+                                const Icon(Symbols.logout,
+                                    color: Color(0xff474747)),
+                                const SizedBox(width: 10),
+                                const Text("Đăng xuất"),
+                                const Spacer(),
+                                Container(
+                                  alignment: Alignment.centerRight,
+                                  child: const Icon(
+                                    Icons.arrow_forward_ios_rounded,
+                                    size: 20,
+                                    opticalSize: 30,
+                                    color: Color(0xff474747),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
                         ),
-                        DrawerItem(
+                        const DrawerItem(
                           icon: Symbols.delete,
                           title: 'Xoá tài khoản',
                         )

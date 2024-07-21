@@ -116,11 +116,12 @@ class ProductsState extends State<Products> {
                               bottomLeft: Radius.circular(20),
                               bottomRight: Radius.circular(20),
                             ),
-                            boxShadow: [
+                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black26,
-                                offset: Offset(0, 7),
-                              )
+                                  color: Colors.black26,
+                                  offset: Offset(0, 3),
+                                  blurRadius: 14,
+                                  blurStyle: BlurStyle.inner),
                             ]),
                         padding: const EdgeInsets.fromLTRB(10, 5, 10, 15),
                         child: Column(children: [

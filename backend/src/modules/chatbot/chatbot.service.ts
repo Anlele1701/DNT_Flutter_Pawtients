@@ -7,7 +7,11 @@ import { MongoDBAtlasVectorSearch } from '@langchain/mongodb';
 import { MongoClient } from 'mongodb';
 import { InjectModel } from '@nestjs/mongoose';
 import { CohereEmbeddings } from '@langchain/cohere';
-import { GoogleGenerativeAIEmbeddings } from '@langchain/google-genai';
+import { RunnableSequence } from '@langchain/core/runnables';
+import {
+  ChatGoogleGenerativeAI,
+  GoogleGenerativeAIEmbeddings,
+} from '@langchain/google-genai';
 @Injectable()
 export class ChatbotService {
   private genAI;
@@ -50,5 +54,20 @@ export class ChatbotService {
         embeddingKey: 'embedding', // The name of the collection field containing the embedded text. Defaults to "embedding"
       },
     );
+    const vectorStore = new MongoDBAtlasVectorSearch(
+      new GoogleGenerativeAIEmbeddings({ apiKey: process.env.GG_API_KEY }),
+      {
+        collection: this.collection,
+        indexName: 'vector_index',
+        textKey: 'text',
+        embeddingKey: 'embedding',
+      },
+    );
+    const model = new ChatGoogleGenerativeAI({
+      apiKey: process.env.GG_API_KEY,
+      model: 'gemini-1.5-flash',
+      maxOutputTokens: 2048,
+    });
+    const retriever = vectorStore.asRetriever({ k: 2 });
   }
 }

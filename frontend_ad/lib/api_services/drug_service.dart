@@ -1,11 +1,7 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:frontend_ad/api_services/api_urls.dart';
 import 'package:frontend_ad/models/drug.dart';
 import 'package:frontend_ad/models/image_model.dart';
-import 'dart:typed_data';
-
 import 'package:http_parser/http_parser.dart';
 
 class DrugService {

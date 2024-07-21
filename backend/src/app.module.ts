@@ -19,11 +19,11 @@ import { VacxinModule } from './modules/vacxin/vacxin.module';
     UsersModule,
     Pet_S_Module,
     EmployeesModule,
-    ChatbotModule,
+    // ChatbotModule,
     DrugModule,
     PetModule,
     AppointmentModule,
-    VacxinModule
+    VacxinModule,
   ],
   controllers: [],
   providers: [],
