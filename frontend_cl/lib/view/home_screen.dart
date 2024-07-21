@@ -4,6 +4,7 @@ import 'package:frontend/view/widget/Dich_Vu/service_salon.dart';
 import 'package:frontend/view/widget/Products/List_products.dart';
 import 'package:frontend/view/widget/Products/List_vaccine.dart';
 import 'package:frontend/view/widget/item_list_view.dart';
+import 'package:frontend/view/widget/search_bar.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'widget/item_card_view.dart';
@@ -145,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const WidgetStatePropertyAll(
                       EdgeInsets.symmetric(horizontal: 14)),
                   onTap: () {
-                    controller.openView();
+                    showSearch(context: context, delegate: CustomDelegate());
                   },
                   onChanged: (_) {
                     controller.openView();

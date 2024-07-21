@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:frontend/view/layout_screen.dart';
 import 'package:frontend/view/login_screen.dart';
+import 'package:frontend/view/widget/Boarding/boarding_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
-
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
@@ -21,9 +21,10 @@ class _SplashScreenState extends State<SplashScreen>
     Future.delayed(const Duration(seconds: 3), () async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('token');
+      final boarding = prefs.getBool("onboarding") ?? false;
       if (token == null) {
         Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const LoginScreen()));
+            MaterialPageRoute(builder: (context) => boarding ? LoginScreen():OnBoarding() ));
       } else {
         Navigator.pushReplacement(
             context,
