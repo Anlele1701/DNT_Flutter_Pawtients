@@ -19,8 +19,9 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ToastificationWrapper(
         child: MaterialApp(
-            theme: ThemeData(scaffoldBackgroundColor: const Color(0xffF6F6F6)),
-            debugShowCheckedModeBanner: false,
-            home: OnBoarding()));
+      theme: ThemeData(scaffoldBackgroundColor: const Color(0xffF6F6F6)),
+      debugShowCheckedModeBanner: false,
+      home: const SplashScreen(),
+    ));
   }
 }

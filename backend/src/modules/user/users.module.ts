@@ -6,9 +6,16 @@ import { UsersController } from './users.controller';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { MailerModule } from '@nestjs-modules/mailer';
 
 @Module({
   imports: [
+    MailerModule.forRoot({
+      transport: {
+        host: 'smtp.gmail.com',
+        auth: { user: 'dzien1701@gmail.com', pass: 'unvt qgtk mqcm uwvr' },
+      },
+    }),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
@@ -24,6 +31,6 @@ import { ConfigService } from '@nestjs/config';
   ],
   providers: [UsersService],
   controllers: [UsersController],
-  exports: [PassportModule],
+  exports: [PassportModule, UsersService],
 })
 export class UsersModule {}

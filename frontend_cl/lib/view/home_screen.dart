@@ -42,15 +42,15 @@ class _HomeScreenState extends State<HomeScreen> {
   void _updateGreetingText() {
     final now = DateTime.now();
     int hour = now.hour;
-    if (hour >= 5 && hour < 12) {
+    if (hour >= 1 && hour < 11) {
       setState(() {
         greetingText = 'Chào buổi sáng,';
       });
-    } else if (hour >= 12 && hour < 13) {
+    } else if (hour >= 11 && hour < 13) {
       setState(() {
         greetingText = 'Chào buổi trưa,';
       });
-    } else if (hour >= 13 && hour < 17) {
+    } else if (hour >= 13 && hour < 19) {
       setState(() {
         greetingText = 'Chào buổi chiều,';
       });
@@ -296,7 +296,7 @@ class _CateItemViewState extends State<CateItemView> {
     Icons.medical_services_outlined,
     Icons.vaccines_outlined,
     Symbols.pill_rounded,
-    Icons.cut_rounded,
+    Symbols.health_and_beauty_rounded,
   ];
 
   @override
@@ -312,12 +312,21 @@ class _CateItemViewState extends State<CateItemView> {
             Container(
               width: 70,
               height: 70,
-              decoration: const BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  color: Color(0xffFEECE2),
-                  borderRadius: BorderRadius.all(Radius.circular(14))),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Color(0xffF48B29),
+                borderRadius: BorderRadius.all(Radius.circular(14)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0xffD5D5D5).withOpacity(0.25),
+                    blurRadius: 4,
+                    spreadRadius: 2,
+                    offset: const Offset(4, 5),
+                  ),
+                ],
+              ),
               child: IconButton(
-                  color: Color(0xffE2BFB3),
+                  color: Colors.white,
                   onPressed: () {
                     setState(() {
                       if (selectedIndex == 0) {

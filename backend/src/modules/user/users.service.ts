@@ -6,12 +6,13 @@ import { RegisterUserDto } from './dto/RegisterUser.dto';
 import { LoginUserDto } from './dto/LoginUser.dto';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-
+import { MailerService } from '@nestjs-modules/mailer';
 @Injectable()
 export class UsersService {
   constructor(
     @InjectModel(User.name) private userModel: Model<User>,
     private jwtService: JwtService,
+    private readonly mailerService: MailerService,
   ) {}
 
   async createUser(
@@ -45,10 +46,51 @@ export class UsersService {
     const token = await this.jwtService.signAsync({ payload });
     return { success: true, token: token };
   }
-  async findById(id: string) {
+  async findByID(id: String): Promise<{}> {
     return this.userModel.findById(id);
   }
-  // async findByID(id: String): Promise<{}> {
-  //   return this.userModel.findById(id);
-  // }
+  async sendMail(
+    email: string,
+  ): Promise<{ success: boolean; message: string }> {
+    const user = await this.userModel.findOne({ email: email });
+    if (user) {
+      const pinCode = Math.floor(Math.random() * 10000)
+        .toString()
+        .padStart(4, '0');
+      user.pinCode = pinCode;
+      await user.save();
+      await this.mailerService.sendMail({
+        to: email,
+        subject: 'Pawtients Pincode Verification',
+        html: `
+       <p> Xin chào  ${user.hoTen}, </p>
+       Vui lòng nhập mã pincode này để xác thực email và reset mật khẩu: ${pinCode}
+      `,
+      });
+      return { success: true, message: 'Đã gửi link làm lại mật khẩu' };
+    } else {
+      return { success: false, message: 'Không tìm thấy người dùng' };
+    }
+  }
+  async verifyPinCode(
+    email: string,
+    pinCode: string,
+  ): Promise<{ success: boolean; message: string }> {
+    const user = await this.userModel.findOne({ email: email });
+    if (user.pinCode === pinCode) {
+      return { success: true, message: 'Xác thực thành công' };
+    } else {
+      return { success: false, message: 'Xác thực thất bại' };
+    }
+  }
+  async updatePassword(
+    email: string,
+    password: string,
+  ): Promise<{ success: boolean; message: string }> {
+    const user = await this.userModel.findOne({ email: email });
+    const hashedPassword = await bcrypt.hash(password, 12);
+    user.password = hashedPassword;
+    await user.save();
+    return { success: true, message: 'Cập nhật mật khẩu thành công' };
+  }
 }

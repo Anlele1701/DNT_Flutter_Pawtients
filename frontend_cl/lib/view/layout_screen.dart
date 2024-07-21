@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:frontend/view/appointment_screen.dart';
 import 'package:frontend/view/booking_screen.dart';
 import 'package:frontend/view/home_screen.dart';
 import 'package:frontend/view/petprofile_screen.dart';
 import 'package:frontend/view/user_profile_screen.dart';
+import 'package:frontend/view/widget/Dich_Vu/service_page.dart';
+import 'package:frontend/view/widget/Dich_Vu/service_salon.dart';
 import 'package:frontend/view/widget/Layout/app_bar.dart';
 import 'package:frontend/services/auth_services.dart';
+import 'package:frontend/view/widget/Products/List_products.dart';
+import 'package:frontend/view/widget/Products/List_vaccine.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 class LayoutScreen extends StatefulWidget {
@@ -20,9 +25,9 @@ class _LayoutScreenState extends State<LayoutScreen> {
   int _selectedIndex = 0;
   late String userID;
   late String userName = '';
-  late String userEmail;
+  late String userEmail = '';
   List<Widget> _pages = [];
-  List<String> _titles = [
+  final List<String> _titles = [
     '',
     'Lịch hẹn',
     'Đặt lịch',
@@ -50,7 +55,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
         ),
         const AppointmentScreen(),
         const BookingScreen(),
-        const PetProfileScreen(),
+        PetProfileScreen(userID: userID,),
         UserProfileScreen(userID: userID)
       ];
     });
@@ -149,6 +154,282 @@ class _LayoutScreenState extends State<LayoutScreen> {
               ],
             ),
           ),
+        ),
+      ),
+      drawer: Drawer(
+        backgroundColor: const Color(0xffF6F6F6),
+        child: ListView(
+          children: [
+            UserAccountsDrawerHeader(
+                decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        stops: [
+                      0,
+                      0.5,
+                      0.75,
+                      0.88,
+                      1
+                    ],
+                        colors: [
+                      Color(0xffFF6200),
+                      Color(0xffFD7F2C),
+                      Color(0xffFD9346),
+                      Color(0xffFDA766),
+                      Color(0xffFDB777),
+                    ])),
+                currentAccountPicture: CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  child: ClipOval(
+                    child: Image.network(
+                        "https://randomuser.me/api/portraits/thumb/women/17.jpg"),
+                  ),
+                ),
+                accountName: Text(userName),
+                accountEmail: Text(userEmail)),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 10),
+                  RichText(
+                    text: const TextSpan(
+                      children: [
+                        WidgetSpan(
+                          child: Icon(
+                            Symbols.category_rounded,
+                            color: Color(0xff635C5C),
+                            size: 18,
+                          ),
+                        ),
+                        TextSpan(
+                          text: " Danh mục",
+                          style:
+                              TextStyle(color: Color(0xff635C5C), fontSize: 16),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(16, 10, 16, 4),
+                    margin: const EdgeInsets.symmetric(vertical: 16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xffD5D5D5).withOpacity(0.25),
+                          blurRadius: 4,
+                          spreadRadius: 2,
+                          offset: const Offset(4, 5),
+                        ),
+                      ],
+                    ),
+                    child: const Column(
+                      children: [
+                        DrawerItem(
+                          icon: Icons.medical_services_outlined,
+                          title: 'Khám bệnh',
+                          link: ServicePage(),
+                        ),
+                        DrawerItem(
+                          icon: Icons.vaccines_rounded,
+                          title: 'Vaccine',
+                          link: VaccinePro(),
+                        ),
+                        DrawerItem(
+                          icon: Symbols.pill_rounded,
+                          title: 'Thuốc',
+                          link: Products(),
+                        ),
+                        DrawerItem(
+                          icon: Symbols.health_and_beauty_rounded,
+                          title: 'Cắt tỉa',
+                          link: SalonService(),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  RichText(
+                    text: const TextSpan(
+                      children: [
+                        WidgetSpan(
+                          child: Icon(
+                            Symbols.info,
+                            color: Color(0xff635C5C),
+                            size: 20,
+                          ),
+                        ),
+                        TextSpan(
+                          text: " Về Pawtient",
+                          style:
+                              TextStyle(color: Color(0xff635C5C), fontSize: 16),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(16, 10, 16, 4),
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xffD5D5D5).withOpacity(0.25),
+                          blurRadius: 4,
+                          spreadRadius: 2,
+                          offset: const Offset(4, 5),
+                        ),
+                      ],
+                    ),
+                    child: const Column(
+                      children: [
+                        DrawerItem(
+                          svg: 'assets/icons/drawer_menu_icon/tiktok.svg',
+                          title: 'TikTok',
+                        ),
+                        DrawerItem(
+                          svg: 'assets/icons/drawer_menu_icon/facebook.svg',
+                          title: 'Facebook',
+                        ),
+                        DrawerItem(
+                          svg: 'assets/icons/drawer_menu_icon/instagram.svg',
+                          title: 'Instagram',
+                        ),
+                        DrawerItem(
+                          svg: 'assets/icons/drawer_menu_icon/policy.svg',
+                          title: 'Điều khoản',
+                        ),
+                        DrawerItem(
+                          svg: 'assets/icons/drawer_menu_icon/privacy.svg',
+                          title: 'Riêng tư',
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  RichText(
+                    text: const TextSpan(
+                      children: [
+                        WidgetSpan(
+                          child: Icon(
+                            Symbols.warning,
+                            color: Color(0xff635C5C),
+                            size: 18,
+                          ),
+                        ),
+                        TextSpan(
+                          text: " Nguy hiểm",
+                          style:
+                              TextStyle(color: Color(0xff635C5C), fontSize: 16),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(16, 10, 16, 4),
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xffD5D5D5).withOpacity(0.25),
+                          blurRadius: 4,
+                          spreadRadius: 2,
+                          offset: const Offset(4, 5),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            AuthServicess().logout(context);
+                          },
+                          child: Container(
+                            color: Colors.transparent,
+                            padding: const EdgeInsets.only(bottom: 8),
+                            child: Row(
+                              children: [
+                                const Icon(Symbols.logout,
+                                    color: Color(0xff474747)),
+                                const SizedBox(width: 10),
+                                const Text("Đăng xuất"),
+                                const Spacer(),
+                                Container(
+                                  alignment: Alignment.centerRight,
+                                  child: const Icon(
+                                    Icons.arrow_forward_ios_rounded,
+                                    size: 20,
+                                    opticalSize: 30,
+                                    color: Color(0xff474747),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        const DrawerItem(
+                          icon: Symbols.delete,
+                          title: 'Xoá tài khoản',
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class DrawerItem extends StatelessWidget {
+  const DrawerItem(
+      {super.key, this.icon, required this.title, this.link, this.svg});
+
+  final IconData? icon;
+  final String title;
+  final String? svg;
+  final Widget? link;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        link == null
+            ? null
+            : Navigator.push(
+                context, MaterialPageRoute(builder: (context) => link!));
+      },
+      child: Container(
+        color: Colors.transparent,
+        padding: const EdgeInsets.only(bottom: 8),
+        child: Row(
+          children: [
+            icon != null
+                ? Icon(icon, color: const Color(0xff474747))
+                : SvgPicture.asset(svg!),
+            const SizedBox(width: 10),
+            Text(title),
+            const Spacer(),
+            Container(
+              alignment: Alignment.centerRight,
+              child: const Icon(
+                Icons.arrow_forward_ios_rounded,
+                size: 20,
+                opticalSize: 30,
+                color: Color(0xff474747),
+              ),
+            )
+          ],
         ),
       ),
     );

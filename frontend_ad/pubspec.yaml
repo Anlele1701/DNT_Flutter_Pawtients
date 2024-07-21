@@ -16,6 +16,16 @@ dependencies:
   image_picker: ^1.1.2
   glassmorphism_ui: ^0.3.0
   glassmorphism: ^3.0.0
+  toastification: ^2.0.0
+  flutter_riverpod: ^2.5.1
+  shared_preferences: ^2.2.3
+  widget_and_text_animator: ^1.1.5
+  http: ^1.2.2
+  mime_type: ^1.0.0
+  mime: ^1.0.5
+  device_info_plus: ^10.1.0
+  network_info_plus: ^5.0.3
+  http_parser: ^4.0.2
 
 dev_dependencies:
   flutter_test:
