@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, Post, Query, UploadedFile, UseInterceptors, UsePipes, ValidationPipe } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UploadedFile, UseInterceptors, UsePipes, ValidationPipe } from "@nestjs/common";
 import { VacxinService } from "./vacxin.service";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { CreateNewVacxinDto } from "./dto/create_new_vacxin.dto";
@@ -10,7 +10,7 @@ export class VacxinController{
     @Post('/create-new-vacxin')
     @UseInterceptors(FileInterceptor('hinhAnh'))
     @UsePipes(new ValidationPipe())
-    async createNewVacxin(@UploadedFile() file: Express.Multer.File ,@Body('vacxin') createvacxinDto: CreateNewVacxinDto){
+    async createNewVacxin(@UploadedFile() file: Express.Multer.File ,@Body('vacxin') createvacxinDto: CreateNewVacxinDto | string){
         const newVacxin=this.vacxinService.createNewVacxin(file, createvacxinDto);
         return newVacxin;
     }
@@ -33,5 +33,11 @@ export class VacxinController{
     async updateVacxin(@UploadedFile() file: Express.Multer.File ,@Body('vacxin') updateVacxinDto: UpdateVacxinDto){
         const updateVacxin=this.vacxinService.updateVacxin(file, updateVacxinDto);
         return updateVacxin;
+    }
+
+    @Delete('/delete-vacxin/:id')
+    async deleteDrug(@Param('id')idThuoc: String){
+        const deleteDrug= await this.vacxinService.deleteVacxin(idThuoc);
+        return deleteDrug;
     }
 }

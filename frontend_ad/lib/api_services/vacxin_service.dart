@@ -68,4 +68,17 @@ class VacxinService{
       return null;
     }
   }
+  Future<String> deleteVacxin(String? id) async {
+    try {
+      final dio = Dio();
+      Response response = await dio.delete("${devURL}/vacxin/delete-vacxin/${id}");
+      if (response.data) {
+        return response.data.toString();
+      } else
+        return "asdas";
+    } catch (e) {
+      print(e);
+      return "error";
+    }
+  }
 }

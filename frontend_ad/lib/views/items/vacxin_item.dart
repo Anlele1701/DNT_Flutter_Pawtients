@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:frontend_ad/models/vacxin.dart';
 import 'package:frontend_ad/views/web_views/edit_vacxin.dart';
+import 'package:frontend_ad/views_models/vacxin_view_model.dart';
 
 class VacxinItem extends StatefulWidget {
-  VacxinItem({super.key, this.vacxinItem});
+  VacxinItem({super.key, this.vacxinItem, this.onDelete});
   Vacxin? vacxinItem;
+  Function(String?)? onDelete;
   @override
   State<VacxinItem> createState() => _MyWidgetState();
 }
 
 class _MyWidgetState extends State<VacxinItem> {
+  VacxinViewModel vacxinViewModel= VacxinViewModel();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -52,17 +55,62 @@ class _MyWidgetState extends State<VacxinItem> {
                   Row(
                     children: [
                       IconButton(
-                          onPressed: () {
-                            Navigator.push(context,
+                          onPressed: () async{
+                            final result= await Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
                               return EditVacxin(
                                 vacxinItem: widget.vacxinItem,
                               );
                             }));
+                            if (result != null && result is Vacxin) {
+                              setState(() {
+                                widget.vacxinItem = result;
+                              });
+                            }
                           },
                           icon: Icon(Icons.mode_edit_outlined)),
                       IconButton(
-                          onPressed: () {}, icon: Icon(Icons.delete_outline))
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return SimpleDialog(
+                                    title: Center(
+                                      child: Text("Có muốn xóa sản phẩm?"),
+                                    ),
+                                    children: [
+                                      Container(
+                                        margin:
+                                            EdgeInsets.fromLTRB(20, 0, 20, 0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            TextButton(
+                                                onPressed: () async{
+                                                  String result= await vacxinViewModel.deleteVacxin(widget.vacxinItem!.id);
+                                                  if(result!="null")
+                                                  {
+                                                    widget.onDelete!(widget.vacxinItem!.id);
+                                                    Navigator.of(context).pop();
+                                                  }
+                                                  else{
+
+                                                  }
+                                                },
+                                                child: Text("Có")),
+                                            TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: Text("Không"))
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  );
+                                });
+                          }, icon: Icon(Icons.delete_outline))
                     ],
                   )
                 ],

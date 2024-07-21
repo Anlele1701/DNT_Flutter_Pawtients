@@ -41,4 +41,8 @@ class VacxinViewModel{
       return null;
     }
   }
+  Future<String> deleteVacxin(String? id) async{
+    String result= await VacxinService().deleteVacxin(id);
+    return result;
+  }
 }

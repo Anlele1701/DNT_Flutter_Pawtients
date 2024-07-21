@@ -46,6 +46,7 @@ class _MyWidgetState extends State<Drugs> {
   @override
   void dispose() {
     scrollController.dispose();
+    listDrug!.clear();
     super.dispose();
   }
 
@@ -55,15 +56,18 @@ class _MyWidgetState extends State<Drugs> {
       newList = await drugViewModel.getDrugList(skip, limit);
     else
       newList = await vacxinViewModel.getVacxinList(skip, limit);
-    if (newList != null && newList.isNotEmpty) {
-      setState(() {
-        listDrug!.addAll(newList!);
-        isLoadingMore = false;
-      });
-    } else {
-      setState(() {
-        isLoadingMore = false;
-      });
+    if (mounted) {
+      // Kiểm tra xem widget vẫn còn tồn tại trong cây widget hay không
+      if (newList != null && newList.isNotEmpty) {
+        setState(() {
+          listDrug = newList!;
+          isLoadingMore = false;
+        });
+      } else {
+        setState(() {
+          isLoadingMore = false;
+        });
+      }
     }
   }
 
@@ -83,6 +87,12 @@ class _MyWidgetState extends State<Drugs> {
         isLoadingMore = false;
       });
     }
+  }
+
+  Future<void> removeDrug(String? drugId) async {
+    setState(() {
+      listDrug!.removeWhere((drug) => drug.id == drugId);
+    });
   }
 
   @override
@@ -112,17 +122,28 @@ class _MyWidgetState extends State<Drugs> {
                     style: TextStyle(fontSize: 25),
                   ),
                   IconButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (cateChoose == "Vacxin") {
-                        Navigator.push(
+                        final result = await Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => CreateVacxin()));
-                      } else
-                        Navigator.push(
+                        if (result is Vacxin) {
+                          setState(() {
+                            listDrug!.add(result);
+                          });
+                        }
+                      } else {
+                        final result = await Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => CreateDrug()));
+                        if (result is Drug) {
+                          setState(() {
+                            listDrug!.add(result);
+                          });
+                        }
+                      }
                     },
                     icon: const Icon(
                       Icons.add,
@@ -215,8 +236,16 @@ class _MyWidgetState extends State<Drugs> {
                             return cateChoose == "Thuốc"
                                 ? DrugItem(
                                     drugItem: listDrug![index],
+                                    onDelete: (id) async {
+                                      await removeDrug(id);
+                                    },
                                   )
-                                : VacxinItem(vacxinItem: listDrug![index]);
+                                : VacxinItem(
+                                    vacxinItem: listDrug![index],
+                                    onDelete: (id) async {
+                                      await removeDrug(id);
+                                    },
+                                  );
                           },
                         )),
             ],

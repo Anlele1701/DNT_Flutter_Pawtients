@@ -26,7 +26,7 @@ class _MyWidgetState extends State<EditDrug> {
   File? _image;
   ImagePet? hinhAnh;
   final picker = ImagePicker();
-  DrugViewModel drugViewModel=DrugViewModel();
+  DrugViewModel drugViewModel = DrugViewModel();
   @override
   void initState() {
     super.initState();
@@ -61,7 +61,7 @@ class _MyWidgetState extends State<EditDrug> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          margin: const EdgeInsets.only(top: 30),
+          margin: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
               Row(
@@ -83,7 +83,7 @@ class _MyWidgetState extends State<EditDrug> {
                 ],
               ),
               Container(
-                margin: const EdgeInsets.all(16),
+                margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -199,18 +199,19 @@ class _MyWidgetState extends State<EditDrug> {
                   padding: EdgeInsets.all(16),
                   width: double.infinity,
                   child: FilledButton(
-                      onPressed: () async{
-                        drug!.id=widget.drugItem?.id;
-                          drug!.tenThuoc = tenthuocController!.text;
-                          drug!.hangThuoc = hangThuocController!.text;
-                          drug!.moTa = moTaController!.text;
-                          drug!.thanhPhan = thanhPhanController!.text;
-                          drug!.giaTien = int.parse(giaTienController!.text);
-                          drug!.phongBenh = phongBenhController!.text;
-                          final result=await drugViewModel.updateDrug(drug!, hinhAnh!);
-                          if(result is Drug){
-                            Navigator.pop(context);
-                          }
+                      onPressed: () async {
+                        drug!.id = widget.drugItem?.id;
+                        drug!.tenThuoc = tenthuocController!.text;
+                        drug!.hangThuoc = hangThuocController!.text;
+                        drug!.moTa = moTaController!.text;
+                        drug!.thanhPhan = thanhPhanController!.text;
+                        drug!.giaTien = int.parse(giaTienController!.text);
+                        drug!.phongBenh = phongBenhController!.text;
+                        final result =
+                            await drugViewModel.updateDrug(drug!, hinhAnh!);
+                        if (result is Drug) {
+                          Navigator.pop(context, result);
+                        }
                       },
                       child: Text(
                         "Lưu",

@@ -23,4 +23,9 @@ class DrugViewModel{
     if(updateDrug!=null) return updateDrug;
     else return null;
   }
+
+  Future<String> deleteDrug(String? id) async{
+    String result= await DrugService().deleteDrug(id);
+    return result;
+  }
 }
