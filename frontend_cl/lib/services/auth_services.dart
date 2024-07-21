@@ -48,6 +48,15 @@ class AuthServicess {
     }
   }
 
+  logout(BuildContext context) {
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.remove('token');
+    });
+    successToast("Đăng xuất thành công");
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => const LoginScreen()));
+  }
+
   bool _validateInput(String password, String confirmedPassword) {
     if (password != confirmedPassword) {
       return false;

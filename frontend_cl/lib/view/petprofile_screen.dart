@@ -1,11 +1,13 @@
 import 'dart:async';
-
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:frontend/model/pet_model.dart';
+import 'package:frontend/view/addpetprofile_screen.dart';
 import 'package:frontend/view/widget/AddPetScreen/AddPetCircle.dart';
 import 'package:frontend/view/widget/AddPetScreen/PetCircle.dart';
 import 'package:frontend/view/widget/appointment_history.dart';
 import 'package:frontend/view_model/pet_view_model.dart';
+import 'package:intl/intl.dart';
 
 class PetProfileScreen extends StatefulWidget {
   const PetProfileScreen({super.key, required this.userID});
@@ -18,7 +20,7 @@ class PetProfileScreen extends StatefulWidget {
 class _PetProfileScreenState extends State<PetProfileScreen> {
   final PetViewModel petViewModel = PetViewModel();
   Future<List<Pet?>?>? petList;
-  final int currentIndex = 0;
+  int petIndex = 0;
   @override
   void initState() {
     super.initState();
@@ -34,26 +36,45 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-        body: Container(
-      height: screenHeight,
-      width: screenWidth,
-      color: const Color(0xffF2F2F2),
-      child: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            child: FutureBuilder<List<Pet?>?>(
-                future: petList,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
-                  } else if (snapshot.hasError) {
-                    return Center(child: Text('Error: ${snapshot.error}'));
-                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Center(child: Text('No pets found.'));
-                  } else {
-                    List<Pet?>? petList = snapshot.data;
-                    print(petList?[0]?.tenThuCung);
-                    return Column(
+        body: FutureBuilder(
+            future: petList,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return Center(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Chưa có thú cưng nào',
+                          style: TextStyle(fontSize: 16, color: Colors.grey),
+                        ),
+                        const SizedBox(height: 10),
+                        FilledButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AddPetProfileScreen(
+                                          userID: widget.userID)));
+                            },
+                            child: const Text("Thêm thú cưng"))
+                      ]),
+                );
+              } else {
+                List<Pet?>? petList = snapshot.data;
+                var year = petList?[petIndex]?.ngaySinh?.year;
+                var result = year! - DateTime.now().year;
+
+                return Container(
+                  height: screenHeight,
+                  width: screenWidth,
+                  color: const Color(0xffF2F2F2),
+                  child: SingleChildScrollView(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         IntrinsicHeight(
@@ -72,17 +93,24 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
                               child: SizedBox(
                                 height: 75,
                                 child: ListView.builder(
-                                  physics: const BouncingScrollPhysics(),
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: petList?.length,
-                                  itemBuilder: (context, index) => Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 13.0, right: 5),
-                                    child: PetCircle(
-                                      pet: petList?[index],
-                                    ),
-                                  ),
-                                ),
+                                    physics: const BouncingScrollPhysics(),
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: petList?.length,
+                                    itemBuilder: (context, index) {
+                                      return GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              petIndex = index;
+                                            });
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 13.0, right: 5),
+                                            child: PetCircle(
+                                              pet: petList?[index],
+                                            ),
+                                          ));
+                                    }),
                               ),
                             ),
                           ]),
@@ -106,8 +134,11 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
                                 width: screenWidth * 0.9,
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(20),
-                                  child: const Image(
-                                    image: AssetImage('assets/images/cat.jpg'),
+                                  child: Image(
+                                    image: Image.memory(petList?[petIndex]
+                                            ?.hinhAnh!
+                                            .data as Uint8List)
+                                        .image,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -123,8 +154,9 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
                                       child: Column(
                                         children: [
                                           const SizedBox(height: 15),
-                                          const Text(
-                                            "Mi Mi",
+                                          Text(
+                                            petList?[petIndex]?.tenThuCung ??
+                                                "N/A",
                                             style: TextStyle(
                                                 fontSize: 22,
                                                 fontWeight: FontWeight.w700),
@@ -136,14 +168,20 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
                                               PetInfoBox(
                                                 screenWidth: screenWidth,
                                                 labelInput: "Tuổi",
+                                                ageValue: result.toString(),
                                               ),
                                               PetInfoBox(
-                                                screenWidth: screenWidth,
-                                                labelInput: "Giới tính",
-                                                ageValue: petList?[0]
-                                                    ?.gioiTinh
-                                                    .toString(),
-                                              ),
+                                                  screenWidth: screenWidth,
+                                                  labelInput: "Giới tính",
+                                                  ageValue: (petList?[petIndex]
+                                                              ?.gioiTinh !=
+                                                          null)
+                                                      ? petList![petIndex]!
+                                                                  .gioiTinh ==
+                                                              true
+                                                          ? "Bé trai"
+                                                          : "Bé gái"
+                                                      : "N/A"),
                                               PetInfoBox(
                                                 screenWidth: screenWidth,
                                                 labelInput: "Cân nặng",
@@ -164,7 +202,7 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
                                                 padding:
                                                     EdgeInsets.only(left: 30),
                                                 child: Text(
-                                                  "#ID_THUCUNG",
+                                                  "Thông tin chi tiết",
                                                 ),
                                               ),
                                             ],
@@ -174,10 +212,16 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
                                             iconInput:
                                                 Icons.calendar_today_outlined,
                                             labelInput: "Ngày sinh",
+                                            valueInput: DateFormat('dd/MM/yyyy')
+                                                .format(petList![petIndex]!
+                                                    .ngaySinh as DateTime),
                                           ),
                                           PetDetailInfo(
                                               screenWidth: screenWidth,
                                               iconInput: Icons.pets,
+                                              valueInput: petList?[petIndex]
+                                                      ?.giongLoai ??
+                                                  "N/A",
                                               labelInput: "Giống loài"),
                                           const SizedBox(
                                             height: 15,
@@ -220,13 +264,11 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
                           ),
                         )
                       ],
-                    );
-                  }
-                }),
-          ),
-        ),
-      ),
-    ));
+                    ),
+                  ),
+                );
+              }
+            }));
   }
 }
 
