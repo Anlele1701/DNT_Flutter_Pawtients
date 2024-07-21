@@ -22,6 +22,7 @@ class Drug{
   }
   Map<String, dynamic> toJson(){
     final Map<String, dynamic> data=Map<String, dynamic>();
+      data['id']=id;
       data['tenThuoc']= tenThuoc;
       data['hangThuoc']=hangThuoc;
       data['moTa']=moTa;

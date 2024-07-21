@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:frontend_ad/models/drug.dart';
 import 'package:frontend_ad/views/web_views/edit_drug.dart';
+import 'package:frontend_ad/views_models/drug_view_model.dart';
 
 class DrugItem extends StatefulWidget {
-  DrugItem({super.key, this.drugItem});
+  DrugItem({super.key, this.drugItem, this.onDelete});
   Drug? drugItem;
+  Function(String?)? onDelete;
   @override
   State<DrugItem> createState() => _MyWidgetState();
 }
 
 class _MyWidgetState extends State<DrugItem> {
+  DrugViewModel drugViewModel=DrugViewModel();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -58,17 +61,63 @@ class _MyWidgetState extends State<DrugItem> {
                   Row(
                     children: [
                       IconButton(
-                          onPressed: () {
-                            Navigator.push(context,
+                          onPressed: () async {
+                            final result = await Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
                               return EditDrug(
                                 drugItem: widget.drugItem,
                               );
                             }));
+                            if (result != null && result is Drug) {
+                              setState(() {
+                                widget.drugItem = result;
+                              });
+                            }
                           },
                           icon: Icon(Icons.mode_edit_outlined)),
                       IconButton(
-                          onPressed: () {}, icon: Icon(Icons.delete_outline))
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return SimpleDialog(
+                                    title: Center(
+                                      child: Text("Có muốn xóa sản phẩm?"),
+                                    ),
+                                    children: [
+                                      Container(
+                                        margin:
+                                            EdgeInsets.fromLTRB(20, 0, 20, 0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            TextButton(
+                                                onPressed: () async{
+                                                  String result= await drugViewModel.deleteDrug(widget.drugItem!.id);
+                                                  if(result!="null")
+                                                  {
+                                                    widget.onDelete!(widget.drugItem!.id);
+                                                    Navigator.of(context).pop();
+                                                  }
+                                                  else{
+
+                                                  }
+                                                },
+                                                child: Text("Có")),
+                                            TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: Text("Không"))
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  );
+                                });
+                          },
+                          icon: Icon(Icons.delete_outline))
                     ],
                   )
                 ],
