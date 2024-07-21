@@ -24,6 +24,7 @@ class Vacxin{
   }
   Map<String, dynamic> toJson(){
     final Map<String, dynamic> data=Map<String, dynamic>();
+      data['id']=id;
       data['tenVacxin']= tenVacxin;
       data['quocGia']=quocGia;
       data['moTa']=moTa;

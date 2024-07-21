@@ -13,4 +13,19 @@ class DrugViewModel{
   Future<List<Drug?>?> getDrugList(int skip, int limit)async {
     return await DrugService().getDrugList(skip, limit);
   }
+
+  Future<List<Drug?>?> searchDrugList(int skip, int limit, String search)async {
+    return await DrugService().searchDrugList(skip, limit, search);
+  }
+
+  Future<Drug?> updateDrug(Drug item, ImagePet hinhAnh) async {
+    Drug? updateDrug= await DrugService().updateDrug(item, hinhAnh);
+    if(updateDrug!=null) return updateDrug;
+    else return null;
+  }
+
+  Future<String> deleteDrug(String? id) async{
+    String result= await DrugService().deleteDrug(id);
+    return result;
+  }
 }

@@ -8,26 +8,40 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart' as path;
 
-class CreateVacxin extends StatefulWidget {
-  const CreateVacxin({super.key});
-
+class EditVacxin extends StatefulWidget {
+  const EditVacxin({super.key, required this.vacxinItem});
+  final Vacxin? vacxinItem;
   @override
-  State<CreateVacxin> createState() => _MyWidgetState();
+  State<EditVacxin> createState() => _MyWidgetState();
 }
 
-class _MyWidgetState extends State<CreateVacxin> {
-  final TextEditingController tenVacxinController = TextEditingController();
-  final TextEditingController quocGiaController = TextEditingController();
-  final TextEditingController moTaController = TextEditingController();
-  final TextEditingController thanhPhanController = TextEditingController();
-  final TextEditingController giaTienController = TextEditingController();
-  final TextEditingController phongBenhController = TextEditingController();
-  final TextEditingController hangVacxinController = TextEditingController();
+class _MyWidgetState extends State<EditVacxin> {
+  Vacxin? vacxin;
+  TextEditingController? tenVacxinController;
+  TextEditingController? hangVacxinController;
+  TextEditingController? moTaController;
+  TextEditingController? thanhPhanController;
+  TextEditingController? giaTienController;
+  TextEditingController? phongBenhController;
+  TextEditingController? quocGiaController;
   File? _image;
   ImagePet? hinhAnh;
-  Vacxin vacxin = Vacxin();
-  final vacxinViewModel = VacxinViewModel();
   final picker = ImagePicker();
+  VacxinViewModel vacxinViewModel=VacxinViewModel();
+  @override
+  void initState() {
+    super.initState();
+    vacxin = widget.vacxinItem;
+    tenVacxinController = TextEditingController(text: "${vacxin?.tenVacxin}");
+    hangVacxinController = TextEditingController(text: "${vacxin?.hangVacxin}");
+    moTaController = TextEditingController(text: "${vacxin?.moTa}");
+    thanhPhanController = TextEditingController(text: "${vacxin?.thanhPhan}");
+    giaTienController = TextEditingController(text: "${vacxin?.giaTien}");
+    phongBenhController = TextEditingController(text: "${vacxin?.phongBenh}");
+    quocGiaController=TextEditingController(text: "${vacxin?.quocGia}");
+    hinhAnh = vacxin?.hinhAnh;
+  }
+
   Future openImageGallery() async {
     final pickedFile =
         await picker.pickImage(source: ImageSource.gallery, imageQuality: 80);
@@ -49,7 +63,7 @@ class _MyWidgetState extends State<CreateVacxin> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          margin: const EdgeInsets.only(top: 10),
+          margin: const EdgeInsets.only(top: 30),
           child: Column(
             children: [
               Row(
@@ -65,7 +79,7 @@ class _MyWidgetState extends State<CreateVacxin> {
                     width: 70,
                   ),
                   const Text(
-                    "Thêm vacxin mới",
+                    "Cập nhật sản phẩm",
                     style: TextStyle(fontSize: 25),
                   )
                 ],
@@ -196,21 +210,18 @@ class _MyWidgetState extends State<CreateVacxin> {
                   padding: EdgeInsets.all(16),
                   width: double.infinity,
                   child: FilledButton(
-                      onPressed: () async {
-                        vacxin.tenVacxin = tenVacxinController.text;
-                        vacxin.quocGia = quocGiaController.text;
-                        vacxin.thanhPhan = thanhPhanController.text;
-                        vacxin.giaTien = int.tryParse(giaTienController.text);
-                        vacxin.phongBenh = phongBenhController.text;
-                        vacxin.moTa = moTaController.text;
-                        vacxin.hangVacxin = hangVacxinController.text;
-                        final result = await vacxinViewModel.createNewVacxin(
-                            vacxin, hinhAnh!);
-                        if (result is Vacxin) {
-                          Navigator.pop(context, result);
-                          print(result.tenVacxin);
-                        } else
-                          print("null");
+                      onPressed: () async{
+                        vacxin!.id=widget.vacxinItem?.id;
+                          vacxin!.tenVacxin = tenVacxinController!.text;
+                          vacxin!.hangVacxin = hangVacxinController!.text;
+                          vacxin!.moTa = moTaController!.text;
+                          vacxin!.thanhPhan = thanhPhanController!.text;
+                          vacxin!.giaTien = int.parse(giaTienController!.text);
+                          vacxin!.phongBenh = phongBenhController!.text;
+                          final result=await vacxinViewModel.updateVacxin(vacxin!, hinhAnh!);
+                          if(result is Vacxin){
+                            Navigator.pop(context);
+                          }
                       },
                       child: Text(
                         "Lưu",

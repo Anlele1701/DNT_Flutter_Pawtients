@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:frontend_ad/models/drug.dart';
 import 'package:frontend_ad/models/image_model.dart';
+import 'package:frontend_ad/views_models/drug_view_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart' as path;
@@ -25,6 +26,7 @@ class _MyWidgetState extends State<EditDrug> {
   File? _image;
   ImagePet? hinhAnh;
   final picker = ImagePicker();
+  DrugViewModel drugViewModel = DrugViewModel();
   @override
   void initState() {
     super.initState();
@@ -59,7 +61,7 @@ class _MyWidgetState extends State<EditDrug> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          margin: const EdgeInsets.only(top: 30),
+          margin: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
               Row(
@@ -81,7 +83,7 @@ class _MyWidgetState extends State<EditDrug> {
                 ],
               ),
               Container(
-                margin: const EdgeInsets.all(16),
+                margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -94,7 +96,7 @@ class _MyWidgetState extends State<EditDrug> {
                       child: TextField(
                         controller: tenthuocController,
                         decoration: const InputDecoration(
-                            labelText: "Tên vacxin",
+                            labelText: "Tên thuốc",
                             labelStyle: TextStyle(color: Colors.black)),
                       ),
                     ),
@@ -122,6 +124,15 @@ class _MyWidgetState extends State<EditDrug> {
                         controller: thanhPhanController,
                         decoration: const InputDecoration(
                             labelText: "Thành phần",
+                            labelStyle: TextStyle(color: Colors.black)),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 16),
+                      child: TextField(
+                        controller: phongBenhController,
+                        decoration: const InputDecoration(
+                            labelText: "Phòng bệnh",
                             labelStyle: TextStyle(color: Colors.black)),
                       ),
                     ),
@@ -188,7 +199,20 @@ class _MyWidgetState extends State<EditDrug> {
                   padding: EdgeInsets.all(16),
                   width: double.infinity,
                   child: FilledButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        drug!.id = widget.drugItem?.id;
+                        drug!.tenThuoc = tenthuocController!.text;
+                        drug!.hangThuoc = hangThuocController!.text;
+                        drug!.moTa = moTaController!.text;
+                        drug!.thanhPhan = thanhPhanController!.text;
+                        drug!.giaTien = int.parse(giaTienController!.text);
+                        drug!.phongBenh = phongBenhController!.text;
+                        final result =
+                            await drugViewModel.updateDrug(drug!, hinhAnh!);
+                        if (result is Drug) {
+                          Navigator.pop(context, result);
+                        }
+                      },
                       child: Text(
                         "Lưu",
                         style: TextStyle(fontSize: 20),
