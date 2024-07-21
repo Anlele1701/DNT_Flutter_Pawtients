@@ -5,10 +5,12 @@ import {
   Post,
   UseGuards,
   Request,
-  NotFoundException,
   UsePipes,
   ValidationPipe,
   Param,
+  Put,
+  Patch,
+  Delete,
 } from '@nestjs/common';
 import { EmployeesService } from './employees.service';
 import { LoginEmployeeDto } from './dto/LoginEmployee.dto';
@@ -28,6 +30,19 @@ export class EmployeesController {
   @Post('create')
   async register(@Body() createEmployeeDto: CreateEmployeeDTO) {
     return this.employeeService.createEmployee(createEmployeeDto);
+  }
+  @Patch('update/:id')
+  async update(
+    @Body() createEmployeeDto: CreateEmployeeDTO,
+    @Param('id') id: string,
+  ) {
+    mongoose.Types.ObjectId.isValid(id);
+    return this.employeeService.updateEmployee(createEmployeeDto, id);
+  }
+  @Delete('delete/:id')
+  async delete(@Param('id') id: string) {
+    mongoose.Types.ObjectId.isValid(id);
+    return this.employeeService.deleteEmployee(id);
   }
   @UseGuards(AuthGuard)
   @Get('getUser')

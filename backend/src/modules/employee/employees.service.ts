@@ -40,6 +40,25 @@ export class EmployeesService {
     const token = this.jwtService.sign({ id: newEmployee._id });
     return { token, success: true };
   }
+  async updateEmployee(createEmployeeDto: CreateEmployeeDTO, id: string) {
+    console.log(createEmployeeDto.matKhau);
+    if (createEmployeeDto.matKhau != null) {
+      const hashedPassword = await bcrypt.hash(createEmployeeDto.matKhau, 12);
+      await this.employeeModel.findByIdAndUpdate(id, {
+        ...createEmployeeDto,
+        matKhau: hashedPassword,
+      });
+    } else {
+      await this.employeeModel.findByIdAndUpdate(id, {
+        ...createEmployeeDto,
+      });
+    }
+    return { message: 'Cập nhật thành công', success: true };
+  }
+  async deleteEmployee(id: string) {
+    await this.employeeModel.findByIdAndDelete(id);
+    return { message: 'Xóa thành công', success: true };
+  }
   async getEmployeeInfo(employeeId: string) {
     const employee = await this.employeeModel.findById(employeeId);
     return employee;
