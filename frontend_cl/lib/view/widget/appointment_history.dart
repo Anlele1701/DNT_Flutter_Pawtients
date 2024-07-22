@@ -32,7 +32,7 @@ void showAnimatedDialog(BuildContext context) {
                         // Inner Column for list items
                         children: [
                           for (var i = 0; i < label.length; i++)
-                            ItemListView(textInput: label[i]),
+                            ItemListView(),
                         ],
                       ),
                     ),

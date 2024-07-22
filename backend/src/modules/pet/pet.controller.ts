@@ -1,6 +1,6 @@
 import { FileInterceptor } from '@nestjs/platform-express';
 import { MulterField } from './../../../node_modules/@nestjs/platform-express/multer/interfaces/multer-options.interface.d';
-import { Body, Controller, Get, Post, Query, UploadedFile, UseInterceptors, UsePipes, ValidationPipe } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Query, UploadedFile, UseInterceptors, UsePipes, ValidationPipe } from "@nestjs/common";
 import { CreatePetDto } from './dto/create_pet.dto';
 import { Pet } from 'src/schemas/Pet.schema';
 import { PetService } from './pet.service';
@@ -18,5 +18,10 @@ export class PetController{
     @Get('/get-pet-list')
     async getPetList(@Query('userID') userID: String): Promise<Pet[]>{
         return await this.petService.getPetList(userID);
+    }
+
+    @Get('/get-pet/:id')
+    async getPet(@Param('id') idThuCung: String): Promise<Pet>{
+        return await this.petService.getPet(idThuCung);
     }
 }

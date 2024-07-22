@@ -8,8 +8,8 @@ import 'package:frontend/view/widget/utils/NormalLoading.dart';
 import 'package:frontend/view_model/pet_view_model.dart';
 
 class UserProfileScreen extends StatefulWidget {
-  const UserProfileScreen({super.key, required this.userID});
-  final String userID;
+  UserProfileScreen({super.key, this.userID});
+  String? userID;
   @override
   State<UserProfileScreen> createState() => _UserProfileScreenState();
 }

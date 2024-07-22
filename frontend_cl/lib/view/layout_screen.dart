@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:frontend/model/user_model.dart';
 import 'package:frontend/view/appointment_screen.dart';
 import 'package:frontend/view/booking_screen.dart';
 import 'package:frontend/view/home_screen.dart';
@@ -23,6 +24,7 @@ class LayoutScreen extends StatefulWidget {
 
 class _LayoutScreenState extends State<LayoutScreen> {
   int _selectedIndex = 0;
+  User? user;
   late String userID;
   late String userName = '';
   late String userEmail = '';
@@ -48,16 +50,17 @@ class _LayoutScreenState extends State<LayoutScreen> {
         userID = val['_id'].toString();
         userName = val['hoTen'].toString();
         userEmail = val['email'].toString();
-      });
-      _pages = [
+        user=User.fromJson(val);
+        _pages = [
         HomeScreen(
           userNameInput: userName,
         ),
-        const AppointmentScreen(),
-        const BookingScreen(),
-        PetProfileScreen(userID: userID,),
-        UserProfileScreen(userID: userID)
+        AppointmentScreen(userID: user?.id),
+        BookingScreen(userID: user?.id,),
+        PetProfileScreen(userID: user?.id,),
+        UserProfileScreen(userID: user?.id)
       ];
+      });
     });
   }
 

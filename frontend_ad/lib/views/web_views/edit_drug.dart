@@ -20,7 +20,7 @@ class _MyWidgetState extends State<EditDrug> {
   TextEditingController? tenthuocController;
   TextEditingController? hangThuocController;
   TextEditingController? moTaController;
-  TextEditingController? thanhPhanController;
+  TextEditingController? soLuongController;
   TextEditingController? giaTienController;
   TextEditingController? phongBenhController;
   File? _image;
@@ -34,7 +34,7 @@ class _MyWidgetState extends State<EditDrug> {
     tenthuocController = TextEditingController(text: "${drug?.tenThuoc}");
     hangThuocController = TextEditingController(text: "${drug?.hangThuoc}");
     moTaController = TextEditingController(text: "${drug?.moTa}");
-    thanhPhanController = TextEditingController(text: "${drug?.thanhPhan}");
+    soLuongController = TextEditingController(text: "${drug?.soLuong}");
     giaTienController = TextEditingController(text: "${drug?.giaTien}");
     phongBenhController = TextEditingController(text: "${drug?.phongBenh}");
     hinhAnh = drug?.hinhAnh;
@@ -121,7 +121,7 @@ class _MyWidgetState extends State<EditDrug> {
                     Container(
                       margin: const EdgeInsets.only(bottom: 16),
                       child: TextField(
-                        controller: thanhPhanController,
+                        controller: soLuongController,
                         decoration: const InputDecoration(
                             labelText: "Thành phần",
                             labelStyle: TextStyle(color: Colors.black)),
@@ -204,7 +204,7 @@ class _MyWidgetState extends State<EditDrug> {
                         drug!.tenThuoc = tenthuocController!.text;
                         drug!.hangThuoc = hangThuocController!.text;
                         drug!.moTa = moTaController!.text;
-                        drug!.thanhPhan = thanhPhanController!.text;
+                        drug!.soLuong = int.tryParse(soLuongController!.text);
                         drug!.giaTien = int.parse(giaTienController!.text);
                         drug!.phongBenh = phongBenhController!.text;
                         final result =

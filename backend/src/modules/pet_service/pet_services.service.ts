@@ -20,4 +20,15 @@ export class Pet_Services_Service{
             return e;
         }
     }
+
+    async getNameService(idService: String):Promise<String>{
+        try{
+            const service= await this.petServiceModel.findOne({'_id':idService});
+            if(service) return service.tenDichVu;
+            else return '';
+        }catch(e){
+            console.log(e);
+            return e;
+        }
+    }
 }

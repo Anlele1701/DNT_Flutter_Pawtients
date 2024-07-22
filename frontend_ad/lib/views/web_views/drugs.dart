@@ -60,7 +60,7 @@ class _MyWidgetState extends State<Drugs> {
       // Kiểm tra xem widget vẫn còn tồn tại trong cây widget hay không
       if (newList != null && newList.isNotEmpty) {
         setState(() {
-          listDrug = newList!;
+          listDrug!.addAll(newList!);
           isLoadingMore = false;
         });
       } else {
