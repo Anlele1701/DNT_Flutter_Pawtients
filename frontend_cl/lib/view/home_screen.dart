@@ -261,18 +261,32 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontWeight: FontWeight.w700,
                     color: Color(0xffF48B29))),
             const SizedBox(height: 10),
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 2),
-              width: double.infinity,
-              height: 200,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                physics: BouncingScrollPhysics(),
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return ItemCardView();
-                },
-              ),
+            FutureBuilder(
+              future: lstDrug,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return const Center(child: Text('Error'));
+                } else {
+                  final List<Drug?>? drugs = snapshot.data as List<Drug?>?;
+                  return Container(
+                    margin: const EdgeInsets.symmetric(vertical: 2),
+                    width: double.infinity,
+                    height: 200,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      physics: BouncingScrollPhysics(),
+                      itemCount: 5,
+                      itemBuilder: (context, index) {
+                        return ItemCardView(
+                          drugModel: drugs?[index],
+                        );
+                      },
+                    ),
+                  );
+                }
+              },
             ),
           ]),
         ),

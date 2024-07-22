@@ -13,7 +13,7 @@ class DrugService {
     print(response);
     print(response.statusCode);
     if (response.statusCode == 200) {
-      List<dynamic> rs = jsonDecode(response.data);
+      List<dynamic> rs = (response.data);
       List<Drug> drugs = rs.map((item) => Drug.fromJson(item)).toList();
       return drugs;
     } else {
