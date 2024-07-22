@@ -27,4 +27,15 @@ class PetViewModel {
       return [];
     }
   }
+
+  Future<Pet?> getPet(String? idThuCung)async{
+    try{
+      Pet? pet= await PetService().getPet(idThuCung);
+      return pet;
+    }
+    catch(e){
+      print(e);
+      return null;
+    }
+  }
 }

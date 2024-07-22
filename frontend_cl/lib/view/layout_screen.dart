@@ -55,7 +55,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
         HomeScreen(
           userNameInput: userName,
         ),
-        const AppointmentScreen(),
+        AppointmentScreen(userID: user?.id),
         BookingScreen(userID: user?.id,),
         PetProfileScreen(userID: user?.id,),
         UserProfileScreen(userID: user?.id)

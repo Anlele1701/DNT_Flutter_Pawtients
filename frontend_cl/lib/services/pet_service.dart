@@ -50,4 +50,21 @@ class PetService {
       return [];
     }
   }
+
+  Future<Pet?> getPet(String? idThuCung)async{
+    try{
+      final dio= Dio();
+      Response response= await dio.get("${devUrl}/pet/get-pet/${idThuCung}");
+      if(response.statusCode==200){
+        Pet pet= Pet.fromJson(response.data);
+        print(pet.tenThuCung);
+        return pet;
+      }
+      else return null;
+    }
+    catch(e){
+      print(e);
+      return null;
+    }
+  }
 }

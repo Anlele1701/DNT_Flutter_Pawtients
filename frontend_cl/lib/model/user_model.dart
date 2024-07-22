@@ -12,9 +12,10 @@ class User{
   int? diem;
   String? hangThanhVien;
   List<String>? dsThuCung;
+  List<String?>? dsLichKham;
   ImagePet? image;
 
-  User({this.id, this.hoTen, this.sdt='', this.password, this.email, this.diem=0, this.hangThanhVien='', this.dsThuCung, this.image=null});
+  User({this.id, this.hoTen, this.sdt='', this.password, this.email, this.diem=0, this.hangThanhVien='', this.dsThuCung, this.image=null, this.dsLichKham=null});
   User.fromJson(Map<String, dynamic> json){
     id=json["_id"];
     hoTen=json["hoTen"];
@@ -30,6 +31,8 @@ class User{
     else dsThuCung=json["dsThuCung"]?.cast<String>();
     if(json['hinhAnh']==null) image=null;
     else image=ImagePet.fromjson(json["hinhAnh"]);
+    if(json['dsLichkham']==null) dsLichKham=null;
+    else dsLichKham=json["dsLichkham"]?.cast<String>();
   }
 
   Map<String, dynamic> toJson(){
@@ -42,6 +45,7 @@ class User{
     data['diem']=diem;
     data['hangThanhVien']=hangThanhVien;
     data['dsThuCung']=dsThuCung;
+    data['dsLichkham']=dsLichKham;
     data['hinhAnh']=image?.toJson();
     return data;
   }

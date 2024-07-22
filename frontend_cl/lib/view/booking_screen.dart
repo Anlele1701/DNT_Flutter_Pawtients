@@ -43,8 +43,6 @@ class _BookingScreenState extends State<BookingScreen> {
     List<Pet?>? list = await petViewModel.getPetList(widget.userID);
     setState(() {
       petList = list;
-      print("dasdas");
-      print(petList?.length);
     });
   }
 
@@ -177,8 +175,9 @@ class _BookingScreenState extends State<BookingScreen> {
                         DateFormat('dd/MM/yyyy').parse(formattedDateString);
                     appointment?.loaiDichVu = dropdownValue;
                     appointment?.idThuCung = idPet;
-                    final result = await appointmentViewModel
-                        .createAppointment(appointment!);
+                    print(widget.userID);
+                    final result = await appointmentViewModel.createAppointment(
+                        appointment!, widget.userID);
                     if (result is Appointment) {
                       print("success");
                     }

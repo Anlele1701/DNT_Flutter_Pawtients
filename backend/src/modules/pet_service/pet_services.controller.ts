@@ -1,5 +1,5 @@
 import { CreatePetServiceDto } from './dto/create_pet_service.dto';
-import { Body, Controller, Post, UsePipes, ValidationPipe } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, UsePipes, ValidationPipe } from "@nestjs/common";
 import { Pet_Services_Service } from "./pet_services.service";
 import { PetService } from "src/schemas/PetService.schema";
 
@@ -10,5 +10,10 @@ export class Pet_Services_Controller{
     @UsePipes(new ValidationPipe())
     CreateNewPetService(@Body() createPetServiceDto:CreatePetServiceDto):Promise<PetService>{
         return this.petService.createNewService(createPetServiceDto)
+    }
+
+    @Get('/getNameService/:id')
+    async getNameService(@Param('id') idService: String):Promise<String>{
+        return await this.petService.getNameService(idService);
     }
 }

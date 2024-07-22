@@ -34,6 +34,8 @@ export class User {
   pinCode: string;
   @Prop({ type: [String] })
   dsThuCung: string[];
+  @Prop({ type: [String] })
+  dsLichKham: string[];
   @Prop({ required: false, trim: true })
   hinhAnh: Image;
 }
