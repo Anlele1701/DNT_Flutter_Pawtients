@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/model/pet_model.dart';
 import 'package:frontend/services/auth_services.dart';
-import 'package:frontend/view/edit_profile_screen.dart';
 import 'package:frontend/view/widget/AddPetScreen/AddPetCircle.dart';
 import 'package:frontend/view/widget/AddPetScreen/PetCircle.dart';
 import 'package:frontend/view/widget/LoginScreen/UpperWaveClipper.dart';
@@ -59,30 +58,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: const Color(0xffF48B29),
-      //   actions: [
-      //     Visibility(
-      //       visible: !isEdit,
-      //       child: Padding(
-      //         padding: const EdgeInsets.fromLTRB(0, 16, 24, 0),
-      //         child: IconButton(
-      //             onPressed: () {
-      //               setState(() {
-      //                 isEdit = !isEdit;
-      //               });
-      //             },
-      //             icon: const Icon(
-      //               Icons.edit,
-      //               color: Colors.white,
-      //               weight: 400,
-      //               opticalSize: 30,
-      //               size: 35,
-      //             )),
-      //       ),
-      //     ),
-      //   ],
-      // ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -120,20 +95,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   child: Container(
                     height: 150,
                     color: const Color(0xffF48B29),
-                    child: Row(
-                      children: [
-                        const Spacer(),
-                        IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.edit,
-                              color: Colors.white,
-                              weight: 400,
-                              opticalSize: 30,
-                              size: 35,
-                            )),
-                      ],
-                    ),
                   ),
                 ),
                 Column(
@@ -318,9 +279,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 ],
               ),
             ),
-          );
-        }
-      },
+          ],
+        ),
+      ),
     );
   }
 }
@@ -379,12 +340,6 @@ class UserProfileInfo extends StatelessWidget {
                       maxLines: 2,
                     ),
                   ),
-            // Text(
-            //   content == "null" ? "Chưa cập nhật " : content,
-            //   style: const TextStyle(fontSize: 14),
-            //   softWrap: true,
-            //   maxLines: 2,
-            // ),
           ),
         ],
       ),
