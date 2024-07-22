@@ -67,7 +67,7 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
               } else {
                 List<Pet?>? petList = snapshot.data;
                 var year = petList?[petIndex]?.ngaySinh?.year;
-                var result = year! - DateTime.now().year;
+                var result = DateTime.now().year - year!;
 
                 return Container(
                   height: screenHeight,

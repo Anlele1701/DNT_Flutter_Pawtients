@@ -1,12 +1,14 @@
 //? Developments APIs
 //* Authenication
-const devUrl = "http://localhost:3000";
+const devUrl = "http://192.168.4.109:3000";
 const devLogin = "$devUrl/users/login";
 const devRegister = "$devUrl/users/register";
 const devUserInfo = "$devUrl/users/getUser";
 const devSendEmail = "$devUrl/users/sendMail";
 const devVerifyOTP = "$devUrl/users/verifyPinCode";
 const devUpdatePassword = "$devUrl/users/updatePassword";
+//product
+const devDrug = "$devUrl/drug/get-drug-list";
 //? Production APIs
 //* Authenication
 const prodUrl = "https://dnt-flutter-pawtients.onrender.com";
