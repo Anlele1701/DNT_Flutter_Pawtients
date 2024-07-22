@@ -12,6 +12,7 @@ export class AppointmentController{
             return await this.appointmentService.createNewAppointment(createAppointmentDto);
         }
         catch(e) {
+            console.log(e);
             return e;
         }
     }

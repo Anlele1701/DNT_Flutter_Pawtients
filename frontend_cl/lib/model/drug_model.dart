@@ -1,4 +1,4 @@
-import 'package:frontend_ad/models/image_model.dart';
+import 'package:frontend/model/image_model.dart';
 
 class Drug{
   String? id;

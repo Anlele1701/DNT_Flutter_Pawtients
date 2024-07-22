@@ -5,7 +5,7 @@ export class UpdateDrugDto{
     tenthuoc: String;
     hangThuoc: String;
     moTa: String;
-    thanhPhan: String;
+    soLuong: number;
     giaTien: number;
     phongBenh: String;
     hinhAnh: Image;

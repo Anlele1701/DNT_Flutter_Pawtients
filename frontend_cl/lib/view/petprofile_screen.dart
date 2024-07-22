@@ -10,8 +10,8 @@ import 'package:frontend/view_model/pet_view_model.dart';
 import 'package:intl/intl.dart';
 
 class PetProfileScreen extends StatefulWidget {
-  const PetProfileScreen({super.key, required this.userID});
-  final String userID;
+  PetProfileScreen({super.key, this.userID});
+  String? userID;
 
   @override
   State<PetProfileScreen> createState() => _PetProfileScreenState();
@@ -19,33 +19,38 @@ class PetProfileScreen extends StatefulWidget {
 
 class _PetProfileScreenState extends State<PetProfileScreen> {
   final PetViewModel petViewModel = PetViewModel();
-  Future<List<Pet?>?>? petList;
+  List<Pet?>? petList;
   int petIndex = 0;
+  bool isLoading=true;
   @override
   void initState() {
     super.initState();
-    petList = fetchData();
+    fetchData();
   }
 
-  Future<List<Pet?>?> fetchData() async {
-    return petViewModel.getPetList(widget.userID);
+  Future<void> fetchData() async {
+    List<Pet?>? list = await petViewModel.getPetList(widget.userID);
+    setState(() {
+      petList = list;
+      isLoading=false;
+    });
   }
-
+  @override
+  void dispose() {
+    petList?.clear();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-        body: FutureBuilder(
-            future: petList,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasError) {
-                return Center(child: Text('Error: ${snapshot.error}'));
-              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return Center(
-                  child: Column(
+        body: SingleChildScrollView(
+      child: Container(
+          child: petList == null
+              ? Center(
+                  child: isLoading? const CircularProgressIndicator()
+                  : Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text(
@@ -63,13 +68,8 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
                             },
                             child: const Text("Thêm thú cưng"))
                       ]),
-                );
-              } else {
-                List<Pet?>? petList = snapshot.data;
-                var year = petList?[petIndex]?.ngaySinh?.year;
-                var result = year! - DateTime.now().year;
-
-                return Container(
+                )
+              : Container(
                   height: screenHeight,
                   width: screenWidth,
                   color: const Color(0xffF2F2F2),
@@ -79,7 +79,7 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
                       children: [
                         IntrinsicHeight(
                           child: Row(children: [
-                            const Padding(
+                            Padding(
                                 padding: EdgeInsets.all(10),
                                 child: AddPetCircle()),
                             const VerticalDivider(
@@ -168,7 +168,7 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
                                               PetInfoBox(
                                                 screenWidth: screenWidth,
                                                 labelInput: "Tuổi",
-                                                ageValue: result.toString(),
+                                                ageValue: (petList![petIndex]!.ngaySinh!.year - DateTime.now().year).toString(),
                                               ),
                                               PetInfoBox(
                                                   screenWidth: screenWidth,
@@ -266,9 +266,8 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
                       ],
                     ),
                   ),
-                );
-              }
-            }));
+                )),
+    ));
   }
 }
 

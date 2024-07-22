@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Image } from "./Image";
 import { Appointment } from "./Appointment.schema";
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 
 @Schema()
 export class Pet{
@@ -19,7 +19,7 @@ export class Pet{
     canNang: String;
     @Prop({required: false, type: Image})
     hinhAnh: Image;
-    @Prop({required: false, type: [{type: String}]})
-    dsLichKham: [String]
+    @Prop({ type: [{ type: Types.ObjectId, ref: 'appointment' }] })
+    dsLichKham: Types.ObjectId[];
 }
 export const PetSchema=SchemaFactory.createForClass(Pet);

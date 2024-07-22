@@ -12,7 +12,7 @@ export class Vacxin{
     @Prop({required: true, trim: true})
     moTa: String;
     @Prop({required: true, trim: true})
-    thanhPhan: String;
+    soLuong: number;
     @Prop({required: true, default:0})
     giaTien: number;
     @Prop({required: true, trim: true})

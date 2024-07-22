@@ -6,7 +6,7 @@ import 'dart:typed_data';
 import 'package:frontend/services/api_services.dart';
 
 class PetService {
-  Future<Pet?> createNewPet(Pet pet, ImagePet image, String userID) async {
+  Future<Pet?> createNewPet(Pet pet, ImagePet image, String? userID) async {
     final Dio dio = Dio();
     try {
       FormData formData = FormData.fromMap({
@@ -19,7 +19,7 @@ class PetService {
         'userID': userID
       });
       Response response =
-          await dio.post('${prodUrl}/pet/create-new-pet', data: formData);
+          await dio.post('${devUrl}/pet/create-new-pet', data: formData);
       if (response.statusCode == 201) {
         Pet pet1 = Pet.fromJson(response.data);
         return pet1;
@@ -32,7 +32,7 @@ class PetService {
     }
   }
 
-  Future<List<Pet?>> getPetList(String userID) async {
+  Future<List<Pet?>> getPetList(String? userID) async {
     final dio = Dio();
     try {
       List<Pet?> listPet = [];
