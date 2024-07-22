@@ -20,7 +20,7 @@ class _MyWidgetState extends State<EditVacxin> {
   TextEditingController? tenVacxinController;
   TextEditingController? hangVacxinController;
   TextEditingController? moTaController;
-  TextEditingController? thanhPhanController;
+  TextEditingController? soLuongController;
   TextEditingController? giaTienController;
   TextEditingController? phongBenhController;
   TextEditingController? quocGiaController;
@@ -35,7 +35,7 @@ class _MyWidgetState extends State<EditVacxin> {
     tenVacxinController = TextEditingController(text: "${vacxin?.tenVacxin}");
     hangVacxinController = TextEditingController(text: "${vacxin?.hangVacxin}");
     moTaController = TextEditingController(text: "${vacxin?.moTa}");
-    thanhPhanController = TextEditingController(text: "${vacxin?.thanhPhan}");
+    soLuongController = TextEditingController(text: "${vacxin?.soLuong}");
     giaTienController = TextEditingController(text: "${vacxin?.giaTien}");
     phongBenhController = TextEditingController(text: "${vacxin?.phongBenh}");
     quocGiaController=TextEditingController(text: "${vacxin?.quocGia}");
@@ -132,7 +132,7 @@ class _MyWidgetState extends State<EditVacxin> {
                     Container(
                       margin: const EdgeInsets.only(bottom: 16),
                       child: TextField(
-                        controller: thanhPhanController,
+                        controller: soLuongController,
                         decoration: const InputDecoration(
                             labelText: "Thành phần",
                             labelStyle: TextStyle(color: Colors.black)),
@@ -215,7 +215,7 @@ class _MyWidgetState extends State<EditVacxin> {
                           vacxin!.tenVacxin = tenVacxinController!.text;
                           vacxin!.hangVacxin = hangVacxinController!.text;
                           vacxin!.moTa = moTaController!.text;
-                          vacxin!.thanhPhan = thanhPhanController!.text;
+                          vacxin!.soLuong = int.tryParse(soLuongController!.text);
                           vacxin!.giaTien = int.parse(giaTienController!.text);
                           vacxin!.phongBenh = phongBenhController!.text;
                           final result=await vacxinViewModel.updateVacxin(vacxin!, hinhAnh!);

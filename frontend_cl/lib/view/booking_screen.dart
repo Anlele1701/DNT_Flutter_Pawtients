@@ -1,27 +1,50 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:frontend/model/appointment_model.dart';
+import 'package:frontend/model/pet_model.dart';
 import 'package:frontend/view/widget/Layout/app_bar.dart';
+import 'package:frontend/view_model/appointment_view_model.dart';
+import 'package:frontend/view_model/pet_view_model.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class BookingScreen extends StatefulWidget {
-  const BookingScreen({super.key});
-
+  BookingScreen({super.key, this.userID});
+  String? userID;
   @override
   State<BookingScreen> createState() => _BookingScreenState();
 }
 
 class _BookingScreenState extends State<BookingScreen> {
+  AppointmentViewModel appointmentViewModel = AppointmentViewModel();
+  Appointment? appointment = Appointment();
+  List<Pet?>? petList = [];
+  PetViewModel petViewModel = PetViewModel();
   static const List<String> petServiceList = <String>[
     'Khám tại nhà',
     'Khám tổng quát',
-    'X-quang',
+    'X-Quang',
     'Xét nghiệm',
     'Tiêm phòng'
   ];
   String dropdownValue = petServiceList.first;
+  String? idPet;
   DateTime _currentDay = DateTime.now();
   DateTime _focusDay = DateTime.now();
+  @override
+  void initState() {
+    super.initState();
+    getPetList();
+  }
+
+  Future<void> getPetList() async {
+    print(widget.userID);
+    List<Pet?>? list = await petViewModel.getPetList(widget.userID);
+    setState(() {
+      petList = list;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,6 +123,36 @@ class _BookingScreenState extends State<BookingScreen> {
                 ],
               ),
             ),
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Chọn thú cưng",
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  DropdownMenu<String>(
+                    menuStyle: MenuStyle(),
+                    hintText: "Chọn thú cưng",
+                    onSelected: (String? value) {
+                      setState(() {
+                        idPet = value;
+                      });
+                    },
+                    dropdownMenuEntries:
+                        petList!.map<DropdownMenuEntry<String>>((Pet? value) {
+                      return DropdownMenuEntry<String>(
+                          value: value!.id!, label: value.tenThuCung!);
+                    }).toList(),
+                  )
+                ],
+              ),
+            ),
             const SizedBox(height: 20),
             Container(
               height: 50,
@@ -114,7 +167,21 @@ class _BookingScreenState extends State<BookingScreen> {
                         offset: Offset(0, 4))
                   ]),
               child: FilledButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    DateTime dateTime = DateTime.parse(_currentDay.toString());
+                    DateFormat dateFormat = DateFormat('dd/MM/yyyy');
+                    String formattedDateString = dateFormat.format(dateTime);
+                    appointment?.ngayKham =
+                        DateFormat('dd/MM/yyyy').parse(formattedDateString);
+                    appointment?.loaiDichVu = dropdownValue;
+                    appointment?.idThuCung = idPet;
+                    print(widget.userID);
+                    final result = await appointmentViewModel.createAppointment(
+                        appointment!, widget.userID);
+                    if (result is Appointment) {
+                      print("success");
+                    }
+                  },
                   child: Text("Đặt lịch"),
                   style: ButtonStyle(
                     backgroundColor:

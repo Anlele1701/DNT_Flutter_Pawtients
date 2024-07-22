@@ -7,15 +7,15 @@ export class Drug{
     tenThuoc: String;
     @Prop({required: true, trim: true})
     hangThuoc: String;
-    @Prop({required: true, trim: true})
+    @Prop({required: false, trim: true})
     moTa: String;
-    @Prop({required: true, trim: true})
-    thanhPhan: String;
+    @Prop({required: false, trim: true})
+    soLuong: number;
     @Prop({required: true, default: 0})
     giaTien: number;
     @Prop({required: true, trim: true})
     phongBenh: String;
-    @Prop({type:Image, required: true})
+    @Prop({type:Image,})
     hinhAnh: Image;
 }
 
