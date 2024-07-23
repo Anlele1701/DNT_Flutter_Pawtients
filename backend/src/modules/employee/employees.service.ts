@@ -46,13 +46,28 @@ export class EmployeesService {
     const token = this.jwtService.sign({ id: newEmployee._id });
     return { token, success: true };
   }
-  async updateEmployee(createEmployeeDto: CreateEmployeeDTO, id: string) {
+  async updateEmployee(
+    image: Express.Multer.File,
+    createEmployeeDto: CreateEmployeeDTO,
+    id: string,
+  ) {
     console.log(createEmployeeDto.matKhau);
     if (createEmployeeDto.matKhau != null) {
       const hashedPassword = await bcrypt.hash(createEmployeeDto.matKhau, 12);
       await this.employeeModel.findByIdAndUpdate(id, {
         ...createEmployeeDto,
         matKhau: hashedPassword,
+      });
+    }
+    if (image) {
+      const hinhAnh = new Image(
+        image.originalname,
+        image.buffer,
+        image.mimetype,
+      );
+      await this.employeeModel.findByIdAndUpdate(id, {
+        ...createEmployeeDto,
+        hinhAnh: hinhAnh,
       });
     } else {
       await this.employeeModel.findByIdAndUpdate(id, {

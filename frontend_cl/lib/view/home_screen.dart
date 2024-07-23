@@ -21,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _current = 0;
   final CarouselController _controller = CarouselController();
   //trạng thái của nút xem thêm
+
   bool _isShowMore = false;
   //số lượng items hiển thị ban đầu của list lịch hẹn sắp tới
   int _showedItems = 0;
@@ -84,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Text(
               // 'Test',
               '${widget.userNameInput}!',
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.w400),
+              style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w400),
             ),
             //CÁC BANNER QUẢNG CÁO
             Container(

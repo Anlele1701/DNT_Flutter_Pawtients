@@ -6,7 +6,9 @@ import { RegisterUserDto } from './dto/RegisterUser.dto';
 import { LoginUserDto } from './dto/LoginUser.dto';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { Image } from 'src/schemas/Image';
 import { MailerService } from '@nestjs-modules/mailer';
+import { UpdateUserDto } from './dto/UpdateUser.dto';
 @Injectable()
 export class UsersService {
   constructor(
@@ -25,6 +27,25 @@ export class UsersService {
     });
     const token = this.jwtService.sign({ id: newUser._id });
     return { token, success: true };
+  }
+  async updateUser(
+    image: Express.Multer.File,
+    updateUserDTO: UpdateUserDto,
+    id: String,
+  ): Promise<{}> {
+    if (image) {
+      const hinhAnh = new Image(
+        image.originalname,
+        image.buffer,
+        image.mimetype,
+      );
+      return this.userModel.findByIdAndUpdate(
+        { ...updateUserDTO, hinhAnh: hinhAnh },
+        id,
+      );
+    } else {
+      return this.userModel.findByIdAndUpdate(updateUserDTO, id);
+    }
   }
   async loginUser(
     loginUserDto: LoginUserDto,

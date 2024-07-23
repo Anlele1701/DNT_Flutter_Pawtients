@@ -40,12 +40,14 @@ export class EmployeesController {
     return this.employeeService.createEmployee(file, createEmployeeDto);
   }
   @Patch('update/:id')
+  @UseInterceptors(FileInterceptor('hinhAnh'))
   async update(
+    @UploadedFile() file: Express.Multer.File,
     @Body() createEmployeeDto: CreateEmployeeDTO,
     @Param('id') id: string,
   ) {
     mongoose.Types.ObjectId.isValid(id);
-    return this.employeeService.updateEmployee(createEmployeeDto, id);
+    return this.employeeService.updateEmployee(file, createEmployeeDto, id);
   }
   @Delete('delete/:id')
   async delete(@Param('id') id: string) {
