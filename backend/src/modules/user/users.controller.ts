@@ -16,6 +16,7 @@ import { RegisterUserDto } from './dto/RegisterUser.dto';
 import { LoginUserDto } from './dto/LoginUser.dto';
 import { AuthGuard } from '../auth.guard';
 import mongoose from 'mongoose';
+import { User } from 'src/schemas/User.schema';
 @Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
@@ -69,5 +70,10 @@ export class UsersController {
     @Body('password') password: string,
   ) {
     return this.usersService.updatePassword(email, password);
+  }
+
+  @Get('/get-user-list')
+  async getUserList():Promise<User[]>{
+    return await this.usersService.getUserList();
   }
 }

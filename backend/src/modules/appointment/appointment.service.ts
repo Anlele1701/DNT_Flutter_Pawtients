@@ -49,4 +49,36 @@ export class AppointmentService {
             return e;
         }
     }
+
+    async updateAppointmentStatus(idLichKham: String, idNV: String, trangThai: String):Promise<Appointment>{
+        try{
+            var lichKham=await this.appointmentModel.findOne({'_id':idLichKham});
+            if(lichKham){
+                lichKham.idNV= idNV;
+                lichKham.trangThai=trangThai;
+                lichKham.save();
+                return lichKham;
+            }
+            else return null;
+        }catch(e){
+            console.log(e);
+            return e;
+        }
+    }
+
+    async updateAppointmentNoti(idLichKham: String):Promise<String>{
+        try{
+            var lichKham= await this.appointmentModel.findOne({'_id':idLichKham});
+            if(lichKham){
+                lichKham.thongBao=true;
+                await lichKham.save();
+                return 'Change Noti success';
+            }
+            else return 'Change Noti failed';
+        }
+        catch(e){
+            console.log(e);
+            return e;
+        }
+    }
 }

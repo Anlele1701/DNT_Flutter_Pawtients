@@ -1,6 +1,6 @@
 import { Appointment } from 'src/schemas/Appointment.schema';
 import { AppointmentService } from './appointment.service';
-import { Body, Controller, Get, Param, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { CreateAppointmentDto } from './dto/create_new_appointment.dto';
 @Controller('appointment')
 export class AppointmentController{
@@ -22,6 +22,27 @@ export class AppointmentController{
         try{
             const listApp= await this.appointmentService.getAppointmentList(userID);
             return listApp;
+        }
+        catch(e){
+            console.log(e);
+            return e;
+        }
+    }
+
+    @Patch('/update-appointment-status')
+    async updateAppointmentStatus(@Query('idLichKham') idLichKham: String, @Query('idNV') idNV: String, @Query('trangThai') trangThai: String): Promise<Appointment>{
+        try{
+            return await this.appointmentService.updateAppointmentStatus(idLichKham, idNV, trangThai);
+        }catch(e){
+            console.log(e);
+            return e;
+        }
+    }
+
+    @Patch('/update-noti/:id')
+    async updateAppointmentNoti(@Param('id') idLichKham: String):Promise<String>{
+        try{
+            return await this.appointmentService.updateAppointmentNoti(idLichKham);
         }
         catch(e){
             console.log(e);
