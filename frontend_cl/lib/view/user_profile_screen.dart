@@ -221,7 +221,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                             itemBuilder: (context, index) {
                                               return Padding(
                                                 padding: const EdgeInsets.only(
-                                                    left: 13, right: 8),
+                                                    left: 13, right: 8, top: 2),
                                                 child: PetCircle(
                                                   pet: petList[index],
                                                 ),

@@ -5,6 +5,7 @@ import {
   UsePipes,
   ValidationPipe,
   Get,
+  Put,
   Param,
   UseGuards,
   Request,

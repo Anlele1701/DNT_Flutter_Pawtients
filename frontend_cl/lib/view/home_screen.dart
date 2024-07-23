@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/model/appointment_model.dart';
 import 'package:frontend/view/widget/Dich_Vu/service_page.dart';
 import 'package:frontend/view/widget/Dich_Vu/service_salon.dart';
 import 'package:frontend/view/widget/Products/List_products.dart';
 import 'package:frontend/view/widget/Products/List_vaccine.dart';
 import 'package:frontend/view/widget/item_list_view.dart';
 import 'package:frontend/view/widget/search_bar.dart';
+import 'package:frontend/view_model/appointment_view_model.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'widget/item_card_view.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required this.userNameInput});
+  const HomeScreen(
+      {super.key, required this.userNameInput, required this.userID});
   final String userNameInput;
-
+  final String userID;
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -20,6 +23,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _current = 0;
   final CarouselController _controller = CarouselController();
+  AppointmentViewModel appointmentViewModel = AppointmentViewModel();
+  late Future<List<Appointment?>?> listAppointment;
   //trạng thái của nút xem thêm
 
   bool _isShowMore = false;
@@ -66,6 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _updateGreetingText();
+    listAppointment = appointmentViewModel.getListAppointment(widget.userID);
   }
 
   @override
@@ -176,16 +182,32 @@ class _HomeScreenState extends State<HomeScreen> {
             const Text('Lịch Hẹn Sắp Tới',
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700)),
             const SizedBox(height: 10),
-            ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: _showedItems,
-                itemBuilder: (context, index) {
-                  return Visibility(
-                    visible: index < _showedItems,
-                    child: Container(),
+            FutureBuilder(
+              future: listAppointment,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return const Center(
+                    child: Text('Đã xảy ra lỗi khi tải dữ liệu'),
                   );
-                }),
+                } else {
+                  final listApp = snapshot.data as List<Appointment?>?;
+                  return ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: listApp!.length,
+                      itemBuilder: (context, index) {
+                        return Visibility(
+                            visible: index < _showedItems,
+                            child: ItemListView(
+                              appointment: listApp[index],
+                            ));
+                      });
+                }
+              },
+            ),
+
             TextButton(
               onPressed: () {
                 setState(() {

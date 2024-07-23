@@ -50,16 +50,21 @@ class _LayoutScreenState extends State<LayoutScreen> {
         userID = val['_id'].toString();
         userName = val['hoTen'].toString();
         userEmail = val['email'].toString();
-        user=User.fromJson(val);
+        user = User.fromJson(val);
         _pages = [
-        HomeScreen(
-          userNameInput: userName,
-        ),
-        AppointmentScreen(userID: user?.id),
-        BookingScreen(userID: user?.id,),
-        PetProfileScreen(userID: user?.id,),
-        UserProfileScreen(userID: user?.id)
-      ];
+          HomeScreen(
+            userID: userID,
+            userNameInput: userName,
+          ),
+          AppointmentScreen(userID: user?.id),
+          BookingScreen(
+            userID: user?.id,
+          ),
+          PetProfileScreen(
+            userID: user?.id,
+          ),
+          UserProfileScreen(userID: user?.id)
+        ];
       });
     });
   }
