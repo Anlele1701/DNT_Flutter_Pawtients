@@ -68,8 +68,12 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
                             },
                             child: const Text("Thêm thú cưng"))
                       ]),
-                )
-              : Container(
+                );
+              } else {
+                List<Pet?>? petList = snapshot.data;
+                var year = petList?[petIndex]?.ngaySinh?.year;
+                var result = DateTime.now().year - year!;
+                return Container(
                   height: screenHeight,
                   width: screenWidth,
                   color: const Color(0xffF2F2F2),

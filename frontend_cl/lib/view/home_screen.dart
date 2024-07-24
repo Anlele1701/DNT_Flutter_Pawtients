@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/model/drug_model.dart';
 import 'package:frontend/view/widget/Dich_Vu/service_page.dart';
 import 'package:frontend/view/widget/Dich_Vu/service_salon.dart';
 import 'package:frontend/view/widget/Products/List_products.dart';
 import 'package:frontend/view/widget/Products/List_vaccine.dart';
 import 'package:frontend/view/widget/item_list_view.dart';
 import 'package:frontend/view/widget/search_bar.dart';
+import 'package:frontend/view_model/drug_view_model.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'widget/item_card_view.dart';
@@ -24,6 +26,8 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isShowMore = false;
   //số lượng items hiển thị ban đầu của list lịch hẹn sắp tới
   int _showedItems = 0;
+
+  late Future<List<Drug?>?> lstDrug;
   //ảnh tạm
   final List<String> imgList = [
     'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
@@ -65,6 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _updateGreetingText();
+    lstDrug = DrugViewModel().getDrugs(0, 8);
   }
 
   @override
@@ -254,18 +259,32 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontWeight: FontWeight.w700,
                     color: Color(0xffF48B29))),
             const SizedBox(height: 10),
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 2),
-              width: double.infinity,
-              height: 200,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                physics: BouncingScrollPhysics(),
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return ItemCardView();
-                },
-              ),
+            FutureBuilder(
+              future: lstDrug,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return const Center(child: Text('Error'));
+                } else {
+                  final List<Drug?>? drugs = snapshot.data as List<Drug?>?;
+                  return Container(
+                    margin: const EdgeInsets.symmetric(vertical: 2),
+                    width: double.infinity,
+                    height: 200,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      physics: BouncingScrollPhysics(),
+                      itemCount: 5,
+                      itemBuilder: (context, index) {
+                        return ItemCardView(
+                          drugModel: drugs?[index],
+                        );
+                      },
+                    ),
+                  );
+                }
+              },
             ),
           ]),
         ),
