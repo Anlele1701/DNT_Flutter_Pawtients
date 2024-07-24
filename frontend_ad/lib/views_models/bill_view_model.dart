@@ -24,7 +24,7 @@ class BillViewModel {
     }
   }
 
-  int TinhThanhTien(int soLuong, int giaTien){
+  int TinhThanhTien(int? soLuong, int? giaTien){
     return CartService().TinhThanhTien(soLuong, giaTien);
   }
 

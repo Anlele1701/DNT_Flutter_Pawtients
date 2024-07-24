@@ -1,8 +1,8 @@
 import 'package:frontend_ad/models/order.dart';
 
 class CartService {
-  int TinhThanhTien(int soLuong, int giaTien) {
-    return soLuong * giaTien;
+  int TinhThanhTien(int? soLuong, int? giaTien) {
+    return soLuong! * giaTien!;
   }
 
   int TinhTongTien(List<Order?>? list) {

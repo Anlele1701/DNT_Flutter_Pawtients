@@ -31,4 +31,15 @@ export class Pet_Services_Service{
             return e;
         }
     }
+
+    async getPrice(idService: String): Promise<number>{
+        try{
+            const service=await this.petServiceModel.findOne({'_id':idService});
+            if(service) return service.giaTien;
+            else return 0;
+        }catch(e){
+            console.log(e);
+            return e;
+        }
+    }
 }

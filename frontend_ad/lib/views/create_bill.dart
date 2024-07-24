@@ -1,10 +1,22 @@
 import 'dart:io';
+import 'dart:typed_data';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend_ad/models/appointment.dart';
+import 'package:frontend_ad/models/bill.dart';
+import 'package:frontend_ad/models/drug.dart';
+import 'package:frontend_ad/models/image_model.dart';
 import 'package:frontend_ad/models/order.dart';
+import 'package:frontend_ad/models/vacxin.dart';
 import 'package:frontend_ad/views/public_views/appbar.dart';
+import 'package:frontend_ad/views/widget/ToastNoti.dart';
+import 'package:frontend_ad/views_models/bill_view_model.dart';
+import 'package:frontend_ad/views_models/drug_view_model.dart';
+import 'package:frontend_ad/views_models/pet_services_view_model.dart';
+import 'package:frontend_ad/views_models/vacxin_view_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:mime/mime.dart';
 
 class CreateBill extends StatefulWidget {
   CreateBill({super.key, this.appointment});
@@ -15,9 +27,25 @@ class CreateBill extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<CreateBill> {
+  TextEditingController chanDoanController = TextEditingController();
+  BillViewModel billViewModel = BillViewModel();
+  bool isLoading = true;
+  TextEditingController _searchController = TextEditingController();
+  int skip = 0;
   List<Order?>? order = [];
+  List<dynamic>? dsSP = [];
+  int? tongTien = 0;
+  DrugViewModel drugViewModel = DrugViewModel();
+  VacxinViewModel vacxinViewModel = VacxinViewModel();
   final ImagePicker imagePicker = ImagePicker();
   List<XFile> imagePickerList = [];
+  int? giaTienDichVu = 0;
+  @override
+  initState() {
+    super.initState();
+    getGiaTien();
+  }
+
   void selectedImages() async {
     final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
     if (selectedImages!.isNotEmpty) {
@@ -26,21 +54,51 @@ class _MyWidgetState extends State<CreateBill> {
     setState(() {});
   }
 
-  String? khamBenh = "khám bệnh";
-  final List<Map<String, dynamic>> keThuoc = [
-    {
-      "idThuoc": "1",
-      "tenThuoc": "Panadol Extra",
-      "soLuong": "1",
-      "giaTien": 52000
-    },
-    {
-      "idThuoc": "2",
-      "tenThuoc": "Panadol Extra",
-      "soLuong": "10",
-      "giaTien": 152000
-    },
-  ];
+  Future<void> findProduct(String timKiem) async {
+    setState(() {
+      isLoading = true;
+      dsSP?.clear();
+    });
+
+    skip = 0;
+    await findDrug(timKiem);
+    await findVacxin(timKiem);
+
+    setState(() {
+      skip += 6;
+      isLoading = false;
+    });
+  }
+
+  Future<void> findDrug(String timKiem) async {
+    List<Drug?>? listDrug =
+        await drugViewModel.searchDrugList(skip, 6, timKiem);
+    if (listDrug != null) {
+      setState(() {
+        dsSP?.addAll(listDrug);
+      });
+      print(dsSP?.length);
+    }
+  }
+
+  Future<void> findVacxin(String timKiem) async {
+    List<Vacxin?>? listVacxin =
+        await vacxinViewModel.searchVacxinList(skip, 6, timKiem);
+    if (listVacxin != null)
+      setState(() {
+        dsSP?.addAll(listVacxin);
+      });
+  }
+
+  Future<void> getGiaTien() async {
+    int? giaTien =
+        await PetServiceViewModel().getPrice(widget.appointment?.loaiDichVu);
+    print(giaTien);
+    setState(() {
+      giaTienDichVu = giaTien;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,7 +150,7 @@ class _MyWidgetState extends State<CreateBill> {
                           height: 20,
                         ),
                         Container(
-                          child: khamBenh != null
+                          child: widget.appointment?.tenDichVu != null
                               ? Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -105,6 +163,7 @@ class _MyWidgetState extends State<CreateBill> {
                                       height: 10,
                                     ),
                                     TextFormField(
+                                      controller: chanDoanController,
                                       scrollPadding: const EdgeInsets.all(16),
                                       minLines: 1,
                                       maxLines: 10,
@@ -145,19 +204,19 @@ class _MyWidgetState extends State<CreateBill> {
                                                   scrollDirection:
                                                       Axis.vertical,
                                                   shrinkWrap: true,
-                                                  itemCount: keThuoc.length,
+                                                  itemCount: order?.length,
                                                   itemBuilder:
                                                       (context, index) {
-                                                    return itemThuoc(index);
+                                                    return itemThuoc(
+                                                        order?[index]);
                                                   },
                                                 ),
                                               ),
                                               OutlinedButton(
-                                                  onPressed: () {
-                                                    showDialog(
+                                                  onPressed: () async {
+                                                    await showDialog(
                                                         context: context,
-                                                        builder: (BuildContext
-                                                            context) {
+                                                        builder: (context) {
                                                           return chooseProduct();
                                                         });
                                                   },
@@ -265,20 +324,20 @@ class _MyWidgetState extends State<CreateBill> {
                         ),
                         Row(
                           children: [
-                            const Expanded(
+                            Expanded(
                                 child: Text(
-                              "Phí khám tại nhà",
+                              "${widget.appointment?.tenDichVu}",
                               style: TextStyle(fontSize: 18),
                             )),
                             Text(
                               NumberFormat.currency(
                                       locale: 'vi_VN', symbol: 'đ')
-                                  .format(100000),
+                                  .format(giaTienDichVu),
                               style: const TextStyle(fontSize: 20),
                             )
                           ],
                         ),
-                        khamBenh != null
+                        widget.appointment?.tenDichVu != null
                             ? Row(
                                 children: [
                                   const Expanded(
@@ -289,7 +348,7 @@ class _MyWidgetState extends State<CreateBill> {
                                   Text(
                                     NumberFormat.currency(
                                             locale: 'vi_VN', symbol: 'đ')
-                                        .format(52000),
+                                        .format(tongTien),
                                     style: const TextStyle(fontSize: 20),
                                   )
                                 ],
@@ -305,13 +364,13 @@ class _MyWidgetState extends State<CreateBill> {
                           children: [
                             const Expanded(
                                 child: Text(
-                              "Thành tiền",
+                              "Tổng tiền",
                               style: TextStyle(fontSize: 30),
                             )),
                             Text(
                               NumberFormat.currency(
                                       locale: 'vi_VN', symbol: 'đ')
-                                  .format(152000),
+                                  .format(tongTien! + giaTienDichVu!),
                               style: const TextStyle(fontSize: 30),
                             )
                           ],
@@ -325,7 +384,31 @@ class _MyWidgetState extends State<CreateBill> {
                               color: const Color(0xffF48B29),
                               borderRadius: BorderRadius.circular(30)),
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              Bill bill = Bill();
+                              bill.chanDoan = chanDoanController.text;
+                              bill.keDonThuoc = order;
+                              bill.phiDichVu = widget.appointment?.loaiDichVu;
+                              bill.tongTien = tongTien;
+                              bill.idLichKham = widget.appointment?.id;
+                              List<ImagePet?>? listImage = [];
+                              for (XFile file in imagePickerList) {
+                                String fileName = file.name;
+                                Uint8List fileData = await file.readAsBytes();
+                                String? mimeType = lookupMimeType(fileName);
+                                listImage.add(ImagePet(
+                                    filename: fileName,
+                                    data: fileData,
+                                    mimetype: mimeType!));
+                              }
+                              final result= await billViewModel.createBill(bill, listImage);
+                              if(result is Bill){
+                                successToast('Tạo hóa đơn thành công');
+                              }
+                              else{
+                                errorToast('Thấ bại','');
+                              }
+                            },
                             child: const Text(
                               "Xác nhận",
                               style: TextStyle(
@@ -368,25 +451,55 @@ class _MyWidgetState extends State<CreateBill> {
     );
   }
 
-  Widget itemThuoc(index) {
-    final item = keThuoc[index];
+  Widget itemThuoc(Order? item) {
     return Row(
       children: [
         SizedBox(
-            width: 170,
+            width: 150,
             child: Text(
-              item["tenThuoc"],
+              "${item?.tenThuoc}",
               style: const TextStyle(
                   fontSize: 18, overflow: TextOverflow.ellipsis),
             )),
         Expanded(
-            child: Text(
-          "x${item["soLuong"]}",
-          style: const TextStyle(fontSize: 18),
+            child: Row(
+          children: [
+            IconButton(
+                onPressed: () {
+                  if (item?.soLuong == 1) {
+                    setState(() {
+                      order?.removeWhere((i) => i?.idThuoc == item?.idThuoc);
+                      tongTien = billViewModel.TinhTongTien(order);
+                    });
+                  } else {
+                    setState(() {
+                      item?.soLuong = (item.soLuong ?? 0) - 1;
+                      item?.thanhTien = billViewModel.TinhThanhTien(
+                          item.soLuong, item.giaTien);
+                      tongTien = billViewModel.TinhTongTien(order);
+                    });
+                  }
+                },
+                icon: Icon(Icons.remove)),
+            Text(
+              "${item?.soLuong}",
+              style: const TextStyle(fontSize: 18),
+            ),
+            IconButton(
+                onPressed: () {
+                  setState(() {
+                    item?.soLuong = (item.soLuong ?? 0) + 1;
+                    item?.thanhTien =
+                        billViewModel.TinhThanhTien(item.soLuong, item.giaTien);
+                    tongTien = billViewModel.TinhTongTien(order);
+                  });
+                },
+                icon: Icon(Icons.add)),
+          ],
         )),
         Text(
           NumberFormat.currency(locale: 'vi_VN', symbol: 'đ')
-              .format(item["giaTien"]),
+              .format(item?.thanhTien),
           style: const TextStyle(fontSize: 18),
           textAlign: TextAlign.end,
         ),
@@ -430,18 +543,127 @@ class _MyWidgetState extends State<CreateBill> {
   }
 
   Widget chooseProduct() {
-    return Center(
-      child: SingleChildScrollView(
-        child: Container(
-          width: 400,
-          height: 500,
-          decoration: BoxDecoration(color: Colors.white),
-          child: Column(
-            children: [
-              Container(width: 100, child: Text("data")),
-              Container(width: 100, child: Text("data")),
-            ],
-          ),
+    return Dialog(
+      child: Container(
+        padding: EdgeInsets.all(20),
+        height: 400,
+        child: Column(
+          children: [
+            Container(
+              alignment: Alignment.center,
+              width: 250,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  border: Border.all(width: 0.5)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 150,
+                    child: TextField(
+                      decoration: InputDecoration(
+                          hintText: 'Tìm kiếm', border: InputBorder.none),
+                      controller: _searchController,
+                    ),
+                  ),
+                  IconButton(
+                      onPressed: () async {
+                        await findProduct(_searchController.text);
+                      },
+                      icon: Icon(Icons.search)),
+                ],
+              ),
+            ),
+            Expanded(
+                child: isLoading
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : dsSP!.isEmpty
+                        ? Center(
+                            child: Text('Không có sản phẩm nào'),
+                          )
+                        : ListView.builder(
+                            itemCount: dsSP?.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                margin: EdgeInsets.only(top: 10),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 2,
+                                      child: Image.memory(
+                                          dsSP?[index].hinhAnh.data),
+                                    ),
+                                    Expanded(
+                                      flex: 8,
+                                      child: dsSP?[index] is Drug
+                                          ? Text("${dsSP?[index]?.tenThuoc}")
+                                          : Text("${dsSP?[index]?.tenVacxin}"),
+                                    ),
+                                    Expanded(
+                                        flex: 2,
+                                        child: IconButton(
+                                            onPressed: () {
+                                              int? location = order?.indexWhere(
+                                                  (item) =>
+                                                      item!.idThuoc ==
+                                                      dsSP?[index].id);
+                                              if (location == -1) {
+                                                setState(() {
+                                                  if (dsSP?[index] is Drug) {
+                                                    order?.add(Order(
+                                                        idThuoc:
+                                                            dsSP?[index].id,
+                                                        tenThuoc: dsSP?[index]
+                                                            .tenThuoc,
+                                                        soLuong: 1,
+                                                        giaTien: dsSP?[index]
+                                                            .giaTien,
+                                                        thanhTien: dsSP?[index]
+                                                            .giaTien));
+                                                  } else {
+                                                    order?.add(Order(
+                                                        idThuoc:
+                                                            dsSP?[index].id,
+                                                        tenThuoc: dsSP?[index]
+                                                            .tenVacxin,
+                                                        soLuong: 1,
+                                                        giaTien: dsSP?[index]
+                                                            .giaTien,
+                                                        thanhTien: dsSP?[index]
+                                                            .giaTien));
+                                                  }
+                                                });
+                                              } else {
+                                                setState(() {
+                                                  order?[location!]?.soLuong =
+                                                      (order?[location]
+                                                                  ?.soLuong ??
+                                                              0) +
+                                                          1;
+                                                  order?[location!]?.thanhTien =
+                                                      billViewModel
+                                                          .TinhThanhTien(
+                                                              order?[location]
+                                                                  ?.soLuong,
+                                                              order?[location]
+                                                                  ?.giaTien);
+                                                });
+                                              }
+                                              setState(() {
+                                                tongTien =
+                                                    billViewModel.TinhTongTien(
+                                                        order);
+                                              });
+                                            },
+                                            icon: Icon(Icons.add)))
+                                  ],
+                                ),
+                              );
+                            },
+                          ))
+          ],
         ),
       ),
     );

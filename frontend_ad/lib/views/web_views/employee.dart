@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend_ad/models/employee.dart';
 
 class EmployeeView extends StatefulWidget {
-  const EmployeeView({super.key});
-
+  EmployeeView({super.key, this.employee});
+  Employee? employee;
   @override
   State<EmployeeView> createState() => _EmployeeViewState();
 }
@@ -46,7 +47,7 @@ class _EmployeeViewState extends State<EmployeeView> {
                     ),
                     const SizedBox(height: 4),
                     Center(
-                      child: Text("Lê Thành Duy Ân",
+                      child: Text("${widget.employee?.hoten}",
                           style: const TextStyle(
                             fontSize: 35,
                             fontWeight: FontWeight.w700,
@@ -82,28 +83,28 @@ class _EmployeeViewState extends State<EmployeeView> {
                       children: [
                         UserProfileInfo(
                           screenWidth: screenWidth,
-                          title: 'Tên',
-                          content: "userName",
+                          title: 'Tên tài khoản',
+                          content: "${widget.employee?.hoten}",
                         ),
                         UserProfileInfo(
                           screenWidth: screenWidth,
                           title: 'Số điện thoại',
-                          content: 'Nam',
+                          content: '${widget.employee?.sdt}',
                         ),
                         UserProfileInfo(
                           screenWidth: screenWidth,
                           title: 'Giới tính',
-                          content: "userEmail",
+                          content: widget.employee?.gioiTinh==true? "Nam": "Nữ",
                         ),
                         UserProfileInfo(
                           screenWidth: screenWidth,
                           title: 'Tên tài khoản',
-                          content: "phone",
+                          content: "${widget.employee?.tenTK}",
                         ),
                         UserProfileInfo(
                           screenWidth: screenWidth,
                           title: 'Chức vụ',
-                          content: "address",
+                          content: "${widget.employee?.chucVu}",
                         ),
                       ],
                     ),

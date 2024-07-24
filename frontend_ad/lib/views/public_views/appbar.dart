@@ -19,6 +19,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _CustomAppBarState extends State<CustomAppBar> {
   late String hoten="";
   late String chucVu="";
+  Employee? emp;
   final List<NotificationItem> items = List.generate(
     5,
     (index) => const NotificationItem(),
@@ -28,6 +29,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
     super.initState();
     AuthServices().getInfo().then((value) {
       setState(() {
+        emp=Employee.fromJson(value);
         hoten = value['hoTen'];
         chucVu = value['chucVu'];
       });
@@ -75,7 +77,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
         children: [
           GestureDetector(
             onTap: (){
-              Navigator.push(context,MaterialPageRoute(builder: (context) => EmployeeView()),);
+              Navigator.push(context,MaterialPageRoute(builder: (context) => EmployeeView(employee: emp)),);
             },
             child: const SizedBox(
               height: 50,

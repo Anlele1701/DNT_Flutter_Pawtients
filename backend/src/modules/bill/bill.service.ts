@@ -17,13 +17,14 @@ export class BillService{
             } else {
                 createBillObj = createBillDto;
             }
+            createBillObj.hinhAnh=[];
             file.forEach((item)=>{
                 createBillObj.hinhAnh.push(new Image(item.originalname, item.buffer, item.mimetype));
             });
             const newBill= new this.billModel(createBillObj);
             await newBill.save();
             if(newBill){
-                var appointment= await this.appointmentModel.findOne({'idHoaDon': newBill.idLichKham});
+                var appointment= await this.appointmentModel.findOne({'_id': newBill.idLichKham});
                 appointment.idHoaDon=newBill.id;
                 await appointment.save();
                 return newBill;
