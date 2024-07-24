@@ -33,7 +33,6 @@ class _MyWidgetState extends State<AppointmentDetail> {
                   size: 40,
                 )),
             Container(
-              decoration: BoxDecoration(color: Color(0xffffffff)),
               margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
               padding: const EdgeInsets.all(16),
               child: Column(
@@ -111,6 +110,7 @@ class _MyWidgetState extends State<AppointmentDetail> {
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
                           )),
+                          SizedBox(width: 10,),
                       Container(
                         decoration: BoxDecoration(
                             color: Color(0xffffffff),
@@ -172,7 +172,7 @@ class _MyWidgetState extends State<AppointmentDetail> {
                     height: 20,
                   ),
                   Container(
-                    width: 400,
+                    width: 350,
                     decoration: BoxDecoration(
                         color: Color(0xffF48B29),
                         borderRadius: BorderRadius.circular(30)),
@@ -190,7 +190,7 @@ class _MyWidgetState extends State<AppointmentDetail> {
                     height: 10,
                   ),
                   Container(
-                    width: 400,
+                    width: 350,
                     decoration: BoxDecoration(
                         color: const Color(0xff00A1E6),
                         borderRadius: BorderRadius.circular(30)),
