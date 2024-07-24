@@ -41,6 +41,8 @@ dev_dependencies:
     sdk: flutter
   glassmorphism: ^3.0.0
   flutter_lints: ^3.0.0
+  image_picker: ^1.1.2
+  image_cropper: ^7.1.0
 
 flutter:
   uses-material-design: true

@@ -174,10 +174,11 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
                                                 PetInfoBox(
                                                   screenWidth: screenWidth,
                                                   labelInput: "Tuổi",
-                                                  ageValue: (petList![petIndex]!
-                                                              .ngaySinh!
+                                                  ageValue: (DateTime.now()
                                                               .year -
-                                                          DateTime.now().year)
+                                                          petList![petIndex]!
+                                                              .ngaySinh!
+                                                              .year)
                                                       .toString(),
                                                 ),
                                                 PetInfoBox(

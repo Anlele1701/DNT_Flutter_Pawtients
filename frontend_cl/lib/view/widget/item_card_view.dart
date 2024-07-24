@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/model/drug_model.dart';
+import 'dart:typed_data';
+
+import 'package:intl/intl.dart';
 
 class ItemCardView extends StatefulWidget {
-  ItemCardView({super.key, this.title});
-  String? title;
+  ItemCardView({
+    super.key,
+    this.drugModel,
+  });
+
+  Drug? drugModel;
+  //Vaccine? vaccineModel;
+
   @override
   State<ItemCardView> createState() => _ItemCardViewState();
 }
@@ -13,7 +23,7 @@ class _ItemCardViewState extends State<ItemCardView> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       width: 160,
-      height: 190,
+      height: 210,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
@@ -33,23 +43,35 @@ class _ItemCardViewState extends State<ItemCardView> {
           children: [
             Container(
               alignment: Alignment.center,
-              child: Image.network(
-                'https://hanvet.com.vn/uploads/S%E1%BA%A3n%20ph%E1%BA%A9m/v%E1%BA%AFc%20xin/Ch%C3%B3%20m%C3%A8o/Rabiva.png',
-                height: 120,
-              ),
+              child: widget.drugModel?.hinhAnh?.data != null
+                  ? Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+                      child: Image(
+                        image: MemoryImage(
+                            widget.drugModel?.hinhAnh!.data as Uint8List),
+                        height: 120,
+                      ),
+                    )
+                  : Container(),
             ),
             Text(
-              widget.title ?? "Vaccine ngừa dại Rabiva",
-              style: TextStyle(
+              widget.drugModel?.tenThuoc ?? "N/A",
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
+                overflow: TextOverflow.ellipsis,
               ),
+              maxLines: 2,
             ),
             Text(
-              '300.000đ',
-              style: TextStyle(
+              widget.drugModel?.giaTien != null
+                  ? NumberFormat.currency(locale: 'vi_VN', symbol: '₫')
+                      .format(widget.drugModel?.giaTien)
+                  : "N/A",
+              style: const TextStyle(
                 fontSize: 14,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.bold,
+                color: Color(0xffF48B29),
               ),
             ),
           ],
