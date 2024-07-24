@@ -5,16 +5,22 @@ import {
   Post,
   UseGuards,
   Request,
-  NotFoundException,
   UsePipes,
   ValidationPipe,
   Param,
+  Put,
+  Patch,
+  Delete,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { EmployeesService } from './employees.service';
 import { LoginEmployeeDto } from './dto/LoginEmployee.dto';
 import { CreateEmployeeDTO } from './dto/CreateEmployee.dto';
 import { AuthGuard } from '../auth.guard';
 import mongoose from 'mongoose';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Employee } from 'src/schemas/Employee.schema';
 
 @Controller('employees')
 export class EmployeesController {
@@ -26,8 +32,27 @@ export class EmployeesController {
   }
   @UsePipes(new ValidationPipe())
   @Post('create')
-  async register(@Body() createEmployeeDto: CreateEmployeeDTO) {
-    return this.employeeService.createEmployee(createEmployeeDto);
+  @UseInterceptors(FileInterceptor('hinhAnh'))
+  async register(
+    @UploadedFile() file: Express.Multer.File,
+    @Body() createEmployeeDto: CreateEmployeeDTO,
+  ) {
+    return this.employeeService.createEmployee(file, createEmployeeDto);
+  }
+  @Patch('update/:id')
+  @UseInterceptors(FileInterceptor('hinhAnh'))
+  async update(
+    @UploadedFile() file: Express.Multer.File,
+    @Body() createEmployeeDto: CreateEmployeeDTO,
+    @Param('id') id: string,
+  ) {
+    mongoose.Types.ObjectId.isValid(id);
+    return this.employeeService.updateEmployee(file, createEmployeeDto, id);
+  }
+  @Delete('delete/:id')
+  async delete(@Param('id') id: string) {
+    mongoose.Types.ObjectId.isValid(id);
+    return this.employeeService.deleteEmployee(id);
   }
   @UseGuards(AuthGuard)
   @Get('getUser')

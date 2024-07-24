@@ -18,7 +18,7 @@ class AuthServicess {
     BuildContext context,
   ) async {
     try {
-      final url = Uri.parse(prodLogin);
+      final url = Uri.parse(devLogin);
       final body = jsonEncode({'email': email, 'password': password});
       final loadingState = Provider.of<LoadingState>(context, listen: false);
       loadingState.isLoading = true;
@@ -76,7 +76,7 @@ class AuthServicess {
       final loadingState = Provider.of<LoadingState>(context, listen: false);
       loadingState.isLoading = true;
       if (_validateInput(password, confirmPassword)) {
-        final url = Uri.parse(prodRegister);
+        final url = Uri.parse(devRegister);
         final body = jsonEncode({
           'hoTen': username,
           'email': email,
@@ -106,7 +106,7 @@ class AuthServicess {
   }
 
   getInfo(token) async {
-    final response = await http.get(Uri.parse(prodUserInfo), headers: {
+    final response = await http.get(Uri.parse(devUserInfo), headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
     });

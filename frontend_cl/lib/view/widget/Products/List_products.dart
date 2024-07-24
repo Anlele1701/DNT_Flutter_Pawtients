@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:frontend/view/widget/Layout/app_bar.dart';
+import 'package:frontend/view/widget/Layout/appbar_drawer.dart';
 import 'package:frontend/view/widget/Products/pro_detail.dart';
 import 'content_filter.dart';
 import 'package:chips_choice/chips_choice.dart';
@@ -17,15 +18,11 @@ class ProductsState extends State<Products> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight),
-        child: MyAppBar(
-          title: "",
-        ),
+      appBar: const AppbarDrawer(
+        title: "Thuốc",
       ),
-      // bottomNavigationBar: const BottomNavBar(),
       body: Padding(
-        padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
         child: Column(children: [
           Row(
             children: [
@@ -116,7 +113,7 @@ class ProductsState extends State<Products> {
                               bottomLeft: Radius.circular(20),
                               bottomRight: Radius.circular(20),
                             ),
-                             boxShadow: [
+                            boxShadow: [
                               BoxShadow(
                                   color: Colors.black26,
                                   offset: Offset(0, 3),
@@ -144,7 +141,10 @@ class ProductsState extends State<Products> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Prodetail()));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Prodetail()));
                                 },
                                 child: Container(
                                   width: 25,

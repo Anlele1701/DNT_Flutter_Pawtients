@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { User } from 'src/schemas/User.schema';
 import { RegisterUserDto } from './dto/RegisterUser.dto';
 import { LoginUserDto } from './dto/LoginUser.dto';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { Image } from 'src/schemas/Image';
 import { MailerService } from '@nestjs-modules/mailer';
+import { UpdateUserDto } from './dto/UpdateUser.dto';
 @Injectable()
 export class UsersService {
   constructor(
@@ -26,6 +28,26 @@ export class UsersService {
     const token = this.jwtService.sign({ id: newUser._id });
     return { token, success: true };
   }
+  async updateUser(
+    image: Express.Multer.File,
+    updateUserDTO: UpdateUserDto,
+    id: string,
+  ) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      throw new Error('Invalid user ID');
+    }
+    let updateData: any = updateUserDTO;
+    if (image) {
+      const hinhAnh = new Image(
+        image.originalname,
+        image.buffer,
+        image.mimetype,
+      );
+      updateData = { ...updateData, hinhAnh: hinhAnh };
+    }
+    return this.userModel.findByIdAndUpdate(id, updateData, { new: true });
+  }
+
   async loginUser(
     loginUserDto: LoginUserDto,
   ): Promise<{ token?: String; success: boolean }> {

@@ -5,17 +5,22 @@ import {
   UsePipes,
   ValidationPipe,
   Get,
+  Put,
   Param,
   UseGuards,
   Request,
   NotFoundException,
   Patch,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { RegisterUserDto } from './dto/RegisterUser.dto';
 import { LoginUserDto } from './dto/LoginUser.dto';
 import { AuthGuard } from '../auth.guard';
 import mongoose from 'mongoose';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { UpdateUserDto } from './dto/UpdateUser.dto';
 @Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
@@ -47,6 +52,17 @@ export class UsersController {
     }
     return user;
   }
+  @Patch('updateUser/:id')
+  @UseInterceptors(FileInterceptor('hinhAnh'))
+  async updateUser(
+    @Param('id') id: string,
+    @UploadedFile() file: Express.Multer.File,
+    @Body() updateUserDTO: UpdateUserDto,
+  ) {
+    mongoose.Types.ObjectId.isValid(id);
+    return this.usersService.updateUser(file, updateUserDTO, id);
+  }
+
   @Get('getUser/:id')
   async getUserByID(@Param('id') id: string): Promise<{}> {
     mongoose.Types.ObjectId.isValid(id);

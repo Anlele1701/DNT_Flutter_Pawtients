@@ -1,19 +1,8 @@
 import 'package:flutter/material.dart';
 
-class ThemeDataExampleApp extends StatelessWidget {
-  const ThemeDataExampleApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(scaffoldBackgroundColor: const Color(0xffF09036)),
-      home: const ConfirmationScreen(),
-    );
-  }
-}
-
 class ConfirmationScreen extends StatefulWidget {
-  const ConfirmationScreen({super.key});
+  const ConfirmationScreen({super.key, required this.isBooked});
+  final bool isBooked;
 
   @override
   State<ConfirmationScreen> createState() => _ConfirmationScreenState();
@@ -23,7 +12,6 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    bool isBooked = false;
     return Theme(
       data: Theme.of(context).copyWith(
         scaffoldBackgroundColor: const Color(0xffF09036),
@@ -36,15 +24,15 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
               children: [
                 SizedBox(height: screenHeight * 0.05),
                 Image.asset(
-                  isBooked
+                  widget.isBooked
                       ? 'assets/images/success.png'
                       : 'assets/images/fail.png',
                   height: 350,
                   fit: BoxFit.fitHeight,
                 ),
-                isBooked ? SuccessTitle() : FailureTitle(),
+                widget.isBooked ? SuccessTitle() : FailureTitle(),
                 SizedBox(height: screenHeight * 0.05),
-                isBooked ? SuccessContent() : FailureContent(),
+                widget.isBooked ? SuccessContent() : FailureContent(),
                 SizedBox(height: screenHeight * 0.2),
                 Row(
                   children: [

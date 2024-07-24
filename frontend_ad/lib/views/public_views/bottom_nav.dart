@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:frontend_ad/api_services/auth_services.dart';
 import 'package:frontend_ad/views/appointments.dart';
 import 'package:frontend_ad/views/bills.dart';
 import 'package:frontend_ad/views/customers.dart';
 import 'package:frontend_ad/views/homepage.dart';
 import 'package:frontend_ad/views/public_views/appbar.dart';
-import 'package:frontend_ad/views/web_views/create_drug.dart';
 import 'package:frontend_ad/views/web_views/drugs.dart';
 
 class BottomNav extends StatefulWidget {
@@ -20,7 +18,13 @@ class _MyWidgetState extends State<BottomNav> {
   int _currentIndex = 0;
   late String hoten;
   late String chucVu;
-  List<Widget> body = [HomePage(), Customers(), Appointments(), Drugs(), Bills()];
+  List<Widget> body = [
+    const HomePage(),
+    const Customers(),
+    const Appointments(),
+    const Drugs(),
+    const Bills()
+  ];
   void _onItemTapped(int index) {
     setState(() {
       _currentIndex = index;
@@ -30,12 +34,6 @@ class _MyWidgetState extends State<BottomNav> {
   @override
   void initState() {
     super.initState();
-    AuthServices().getInfo().then((value) {
-      setState(() {
-        hoten = value['hoTen'];
-        chucVu = value['chucVu'];
-      });
-    });
   }
 
   @override

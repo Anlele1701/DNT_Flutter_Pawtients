@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/model/appointment_model.dart';
 import 'package:frontend/view/widget/item_list_view.dart';
+import 'package:frontend/view_model/appointment_view_model.dart';
 
-void showAnimatedDialog(BuildContext context) {
+void showAnimatedDialog(BuildContext context, String? userID) {
+  late Future<List<Appointment?>?> listAppointment =
+      AppointmentViewModel().getListAppointment(userID);
+
   showGeneralDialog(
     transitionDuration: Duration(milliseconds: 400),
     context: context,
@@ -20,28 +25,43 @@ void showAnimatedDialog(BuildContext context) {
               height: 650,
               child: Column(
                 children: [
-                  Text(
+                  const Text(
                     "Lịch sử Đặt lịch",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                   Expanded(
-                    // Wrap the scrollable area in Expanded
-                    child: SingleChildScrollView(
-                      // Use SingleChildScrollView for scrolling
-                      child: Column(
-                        // Inner Column for list items
-                        children: [
-                          for (var i = 0; i < label.length; i++)
-                            ItemListView(),
-                        ],
-                      ),
+                    child: FutureBuilder(
+                      future: listAppointment,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else {
+                          if (snapshot.hasError) {
+                            return const Center(
+                              child: Text("Error"),
+                            );
+                          } else {
+                            List<Appointment?>? list =
+                                snapshot.data as List<Appointment?>?;
+                            return ListView.builder(
+                              itemCount: list!.length,
+                              itemBuilder: (context, index) {
+                                return ItemListView(appointment: list[index]);
+                              },
+                            );
+                          }
+                        }
+                      },
                     ),
                   ),
                   IconButton(
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      icon: Icon(Icons.cancel_outlined))
+                      icon: const Icon(Icons.cancel_outlined))
                 ],
               ),
             ),
@@ -51,13 +71,3 @@ void showAnimatedDialog(BuildContext context) {
     },
   );
 }
-
-List<String> label = [
-  "Lê thoại bảo ngọc",
-  "Trương Quang Huy",
-  "Nguyễn Tiến Thành",
-  "Lê Thành Duy Ân",
-  "Trương Quang Béo",
-  "Tôn Ngộ Không",
-  "Người dùng ẩn danh"
-];
