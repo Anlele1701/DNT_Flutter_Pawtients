@@ -219,7 +219,7 @@ class _MyWidgetState extends State<Drugs> {
                 height: 10,
               ),
               SizedBox(
-                  height: 580,
+                  height: 620,
                   child: listDrug!.isEmpty
                       ? Center(
                           child: CircularProgressIndicator(),
