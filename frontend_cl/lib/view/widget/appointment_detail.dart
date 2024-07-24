@@ -7,6 +7,7 @@ import 'package:frontend/view_model/pet_view_model.dart';
 import 'package:frontend/view_model/petservice_view_model.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:timeline_tile/timeline_tile.dart';
+import 'package:intl/intl.dart';
 
 class AppointmentDetail extends StatefulWidget {
   const AppointmentDetail({super.key, this.appointment});
@@ -32,13 +33,21 @@ class AppointmentDetailState extends State<AppointmentDetail> {
     service = PetserviceViewModel().getService(widget.appointment?.loaiDichVu);
   }
 
+  Future<void> _refreshData() async {
+    setState(() {
+      pet = PetViewModel().getPet(widget.appointment?.idThuCung);
+      service =
+          PetserviceViewModel().getService(widget.appointment?.loaiDichVu);
+    });
+  }
+
   buildCarouselIndicator() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         for (int i = 0; i < images.length; i++)
           Container(
-            margin: const EdgeInsets.all(5),
+            margin: const EdgeInsets.symmetric(horizontal: 5),
             height: 3,
             width: i == banner_cur ? 20 : 15,
             decoration: BoxDecoration(
@@ -54,146 +63,115 @@ class AppointmentDetailState extends State<AppointmentDetail> {
 
   @override
   Widget build(BuildContext context) {
+    String currentStatus = widget.appointment?.trangThai ?? "Chưa xác nhận";
+    print(currentStatus);
     return Scaffold(
       appBar: const AppbarDrawer(title: 'Chi tiết lịch hẹn'),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              height: 80,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  TimelineTile(
-                    alignment: TimelineAlign.center,
-                    axis: TimelineAxis.horizontal,
-                    isFirst: true,
-                    indicatorStyle: const IndicatorStyle(
-                      width: 18,
-                      height: 18,
-                      color: Color(0xFFF48B29),
+      body: RefreshIndicator(
+        onRefresh: _refreshData,
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.only(left: 10, right: 10),
+                height: 80,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    buildTimelineTile(
+                      isFirst: true,
+                      isLast: false,
+                      status: "Chưa xác nhận",
+                      label: "Đã đặt lịch hẹn",
+                      isActive: currentStatus == "Chưa xác nhận" ||
+                          currentStatus == "Đã xác nhận" ||
+                          currentStatus == "Đã khám" ||
+                          currentStatus == "Hoàn thành",
                     ),
-                    endChild: Container(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: const Text(
-                        "Đã đặt lịch hẹn",
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Color(0xFFF48B29),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                    buildTimelineTile(
+                      isFirst: false,
+                      isLast: false,
+                      status: "Đã xác nhận",
+                      label: "Đã xác nhận",
+                      isActive: currentStatus == "Đã xác nhận" ||
+                          currentStatus == "Đã khám" ||
+                          currentStatus == "Hoàn thành",
                     ),
-                  ),
-                  TimelineTile(
-                    alignment: TimelineAlign.center,
-                    axis: TimelineAxis.horizontal,
-                    indicatorStyle: const IndicatorStyle(
-                      width: 16,
-                      height: 16,
-                      color: Color(0xFFB0BEC5),
+                    buildTimelineTile(
+                      isFirst: false,
+                      isLast: false,
+                      status: "Đã khám",
+                      label: "Đã khám",
+                      isActive: currentStatus == "Đã khám" ||
+                          currentStatus == "Hoàn thành",
                     ),
-                    endChild: Container(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: const Text(
-                        "Đã xác nhận",
-                        style: TextStyle(
-                          fontSize: 12,
-                        ),
-                      ),
+                    buildTimelineTile(
+                      isFirst: false,
+                      isLast: true,
+                      status: "Hoàn thành",
+                      label: "Hoàn thành",
+                      isActive: currentStatus == "Hoàn thành",
                     ),
-                  ),
-                  TimelineTile(
-                    alignment: TimelineAlign.center,
-                    axis: TimelineAxis.horizontal,
-                    indicatorStyle: const IndicatorStyle(
-                      width: 16,
-                      height: 16,
-                      color: Color(0xFFB0BEC5),
-                    ),
-                    endChild: Container(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: const Text(
-                        "Đã khám",
-                        style: TextStyle(
-                          fontSize: 12,
-                        ),
-                      ),
-                    ),
-                  ),
-                  TimelineTile(
-                    isLast: true,
-                    alignment: TimelineAlign.center,
-                    axis: TimelineAxis.horizontal,
-                    indicatorStyle: const IndicatorStyle(
-                      width: 16,
-                      height: 16,
-                      color: Color(0xFFB0BEC5),
-                    ),
-                    endChild: Container(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: const Text(
-                        "Hoàn thành",
-                        style: TextStyle(
-                          fontSize: 12,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            FutureBuilder(
-              future: pet,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const ShimmerEffect();
-                } else if (snapshot.hasError) {
-                  return const Text("Error");
-                } else {
-                  final petItem = snapshot.data;
-                  return Column(
-                    children: [
-                      CarouselSlider(
-                        items: images
-                            .map((e) => SizedBox(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Image.asset(e),
-                                ))
-                            .toList(),
-                        options: CarouselOptions(
-                          initialPage: 0,
-                          autoPlay: true,
-                          enlargeCenterPage: true,
-                          autoPlayInterval: const Duration(seconds: 3),
-                          onPageChanged: (value, reason) {
-                            setState(() {
-                              banner_cur = value;
-                            });
-                          },
+              FutureBuilder(
+                future: pet,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const ShimmerEffect();
+                  } else if (snapshot.hasError) {
+                    return const Text("Error");
+                  } else {
+                    final petItem = snapshot.data;
+                    return Column(
+                      children: [
+                        const SizedBox(height: 15),
+                        CarouselSlider(
+                          items: images
+                              .map((e) => SizedBox(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Image.asset(
+                                      e,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ))
+                              .toList(),
+                          options: CarouselOptions(
+                            initialPage: 0,
+                            viewportFraction: 1,
+                            autoPlay: true,
+                            enlargeCenterPage: true,
+                            autoPlayInterval: const Duration(seconds: 3),
+                            onPageChanged: (value, reason) {
+                              setState(() {
+                                banner_cur = value;
+                              });
+                            },
+                          ),
                         ),
-                      ),
-                      buildCarouselIndicator(),
-                      Container(
-                        color: Colors.white,
-                        width: double.infinity,
-                        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                        child: Column(
+                        const SizedBox(height: 15),
+                        buildCarouselIndicator(),
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            const Padding(
+                              padding: EdgeInsets.only(left: 20, top: 15),
+                              child: Text(
+                                "Thông tin thú cưng",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w700, fontSize: 20),
+                              ),
+                            ),
                             Container(
-                              margin: const EdgeInsets.only(top: 20),
+                              color: Colors.white,
+                              margin: const EdgeInsets.only(top: 10),
+                              padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text(
-                                    "Thông tin thú cưng",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 20),
-                                  ),
-                                  const SizedBox(height: 20),
+                                  const SizedBox(height: 10),
                                   const Text(
                                     "Tên thú cưng",
                                     style: TextStyle(color: Color(0xFF697288)),
@@ -216,7 +194,8 @@ class AppointmentDetailState extends State<AppointmentDetail> {
                                     "Ngày sinh",
                                     style: TextStyle(color: Color(0xFF697288)),
                                   ),
-                                  Text(petItem?.ngaySinh.toString() ?? "N/A"),
+                                  Text(DateFormat("dd/MM/yyyy")
+                                      .format(petItem?.ngaySinh as DateTime)),
                                   Line(),
                                   const Text(
                                     "Cân nặng",
@@ -228,70 +207,122 @@ class AppointmentDetailState extends State<AppointmentDetail> {
                             ),
                           ],
                         ),
-                      ),
-                    ],
-                  );
-                }
-              },
-            ),
-            FutureBuilder(
-              future: service,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const ShimmerEffect();
-                }
-                if (snapshot.hasError) {
-                  return const Text("Error");
-                } else {
-                  final serviceItem = snapshot.data;
-                  return Container(
-                    margin: const EdgeInsets.only(top: 30),
-                    color: Colors.white,
-                    width: double.infinity,
-                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                    child: Column(
+                      ],
+                    );
+                  }
+                },
+              ),
+              FutureBuilder(
+                future: service,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const ShimmerEffect();
+                  }
+                  if (snapshot.hasError) {
+                    return const Text("Error");
+                  } else {
+                    final serviceItem = snapshot.data;
+                    return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          "Thông tin dịch vụ",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 20),
+                        const Padding(
+                          padding: EdgeInsets.only(left: 20, top: 25),
+                          child: Text(
+                            "Thông tin dịch vụ",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w700, fontSize: 20),
+                          ),
                         ),
-                        const SizedBox(height: 20),
-                        const Text(
-                          "Tên dịch vụ",
-                          style: TextStyle(color: Color(0xFF697288)),
+                        Container(
+                          margin: const EdgeInsets.only(top: 10),
+                          color: Colors.white,
+                          width: double.infinity,
+                          padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 10),
+                              const Text(
+                                "Tên dịch vụ",
+                                style: TextStyle(color: Color(0xFF697288)),
+                              ),
+                              Text(serviceItem ?? "N/A"),
+                              Line(),
+                              const Text(
+                                "Ngày khám",
+                                style: TextStyle(color: Color(0xFF697288)),
+                              ),
+                              Text(DateFormat("dd/MM/yyyy").format(
+                                  widget.appointment?.ngayKham as DateTime)),
+                              Line(),
+                              const Text(
+                                "Tên nhân viên",
+                                style: TextStyle(color: Color(0xFF697288)),
+                              ),
+                              const Text("Lê Thoại Bảo Ngọc"),
+                              Line(),
+                              const Text(
+                                "Chức vụ",
+                                style: TextStyle(color: Color(0xFF697288)),
+                              ),
+                              const Text("Bác sĩ phẫu thuật"),
+                            ],
+                          ),
                         ),
-                        Text(serviceItem ?? "N/A"),
-                        Line(),
-                        const Text(
-                          "Ngày khám",
-                          style: TextStyle(color: Color(0xFF697288)),
-                        ),
-                        Text(widget.appointment?.ngayKham.toString() ?? "N/A"),
-                        Line(),
-                        const Text(
-                          "Tên nhân viên",
-                          style: TextStyle(color: Color(0xFF697288)),
-                        ),
-                        const Text("Lê Thoại Bảo Ngọc"),
-                        Line(),
-                        const Text(
-                          "Chức vụ",
-                          style: TextStyle(color: Color(0xFF697288)),
-                        ),
-                        const Text("Bác sĩ phẫu thuật"),
                       ],
-                    ),
-                  );
-                }
-              },
-            ),
-          ],
+                    );
+                  }
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
+}
+
+Widget buildTimelineTile({
+  required bool isFirst,
+  required bool isLast,
+  required String status,
+  required String label,
+  required bool isActive,
+  IconData? iconData,
+}) {
+  return TimelineTile(
+    isFirst: isFirst,
+    isLast: isLast,
+    alignment: TimelineAlign.center,
+    axis: TimelineAxis.horizontal,
+    beforeLineStyle: LineStyle(
+      color: isActive ? const Color(0xFFF48B29) : const Color(0xFFB0BEC5),
+      thickness: 2,
+    ),
+    indicatorStyle: IndicatorStyle(
+      iconStyle: isActive
+          ? IconStyle(
+              iconData: iconData ?? Icons.check,
+              color: Colors.white,
+              fontSize: 13,
+            )
+          : null,
+      width: 20,
+      height: 20,
+      color: isActive ? const Color(0xFFF48B29) : const Color(0xFFB0BEC5),
+    ),
+    endChild: Container(
+      padding: const EdgeInsets.only(top: 10),
+      child: Text(
+        label,
+        style: TextStyle(
+          fontSize: 12,
+          color: isActive ? const Color(0xFFF48B29) : Colors.black,
+          fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
+        ),
+      ),
+    ),
+  );
 }
 
 class ShimmerEffect extends StatelessWidget {
