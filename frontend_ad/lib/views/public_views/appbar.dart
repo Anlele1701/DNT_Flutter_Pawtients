@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:frontend_ad/api_services/auth_services.dart';
+import 'package:frontend_ad/models/employee.dart';
 import 'package:frontend_ad/views/items/appointment_item.dart';
 import 'package:frontend_ad/views/items/notification_item.dart';
 import 'package:frontend_ad/views/public_views/notification_top_sheet.dart';
+import 'package:frontend_ad/views/web_views/employee.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   CustomAppBar({super.key});
@@ -71,11 +73,16 @@ class _CustomAppBarState extends State<CustomAppBar> {
       ],
       title: Row(
         children: [
-          const SizedBox(
-            height: 50,
-            width: 50,
-            child: CircleAvatar(
-              backgroundColor: Colors.red,
+          GestureDetector(
+            onTap: (){
+              Navigator.push(context,MaterialPageRoute(builder: (context) => EmployeeView()),);
+            },
+            child: const SizedBox(
+              height: 50,
+              width: 50,
+              child: CircleAvatar(
+                backgroundColor: Colors.red,
+              ),
             ),
           ),
           const SizedBox(
