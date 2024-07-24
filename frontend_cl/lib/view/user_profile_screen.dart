@@ -1,7 +1,12 @@
 import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:frontend/model/image_model.dart';
 import 'package:frontend/model/pet_model.dart';
+import 'package:frontend/model/user_model.dart';
 import 'package:frontend/services/auth_services.dart';
 import 'package:frontend/view/widget/AddPetScreen/AddPetCircle.dart';
 import 'package:frontend/view/widget/AddPetScreen/PetCircle.dart';
@@ -20,14 +25,19 @@ class UserProfileScreen extends StatefulWidget {
 class _UserProfileScreenState extends State<UserProfileScreen> {
   bool isEdit = false;
   File? _image;
-  String userID = '';
-  String userName = '';
-  String userEmail = '';
-  String gender = '';
-  String phone = '';
-  String rank = '';
-  String address = '';
+  // String userID = '';
+  // String userName = '';
+  // String userEmail = '';
+  // String gender = '';
+  // String phone = '';
+  // String rank = '';
+  // String address = '';
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  ImagePet? hinhAnh;
   String formattedName = '';
+  User? user;
   final PetViewModel petViewModel = PetViewModel();
   Future<List<Pet?>?>? petList;
   @override
@@ -35,14 +45,15 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     super.initState();
     AuthServicess().getUserID(widget.userID).then((val) {
       setState(() {
-        userID = val['_id'].toString();
-        userName = val['hoTen'].toString();
-        userEmail = val['email'].toString();
-        phone = val['sdt'].toString();
-        gender = val['gioiTinh'].toString();
-        address = val['diaChi'].toString();
-        rank = val['hangThanhVien'].toString();
-        String fullName = userName;
+        // userID = val['_id'].toString();
+        // userName = val['hoTen'].toString();
+        // userEmail = val['email'].toString();
+        // phone = val['sdt'].toString();
+        // gender = val['gioiTinh'].toString();
+        // address = val['diaChi'].toString();
+        // rank = val['hangThanhVien'].toString();
+        user = User.fromJson(val);
+        String fullName = user!.hoTen.toString();
         List<String> nameParts = fullName.split(' ');
         List<String> lastTwoNames =
             nameParts.skip(nameParts.length - 2).take(2).toList();
@@ -56,6 +67,23 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     return petViewModel.getPetList(widget.userID);
   }
 
+  Future openImageGallery() async {
+    final files = await ImageHelper().pickImage();
+    if (files.isNotEmpty) {
+      final croppedFile = await ImageHelper().cropImage(file: files.first);
+      if (croppedFile != null) {
+        setState(() {
+          _image = File(croppedFile.path);
+          hinhAnh = ImagePet(
+            data: _image!.readAsBytesSync(),
+            filename: _image!.path.split('/').last,
+            mimetype: 'image/jpeg',
+          );
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -67,7 +95,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             return const Center(child: NormalLoadingIndicator());
           } else {
             List<Pet?>? petList = snapshot.data;
-            print(petList);
             return Scaffold(
               body: SingleChildScrollView(
                 child: Column(
@@ -118,8 +145,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                     radius: 100,
                                     foregroundImage: _image != null
                                         ? FileImage(_image!) as ImageProvider
-                                        : const NetworkImage(
-                                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDoKp0wum3Z8G1cQXa7j9UtFbpTYqG5YhUcg&s'),
+                                        : Image.memory(
+                                            user!.image?.data as Uint8List,
+                                          ).image,
                                   ),
                                 ),
                                 Visibility(
@@ -136,20 +164,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                           color: const Color(0xffF48B29),
                                         ),
                                         child: IconButton(
-                                          onPressed: () async {
-                                            final files =
-                                                await ImageHelper().pickImage();
-                                            if (files.isNotEmpty) {
-                                              final croppedFile =
-                                                  await ImageHelper().cropImage(
-                                                      file: files.first);
-                                              if (croppedFile != null) {
-                                                setState(() {
-                                                  _image =
-                                                      File(croppedFile.path);
-                                                });
-                                              }
-                                            }
+                                          onPressed: () {
+                                            openImageGallery();
                                           },
                                           icon: const Icon(
                                             Icons.edit,
@@ -202,7 +218,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                 UserProfileInfo(
                                     screenWidth: screenWidth,
                                     title: 'Tên người dùng',
-                                    content: userName,
+                                    controller: nameController,
+                                    content: user?.hoTen.toString() ?? 'N/A',
                                     isEdit: isEdit),
                                 UserProfileInfo(
                                     screenWidth: screenWidth,
@@ -212,22 +229,23 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                 UserProfileInfo(
                                     screenWidth: screenWidth,
                                     title: 'Email',
-                                    content: userEmail,
+                                    content: user?.email.toString() ?? 'N/A',
                                     isEdit: isEdit),
                                 UserProfileInfo(
                                     screenWidth: screenWidth,
                                     title: 'Số điện thoại',
-                                    content: phone,
+                                    content: user?.sdt.toString() ?? 'N/A',
                                     isEdit: isEdit),
-                                UserProfileInfo(
-                                    screenWidth: screenWidth,
-                                    title: 'Địa chỉ',
-                                    content: address,
-                                    isEdit: isEdit),
+                                // UserProfileInfo(
+                                //     screenWidth: screenWidth,
+                                //     title: 'Địa chỉ',
+                                //     content: user?. toString() ?? 'N/A',
+                                //     isEdit: isEdit),
                                 UserProfileInfo(
                                   screenWidth: screenWidth,
                                   title: 'Hạng thành viên',
-                                  content: rank,
+                                  content:
+                                      user?.hangThanhVien.toString() ?? 'N/A',
                                 ),
                               ],
                             ),
@@ -309,17 +327,17 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                             isEdit = !isEdit;
                                           });
                                         },
+                                        style: ButtonStyle(
+                                          side: WidgetStateProperty.all(
+                                            const BorderSide(
+                                              color: Color(0xffF48B29),
+                                            ),
+                                          ),
+                                        ),
                                         child: const Text(
                                           'Hủy',
                                           style: TextStyle(
                                               color: Color(0xffF48B29)),
-                                        ),
-                                        style: ButtonStyle(
-                                          side: WidgetStateProperty.all(
-                                            BorderSide(
-                                              color: Color(0xffF48B29),
-                                            ),
-                                          ),
                                         ),
                                       ),
                                     ),
@@ -331,12 +349,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                             isEdit = !isEdit;
                                           });
                                         },
-                                        child: const Text('Lưu'),
                                         style: ButtonStyle(
                                           backgroundColor:
                                               WidgetStateProperty.all(
-                                                  Color(0xffF48B29)),
+                                                  const Color(0xffF48B29)),
                                         ),
+                                        child: const Text('Lưu'),
                                       ),
                                     ),
                                   ],
@@ -362,6 +380,7 @@ class UserProfileInfo extends StatelessWidget {
     required this.screenWidth,
     required this.title,
     required this.content,
+    this.controller,
     this.isEdit,
   });
 
@@ -369,7 +388,7 @@ class UserProfileInfo extends StatelessWidget {
   final String title;
   final String content;
   final bool? isEdit;
-
+  final TextEditingController? controller;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -378,12 +397,14 @@ class UserProfileInfo extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
+              padding: const EdgeInsets.symmetric(vertical: 5),
               alignment: AlignmentDirectional.centerStart,
               width: screenWidth * 0.3,
-              height: 35,
+              //height: 35,
               child: Text(
                 '$title:',
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                style:
+                    const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
               )),
           SizedBox(width: screenWidth * 0.07),
           SizedBox(
@@ -393,15 +414,17 @@ class UserProfileInfo extends StatelessWidget {
                     height: 30,
                     alignment: AlignmentDirectional.centerStart,
                     child: TextFormField(
-                      initialValue: content,
-                      decoration: InputDecoration(
+                      controller:
+                          controller ?? TextEditingController(text: content),
+                      decoration: const InputDecoration(
                           contentPadding: EdgeInsets.only(bottom: 6)),
                       style: const TextStyle(fontSize: 14),
                       maxLines: 2,
                     ),
                   )
                 : Container(
-                    height: 30,
+                    //height: 40,
+                    padding: const EdgeInsets.symmetric(vertical: 5),
                     alignment: AlignmentDirectional.centerStart,
                     child: Text(
                       content == "null" ? "Chưa cập nhật " : content,
