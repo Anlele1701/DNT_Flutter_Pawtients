@@ -29,6 +29,18 @@ export class AppointmentController{
         }
     }
 
+    @Get('/get-appointment-list')
+    async getAllAppointmentList(){
+        try{
+            const listApp= await this.appointmentService.getAllAppointmentList();
+            return listApp;
+        }
+        catch(e){
+            console.log(e);
+            return e;
+        }
+    }
+
     @Patch('/update-appointment-status')
     async updateAppointmentStatus(@Query('idLichKham') idLichKham: String, @Query('idNV') idNV: String, @Query('trangThai') trangThai: String): Promise<Appointment>{
         try{
@@ -40,7 +52,7 @@ export class AppointmentController{
     }
 
     @Patch('/update-noti/:id')
-    async updateAppointmentNoti(@Param('id') idLichKham: String):Promise<String>{
+    async updateAppointmentNoti(@Param('id') idLichKham: String):Promise<boolean>{
         try{
             return await this.appointmentService.updateAppointmentNoti(idLichKham);
         }

@@ -1,28 +1,29 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:frontend_ad/models/appointment.dart';
+import 'package:frontend_ad/models/order.dart';
 import 'package:frontend_ad/views/public_views/appbar.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class CreateBill extends StatefulWidget {
-  const CreateBill({super.key});
+  CreateBill({super.key, this.appointment});
+  Appointment? appointment;
 
   @override
   State<CreateBill> createState() => _MyWidgetState();
 }
 
 class _MyWidgetState extends State<CreateBill> {
-
-  final ImagePicker imagePicker=ImagePicker();
-  List<XFile> imagePickerList=[];
-  void selectedImages()async{
-    final List<XFile>? selectedImages= await imagePicker.pickMultiImage();
-    if(selectedImages!.isNotEmpty){
+  List<Order?>? order = [];
+  final ImagePicker imagePicker = ImagePicker();
+  List<XFile> imagePickerList = [];
+  void selectedImages() async {
+    final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
+    if (selectedImages!.isNotEmpty) {
       imagePickerList.addAll(selectedImages);
     }
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   String? khamBenh = "khám bệnh";
@@ -53,18 +54,18 @@ class _MyWidgetState extends State<CreateBill> {
               child: Column(
                 children: [
                   Container(
-                    margin: const EdgeInsets.fromLTRB(16,16,16,30),
+                    margin: const EdgeInsets.fromLTRB(16, 16, 16, 30),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Row(
+                        Row(
                           children: [
                             Text("Tên thú cưng: ",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18,
                                 )),
-                            Text("Chấu Đọ",
+                            Text("${widget.appointment?.tenThuCung}",
                                 style: TextStyle(
                                   fontSize: 18,
                                 ))
@@ -73,14 +74,15 @@ class _MyWidgetState extends State<CreateBill> {
                         const SizedBox(
                           height: 20,
                         ),
-                        const Row(
+                        Row(
                           children: [
                             Text("Ngày khám: ",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18,
                                 )),
-                            Text("2:00 PM - 16/7/2024",
+                            Text(
+                                "${DateFormat('dd/MM/yyyy').format(widget.appointment!.ngayKham!)}",
                                 style: TextStyle(
                                   fontSize: 18,
                                 ))
@@ -128,9 +130,10 @@ class _MyWidgetState extends State<CreateBill> {
                                           decoration: BoxDecoration(
                                               color: const Color(0xffffffff),
                                               border: Border.all(
-                                                  color: const Color(0xffCCCCCC))),
-                                          margin:
-                                              const EdgeInsets.symmetric(horizontal: 10),
+                                                  color:
+                                                      const Color(0xffCCCCCC))),
+                                          margin: const EdgeInsets.symmetric(
+                                              horizontal: 10),
                                           padding: const EdgeInsets.all(16),
                                           child: Column(
                                             crossAxisAlignment:
@@ -139,29 +142,47 @@ class _MyWidgetState extends State<CreateBill> {
                                               SizedBox(
                                                 height: 100,
                                                 child: ListView.builder(
-                                                  scrollDirection: Axis.vertical,
+                                                  scrollDirection:
+                                                      Axis.vertical,
                                                   shrinkWrap: true,
                                                   itemCount: keThuoc.length,
-                                                  itemBuilder: (context, index) {
+                                                  itemBuilder:
+                                                      (context, index) {
                                                     return itemThuoc(index);
                                                   },
                                                 ),
                                               ),
                                               OutlinedButton(
-                                                  onPressed: () {},
-                                                  style: OutlinedButton.styleFrom(
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.circular(5),
-                                                      ),
-                                                      padding: const EdgeInsets.symmetric(
-                                                          horizontal: 30),
-                                                      side: const BorderSide(
-                                                          color: Color(0xffB3B3B3))),
+                                                  onPressed: () {
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                            context) {
+                                                          return chooseProduct();
+                                                        });
+                                                  },
+                                                  style:
+                                                      OutlinedButton.styleFrom(
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        5),
+                                                          ),
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .symmetric(
+                                                                  horizontal:
+                                                                      30),
+                                                          side: const BorderSide(
+                                                              color: Color(
+                                                                  0xffB3B3B3))),
                                                   child: const Text(
                                                     "Thêm",
                                                     style: TextStyle(
-                                                        color: Color(0xffB3B3B3),
+                                                        color:
+                                                            Color(0xffB3B3B3),
                                                         fontSize: 18),
                                                   ))
                                             ],
@@ -197,8 +218,11 @@ class _MyWidgetState extends State<CreateBill> {
                                       borderRadius: BorderRadius.circular(5),
                                     ),
                                     padding: const EdgeInsets.all(20),
-                                    side: const BorderSide(color: Color(0xffffffff))),
-                                onPressed: () {selectedImages();},
+                                    side: const BorderSide(
+                                        color: Color(0xffffffff))),
+                                onPressed: () {
+                                  selectedImages();
+                                },
                                 child: const Column(
                                   children: [
                                     Icon(
@@ -209,7 +233,8 @@ class _MyWidgetState extends State<CreateBill> {
                                     Text(
                                       "Chọn ảnh",
                                       style: TextStyle(
-                                          color: Color(0xffC0C0C0), fontSize: 18),
+                                          color: Color(0xffC0C0C0),
+                                          fontSize: 18),
                                     )
                                   ],
                                 ),
@@ -221,47 +246,91 @@ class _MyWidgetState extends State<CreateBill> {
                                   width: 260,
                                   height: 120,
                                   child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    shrinkWrap: true,
-                                    itemCount: imagePickerList.length,
-                                    itemBuilder: (context,index){
-                                      return ImageItem(index);
-                                    })
-                                  )
+                                      scrollDirection: Axis.horizontal,
+                                      shrinkWrap: true,
+                                      itemCount: imagePickerList.length,
+                                      itemBuilder: (context, index) {
+                                        return ImageItem(index);
+                                      }))
                             ],
                           ),
                         ),
-                        const SizedBox(height: 10,),
-                        const Text("Tổng tiền thanh toán: ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Text(
+                          "Tổng tiền thanh toán: ",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18),
+                        ),
                         Row(
                           children: [
-                            const Expanded(child: Text("Phí khám tại nhà", style: TextStyle(fontSize: 18),)),
-                            Text(NumberFormat.currency(locale: 'vi_VN', symbol: 'đ').format(100000), style: const TextStyle(fontSize: 20),)
+                            const Expanded(
+                                child: Text(
+                              "Phí khám tại nhà",
+                              style: TextStyle(fontSize: 18),
+                            )),
+                            Text(
+                              NumberFormat.currency(
+                                      locale: 'vi_VN', symbol: 'đ')
+                                  .format(100000),
+                              style: const TextStyle(fontSize: 20),
+                            )
                           ],
                         ),
-                        khamBenh!=null?Row(
-                          children: [
-                            const Expanded(child: Text("Tiền kê đơn thuốc", style: TextStyle(fontSize: 18),)),
-                            Text(NumberFormat.currency(locale: 'vi_VN', symbol: 'đ').format(52000), style: const TextStyle(fontSize: 20),)
-                          ],
-                        ): const SizedBox(),
-                        Container(width: 500, decoration: BoxDecoration(border: Border.all(color:const Color(0xff000000))),),
+                        khamBenh != null
+                            ? Row(
+                                children: [
+                                  const Expanded(
+                                      child: Text(
+                                    "Tiền kê đơn thuốc",
+                                    style: TextStyle(fontSize: 18),
+                                  )),
+                                  Text(
+                                    NumberFormat.currency(
+                                            locale: 'vi_VN', symbol: 'đ')
+                                        .format(52000),
+                                    style: const TextStyle(fontSize: 20),
+                                  )
+                                ],
+                              )
+                            : const SizedBox(),
+                        Container(
+                          width: 500,
+                          decoration: BoxDecoration(
+                              border:
+                                  Border.all(color: const Color(0xff000000))),
+                        ),
                         Row(
                           children: [
-                            const Expanded(child: Text("Thành tiền", style: TextStyle(fontSize: 30),)),
-                            Text(NumberFormat.currency(locale: 'vi_VN', symbol: 'đ').format(152000), style: const TextStyle(fontSize: 30),)
+                            const Expanded(
+                                child: Text(
+                              "Thành tiền",
+                              style: TextStyle(fontSize: 30),
+                            )),
+                            Text(
+                              NumberFormat.currency(
+                                      locale: 'vi_VN', symbol: 'đ')
+                                  .format(152000),
+                              style: const TextStyle(fontSize: 30),
+                            )
                           ],
                         ),
-                        const SizedBox(height: 20,),
+                        const SizedBox(
+                          height: 20,
+                        ),
                         Container(
                           width: 400,
                           decoration: BoxDecoration(
-                            color: const Color(0xffF48B29),
-                            borderRadius: BorderRadius.circular(30)
-                          ),
+                              color: const Color(0xffF48B29),
+                              borderRadius: BorderRadius.circular(30)),
                           child: TextButton(
-                            onPressed: (){},
-                            child: const Text("Xác nhận", style: TextStyle(color: Color(0xffffffff), fontSize: 18),),
+                            onPressed: () {},
+                            child: const Text(
+                              "Xác nhận",
+                              style: TextStyle(
+                                  color: Color(0xffffffff), fontSize: 18),
+                            ),
                           ),
                         )
                       ],
@@ -275,24 +344,24 @@ class _MyWidgetState extends State<CreateBill> {
             top: 0,
             left: 0,
             child: Row(
-                    children: [
-                      IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: const Icon(
-                            Icons.close,
-                            size: 40,
-                          )),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      const Text(
-                        "Kết quả khám bệnh",
-                        style: TextStyle(fontSize: 35),
-                      )
-                    ],
-                  ),
+              children: [
+                IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(
+                      Icons.close,
+                      size: 40,
+                    )),
+                const SizedBox(
+                  width: 10,
+                ),
+                const Text(
+                  "Kết quả khám bệnh",
+                  style: TextStyle(fontSize: 35),
+                )
+              ],
+            ),
           ),
         ],
       ),
@@ -333,7 +402,10 @@ class _MyWidgetState extends State<CreateBill> {
             margin: const EdgeInsets.fromLTRB(0, 10, 15, 0),
             width: 100,
             height: 100,
-            child: Image.file(File(imagePickerList[index].path),fit: BoxFit.cover,)),
+            child: Image.file(
+              File(imagePickerList[index].path),
+              fit: BoxFit.cover,
+            )),
         Positioned(
             top: 0,
             left: 85,
@@ -354,6 +426,24 @@ class _MyWidgetState extends State<CreateBill> {
                   iconSize: 10,
                 ))),
       ],
+    );
+  }
+
+  Widget chooseProduct() {
+    return Center(
+      child: SingleChildScrollView(
+        child: Container(
+          width: 400,
+          height: 500,
+          decoration: BoxDecoration(color: Colors.white),
+          child: Column(
+            children: [
+              Container(width: 100, child: Text("data")),
+              Container(width: 100, child: Text("data")),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

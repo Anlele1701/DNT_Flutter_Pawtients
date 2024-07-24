@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend_ad/models/customer.dart';
 import 'package:frontend_ad/views/items/customer_item.dart';
+import 'package:frontend_ad/views_models/user_view_model.dart';
 class Customers extends StatefulWidget {
   const Customers({super.key});
 
@@ -8,10 +11,11 @@ class Customers extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<Customers> {
-  final List<CustomerItem> items = List.generate(
-    10,
-    (index) => const CustomerItem(),
-  );
+  CustomerViewModel customerViewModel= CustomerViewModel();
+
+  Future<List<Customer?>?> fetchData()async{
+    return await customerViewModel.getUserList();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,12 +23,27 @@ class _MyWidgetState extends State<Customers> {
         children: [
           SizedBox(
             height: 750,
-            child: ListView.builder(
-              itemCount: items.length,
-              itemBuilder: (context, index){
-                return const CustomerItem();
+            child: FutureBuilder<List<Customer?>?>(
+              future: fetchData(),
+              builder: (context, snapshot){
+                if(snapshot.connectionState==ConnectionState.waiting){
+                  return Center(child: CircularProgressIndicator(),);
+                }
+                else if(snapshot.hasError){
+                  return Center(child: Text('${snapshot.error}'),);
+                }
+                else if(!snapshot.hasData||snapshot.data!.isEmpty){
+                  return Center(child: Text('Không có khách hàng nào'),);
+                }
+                else{
+                  final items=snapshot.data!;
+                  return ListView.builder(itemBuilder: (context, index){
+                    print(items.length);
+                    return CustomerItem(customer: items[index],);
+                  }, itemCount: items.length,);
+                }
               },
-              ),
+            )
           ),
           Positioned(
             bottom: 10,

@@ -66,17 +66,27 @@ export class AppointmentService {
         }
     }
 
-    async updateAppointmentNoti(idLichKham: String):Promise<String>{
+    async updateAppointmentNoti(idLichKham: String):Promise<boolean>{
         try{
             var lichKham= await this.appointmentModel.findOne({'_id':idLichKham});
             if(lichKham){
                 lichKham.thongBao=true;
                 await lichKham.save();
-                return 'Change Noti success';
+                return true;
             }
-            else return 'Change Noti failed';
+            else return false;
         }
         catch(e){
+            console.log(e);
+            return e;
+        }
+    }
+    async getAllAppointmentList():Promise<Appointment[]>{
+        try{
+            var dsLichKham=await this.appointmentModel.find();
+            if(dsLichKham) return dsLichKham;
+            else return null;
+        }catch(e){
             console.log(e);
             return e;
         }

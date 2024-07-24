@@ -7,6 +7,7 @@ import 'package:frontend_ad/views/homepage.dart';
 import 'package:frontend_ad/views/public_views/appbar.dart';
 import 'package:frontend_ad/views/web_views/create_drug.dart';
 import 'package:frontend_ad/views/web_views/drugs.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key, required this.token});
@@ -34,9 +35,14 @@ class _MyWidgetState extends State<BottomNav> {
       setState(() {
         hoten = value['hoTen'];
         chucVu = value['chucVu'];
+        saveData('id', value['_id']);
       });
     });
   }
+  Future<void> saveData(String key, String value) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setString(key, value);
+}
 
   @override
   Widget build(BuildContext context) {

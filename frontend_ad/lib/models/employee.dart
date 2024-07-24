@@ -1,6 +1,7 @@
 import 'package:frontend_ad/models/image_model.dart';
 
 class Employee {
+  String? id;
   String? hoten;
   String? sdt;
   bool? gioiTinh;
@@ -9,7 +10,8 @@ class Employee {
   String? matKhau;
   String? chucVu;
   Employee(
-      {this.hoten,
+      {this.id,
+      this.hoten,
       this.sdt,
       this.gioiTinh,
       this.hinhAnh,
@@ -17,6 +19,7 @@ class Employee {
       this.matKhau,
       this.chucVu});
   Employee.fromJson(Map<String, dynamic> data) {
+    id = data['_id'];
     hoten = data["hoTen"];
     sdt = data["sdt"];
     gioiTinh = data["gioiTinh"];

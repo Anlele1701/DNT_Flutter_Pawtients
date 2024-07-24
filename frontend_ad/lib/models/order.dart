@@ -1,5 +1,6 @@
 class Order{
   String? idThuoc;
+  String? tenThuoc;
   int? soLuong;
   int? thanhTien;
   Order({this.idThuoc, this.soLuong, this.thanhTien});

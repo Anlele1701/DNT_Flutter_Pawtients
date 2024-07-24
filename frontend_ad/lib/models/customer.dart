@@ -1,6 +1,7 @@
 import 'package:frontend_ad/models/image_model.dart';
 
 class Customer {
+  String? id;
   String? hoTen;
   String? sdt;
   String? password;
@@ -14,7 +15,8 @@ class Customer {
   ImagePet? hinhAnh;
 
   Customer(
-      {this.hoTen,
+      {this.id,
+      this.hoTen,
       this.sdt,
       this.password,
       this.email,
@@ -26,6 +28,7 @@ class Customer {
       this.dsLichKham,
       this.hinhAnh});
   Customer.fromJson(Map<String, dynamic> json) {
+    id=json['_id'];
     hoTen = json["hoTen"];
     sdt = json["sdt"];
     password = json["password"];
@@ -34,11 +37,13 @@ class Customer {
     diem = json["diem"];
     diaChi = json["diaChi"];
     hangThanhVien = json["hangThanhVien"];
-    dsThuCung = json['dsThuCung'] != null
-        ? json["dsThuCung"]?.map((e) => e).toList()
+    dsThuCung = json['dsThuCung'] != []
+        ? (json["dsThuCung"] as List<dynamic>).map((e) => e as String?).toList()
         : [];
-    dsLichKham = json['dsLichKham'] != null
-        ? json["dsLichKham"]?.map((e) => e).toList()
+    dsLichKham = json['dsLichKham'] != []
+        ? (json["dsLichKham"] as List<dynamic>)
+            .map((e) => e as String?)
+            .toList()
         : [];
     hinhAnh =
         json['hinhAnh'] != null ? ImagePet.fromjson(json["hinhAnh"]) : null;

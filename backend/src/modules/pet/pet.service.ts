@@ -62,4 +62,29 @@ export class PetService{
             return(e);
         }
     }
+    async getPetListAd(dsIdThuCung: String[]): Promise<Pet[]>{
+        try{
+            const petList= await this.petModel.find({_id: {$in: dsIdThuCung}}).exec();
+            if(petList) return petList;
+        }catch(e){
+            console.log(e);
+            return null;
+        }
+    }
+
+    async getHinhAnh(idThuCung: String):Promise<{}>{
+        try{
+            const pet=await this.petModel.findOne({'_id':idThuCung});
+            if(pet.hinhAnh!=null){
+                return {
+                    'hinhAnh':pet.hinhAnh,
+                    'tenThuCung':pet.tenThuCung
+                };
+            }
+            else return null;
+        }catch(e){
+            console.log(e);
+            return null;
+        }
+    }
 }
