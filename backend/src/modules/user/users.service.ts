@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { User } from 'src/schemas/User.schema';
 import { RegisterUserDto } from './dto/RegisterUser.dto';
 import { LoginUserDto } from './dto/LoginUser.dto';
@@ -31,22 +31,23 @@ export class UsersService {
   async updateUser(
     image: Express.Multer.File,
     updateUserDTO: UpdateUserDto,
-    id: String,
-  ): Promise<{}> {
+    id: string,
+  ) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      throw new Error('Invalid user ID');
+    }
+    let updateData: any = updateUserDTO;
     if (image) {
       const hinhAnh = new Image(
         image.originalname,
         image.buffer,
         image.mimetype,
       );
-      return this.userModel.findByIdAndUpdate(
-        { ...updateUserDTO, hinhAnh: hinhAnh },
-        id,
-      );
-    } else {
-      return this.userModel.findByIdAndUpdate(updateUserDTO, id);
+      updateData = { ...updateData, hinhAnh: hinhAnh };
     }
+    return this.userModel.findByIdAndUpdate(id, updateData, { new: true });
   }
+
   async loginUser(
     loginUserDto: LoginUserDto,
   ): Promise<{ token?: String; success: boolean }> {

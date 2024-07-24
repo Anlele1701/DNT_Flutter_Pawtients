@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:frontend/view/widget/Layout/app_bar.dart';
+import 'package:frontend/view/widget/Layout/appbar_drawer.dart';
 import 'content_filter.dart';
 import 'package:chips_choice/chips_choice.dart';
 
@@ -15,15 +16,11 @@ class VaccineProState extends State<VaccinePro> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight),
-        child: MyAppBar(
-          title: "",
-        ),
+      appBar: const AppbarDrawer(
+        title: "Vaccine",
       ),
-      // bottomNavigationBar: const BottomNavBar(),
       body: Padding(
-        padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+        padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
         child: Column(children: [
           Container(
             child: Column(

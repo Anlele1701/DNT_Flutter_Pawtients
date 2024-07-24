@@ -192,7 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Text('Đã xảy ra lỗi khi tải dữ liệu'),
                   );
                 } else {
-                  final listApp = snapshot.data as List<Appointment?>?;
+                  final listApp = snapshot.data;
                   return ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,

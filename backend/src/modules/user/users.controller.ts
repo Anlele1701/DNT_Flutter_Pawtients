@@ -55,9 +55,9 @@ export class UsersController {
   @Patch('updateUser/:id')
   @UseInterceptors(FileInterceptor('hinhAnh'))
   async updateUser(
+    @Param('id') id: string,
     @UploadedFile() file: Express.Multer.File,
     @Body() updateUserDTO: UpdateUserDto,
-    @Param('id') id: string,
   ) {
     mongoose.Types.ObjectId.isValid(id);
     return this.usersService.updateUser(file, updateUserDTO, id);
