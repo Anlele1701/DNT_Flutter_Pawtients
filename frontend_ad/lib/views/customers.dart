@@ -15,10 +15,10 @@ class _MyWidgetState extends State<Customers> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: Stack(
         children: [
           SizedBox(
-            height: 580,
+            height: 750,
             child: ListView.builder(
               itemCount: items.length,
               itemBuilder: (context, index){
@@ -26,18 +26,22 @@ class _MyWidgetState extends State<Customers> {
               },
               ),
           ),
-          Container(
-            padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Container(
-                padding: const EdgeInsets.all(5),
-                decoration: const BoxDecoration(color: Color(0xffF48B29), shape: BoxShape.circle),
-                child: IconButton(
-                onPressed: (){},
-                icon: const Icon(Icons.add, size: 40,),
-                color: Colors.white,
-                      ),
+          Positioned(
+            bottom: 10,
+            right: 10,
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: const BoxDecoration(color: Color(0xffF48B29), shape: BoxShape.circle),
+                  child: IconButton(
+                  onPressed: (){},
+                  icon: const Icon(Icons.add, size: 30,),
+                  color: Colors.white,
+                        ),
+                ),
               ),
             ),
           )
