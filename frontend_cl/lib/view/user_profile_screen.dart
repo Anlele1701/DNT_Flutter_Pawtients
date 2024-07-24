@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:frontend/model/pet_model.dart';
 import 'package:frontend/services/auth_services.dart';
@@ -5,6 +7,7 @@ import 'package:frontend/view/widget/AddPetScreen/AddPetCircle.dart';
 import 'package:frontend/view/widget/AddPetScreen/PetCircle.dart';
 import 'package:frontend/view/widget/LoginScreen/UpperWaveClipper.dart';
 import 'package:frontend/view/widget/utils/NormalLoading.dart';
+import 'package:frontend/view/widget/utils/image_helper.dart';
 import 'package:frontend/view_model/pet_view_model.dart';
 
 class UserProfileScreen extends StatefulWidget {
@@ -16,7 +19,7 @@ class UserProfileScreen extends StatefulWidget {
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
   bool isEdit = false;
-
+  File? _image;
   String userID = '';
   String userName = '';
   String userEmail = '';
@@ -109,17 +112,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           children: [
                             Stack(
                               children: [
-                                Container(
-                                  height: 200,
-                                  width: 200,
-                                  margin: const EdgeInsets.only(top: 50),
-                                  decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                      image:
-                                          AssetImage('assets/images/cat.jpg'),
-                                      fit: BoxFit.cover,
-                                    ),
+                                FittedBox(
+                                  fit: BoxFit.contain,
+                                  child: CircleAvatar(
+                                    radius: 100,
+                                    foregroundImage: _image != null
+                                        ? FileImage(_image!) as ImageProvider
+                                        : const NetworkImage(
+                                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDoKp0wum3Z8G1cQXa7j9UtFbpTYqG5YhUcg&s'),
                                   ),
                                 ),
                                 Visibility(
@@ -136,7 +136,21 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                           color: const Color(0xffF48B29),
                                         ),
                                         child: IconButton(
-                                          onPressed: () {},
+                                          onPressed: () async {
+                                            final files =
+                                                await ImageHelper().pickImage();
+                                            if (files.isNotEmpty) {
+                                              final croppedFile =
+                                                  await ImageHelper().cropImage(
+                                                      file: files.first);
+                                              if (croppedFile != null) {
+                                                setState(() {
+                                                  _image =
+                                                      File(croppedFile.path);
+                                                });
+                                              }
+                                            }
+                                          },
                                           icon: const Icon(
                                             Icons.edit,
                                             color: Colors.white,
