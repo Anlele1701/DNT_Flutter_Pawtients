@@ -1,17 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/model/appointment_model.dart';
+import 'package:frontend/model/pet_model.dart';
+import 'package:frontend/view_model/pet_view_model.dart';
+import 'package:frontend/view_model/petservice_view_model.dart';
+import 'package:intl/intl.dart';
 
 class ItemListView extends StatefulWidget {
-  const ItemListView({
-    super.key,
-    required this.textInput,
-  });
-  final String textInput;
-
+  ItemListView({super.key, this.appointment});
+  Appointment? appointment;
   @override
   State<ItemListView> createState() => _ItemListViewState();
 }
 
 class _ItemListViewState extends State<ItemListView> {
+  String? date = '';
+  String? dichVu = "";
+  String? ngayKham;
+  PetserviceViewModel petserviceViewModel = PetserviceViewModel();
+  PetViewModel petViewModel = PetViewModel();
+  Pet? pet;
+  Future<void> getService() async {
+    String? tenDichVu =
+        await petserviceViewModel.getService(widget.appointment?.loaiDichVu);
+    Pet? petFind = await petViewModel.getPet(widget.appointment?.idThuCung);
+    setState(() {
+      dichVu = tenDichVu;
+      pet = petFind;
+      date = DateFormat('dd/MM/yyyy').format(widget.appointment!.ngayKham!);
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getService();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -41,31 +66,31 @@ class _ItemListViewState extends State<ItemListView> {
                 color: Color(0xffFFC368)),
             child: Container(
                 padding: const EdgeInsets.all(10),
-                child: Image(
-                  image: AssetImage('assets/images/catprofile.png'),
-                  fit: BoxFit.contain,
-                )),
+                child: pet!=null?Image.memory(
+                  pet!.hinhAnh!.data,
+                  fit: BoxFit.cover,
+                ):Container()),
           ),
           const SizedBox(width: 16),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                this.widget.textInput,
+                dichVu!,
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
                 ),
               ),
               Text(
-                '9:00 - 20/7/2024',
+                '${date}',
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
                 ),
               ),
               Text(
-                'Gâu Gâu - Bác sĩ Ngọc',
+                '${pet?.tenThuCung} - Bác sĩ Ngọc',
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,

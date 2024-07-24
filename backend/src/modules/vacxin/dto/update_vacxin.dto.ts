@@ -6,7 +6,7 @@ export class UpdateVacxinDto{
     phongBenh: String;
     hangVacxin: String;
     moTa: String;
-    thanhPhan: String;
+    soLuong: number;
     giaTien: String;
     quocGia: String;
     hinhAnh: Image;

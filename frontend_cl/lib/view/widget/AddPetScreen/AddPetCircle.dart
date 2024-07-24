@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:frontend/view/addpetprofile_screen.dart';
 
 class AddPetCircle extends StatefulWidget {
-  const AddPetCircle({super.key, this.userID = ""});
-  final String userID;
+  AddPetCircle({super.key, this.userID = ""});
+  String? userID;
 
   @override
   State<AddPetCircle> createState() => _AddPetCircleState();

@@ -187,9 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemBuilder: (context, index) {
                   return Visibility(
                     visible: index < _showedItems,
-                    child: ItemListView(
-                      textInput: "Khám Bệnh",
-                    ),
+                    child: Container(),
                   );
                 }),
             TextButton(

@@ -50,4 +50,16 @@ export class PetService{
             return e;
         }
     }
+
+    async getPet(idThuCung: String): Promise<Pet>{
+        try{
+            const pet= await this.petModel.findOne({'_id': idThuCung});
+            if(pet) return pet;
+            else return null;
+        }
+        catch(e){
+            console.log(e);
+            return(e);
+        }
+    }
 }

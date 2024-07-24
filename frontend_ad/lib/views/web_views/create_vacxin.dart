@@ -19,7 +19,7 @@ class _MyWidgetState extends State<CreateVacxin> {
   final TextEditingController tenVacxinController = TextEditingController();
   final TextEditingController quocGiaController = TextEditingController();
   final TextEditingController moTaController = TextEditingController();
-  final TextEditingController thanhPhanController = TextEditingController();
+  final TextEditingController soLuongController = TextEditingController();
   final TextEditingController giaTienController = TextEditingController();
   final TextEditingController phongBenhController = TextEditingController();
   final TextEditingController hangVacxinController = TextEditingController();
@@ -118,9 +118,9 @@ class _MyWidgetState extends State<CreateVacxin> {
                     Container(
                       margin: const EdgeInsets.only(bottom: 16),
                       child: TextField(
-                        controller: thanhPhanController,
+                        controller: soLuongController,
                         decoration: const InputDecoration(
-                            labelText: "Thành phần",
+                            labelText: "Số lượng",
                             labelStyle: TextStyle(color: Colors.black)),
                       ),
                     ),
@@ -199,7 +199,7 @@ class _MyWidgetState extends State<CreateVacxin> {
                       onPressed: () async {
                         vacxin.tenVacxin = tenVacxinController.text;
                         vacxin.quocGia = quocGiaController.text;
-                        vacxin.thanhPhan = thanhPhanController.text;
+                        vacxin.soLuong = int.tryParse(soLuongController.text);
                         vacxin.giaTien = int.tryParse(giaTienController.text);
                         vacxin.phongBenh = phongBenhController.text;
                         vacxin.moTa = moTaController.text;

@@ -19,7 +19,7 @@ class _MyWidgetState extends State<CreateDrug> {
   final TextEditingController tenThuocController = TextEditingController();
   final TextEditingController hangThuocController = TextEditingController();
   final TextEditingController moTaController = TextEditingController();
-  final TextEditingController thanhPhanController = TextEditingController();
+  final TextEditingController soLuongController = TextEditingController();
   final TextEditingController giaTienController = TextEditingController();
   final TextEditingController phongBenhController = TextEditingController();
   File? _image;
@@ -108,9 +108,9 @@ class _MyWidgetState extends State<CreateDrug> {
                     Container(
                       margin: const EdgeInsets.only(bottom: 16),
                       child: TextField(
-                        controller: thanhPhanController,
+                        controller: soLuongController,
                         decoration: const InputDecoration(
-                            labelText: "Thành phần",
+                            labelText: "Số lượng",
                             labelStyle: TextStyle(color: Colors.black)),
                       ),
                     ),
@@ -189,7 +189,7 @@ class _MyWidgetState extends State<CreateDrug> {
                       onPressed: () async {
                         drug.tenThuoc = tenThuocController.text;
                         drug.hangThuoc = hangThuocController.text;
-                        drug.thanhPhan = thanhPhanController.text;
+                        drug.soLuong = int.tryParse(soLuongController.text);
                         drug.giaTien = int.tryParse(giaTienController.text);
                         drug.phongBenh = phongBenhController.text;
                         drug.moTa = moTaController.text;

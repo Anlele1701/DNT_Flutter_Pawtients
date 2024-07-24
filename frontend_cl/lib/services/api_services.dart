@@ -1,6 +1,6 @@
 //? Developments APIs
 //* Authenication
-const devUrl = "http://192.168.4.109:3000";
+const devUrl = "http://localhost:3000";
 const devLogin = "$devUrl/users/login";
 const devRegister = "$devUrl/users/register";
 const devUserInfo = "$devUrl/users/getUser";

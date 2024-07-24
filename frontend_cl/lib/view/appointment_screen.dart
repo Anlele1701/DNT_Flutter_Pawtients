@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:frontend/model/appointment_model.dart';
 import 'package:frontend/view/widget/item_list_view.dart';
+import 'package:frontend/view_model/appointment_view_model.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class AppointmentScreen extends StatefulWidget {
-  const AppointmentScreen({super.key});
+  AppointmentScreen({super.key, this.userID});
+  String? userID;
 
   @override
   State<AppointmentScreen> createState() => _AppointmentScreenState();
@@ -13,6 +16,24 @@ class AppointmentScreen extends StatefulWidget {
 class _AppointmentScreenState extends State<AppointmentScreen> {
   DateTime _currentDay = DateTime.now();
   DateTime _focusDay = DateTime.now();
+  AppointmentViewModel appointmentViewModel = AppointmentViewModel();
+  List<Appointment?>? listAppointment;
+  bool isLoading = true;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getListAppointment();
+  }
+
+  Future<void> getListAppointment() async {
+    final list = await appointmentViewModel.getListAppointment(widget.userID);
+    setState(() {
+      listAppointment = list;
+      isLoading = true;
+      print("${listAppointment?.length}");
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,14 +97,19 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
               ),
               SizedBox(
                 height: 230,
-                child: ListView.builder(
-                  itemCount: 3,
-                  itemBuilder: (context, index) {
-                    return const ItemListView(
-                        textInput:
-                            "Khám bệnh"); // Access the pre-created ItemListView objects
-                  },
-                ),
+                child: listAppointment == null
+                    ? Center(
+                        child: isLoading
+                            ? CircularProgressIndicator()
+                            : Text("Không có thú cưng nào!"),
+                      )
+                    : ListView.builder(
+                        itemCount: listAppointment?.length,
+                        itemBuilder: (context, index) {
+                          return ItemListView(
+                              appointment: listAppointment?[index]); // Access the pre-created ItemListView objects
+                        },
+                      ),
               )
             ]),
           ),
