@@ -20,6 +20,20 @@ class BillService {
     }
   }
 
+  Future<Bill?> getBill(String id) async {
+    try {
+      final dio = Dio();
+      Response response = await dio.get("${devURL}/bill/get-bill/$id");
+      if (response.statusCode == 200) {
+        return Bill.fromJson(response.data);
+      } else
+        return null;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
   Future<Bill?> createBill(Bill bill, List<ImagePet?>? listHinhAnh) async {
     try {
       final dio = Dio();

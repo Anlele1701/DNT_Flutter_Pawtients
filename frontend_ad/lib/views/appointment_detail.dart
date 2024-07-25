@@ -6,6 +6,7 @@ import 'package:frontend_ad/models/appointment.dart';
 import 'package:frontend_ad/views/bill_detail.dart';
 import 'package:frontend_ad/views/create_bill.dart';
 import 'package:frontend_ad/views/public_views/appbar.dart';
+import 'package:frontend_ad/views/public_views/appbar_drawer.dart';
 import 'package:frontend_ad/views/widget/ToastNoti.dart';
 import 'package:frontend_ad/views_models/appointment_view_model.dart';
 import 'package:intl/intl.dart';
@@ -27,7 +28,6 @@ class _MyWidgetState extends State<AppointmentDetail> {
   AppointmentViewModel appointmentViewModel = AppointmentViewModel();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     stateChoose = "${widget.appointment?.trangThai}";
     thongBao = widget.appointment?.thongBao;
@@ -51,20 +51,11 @@ class _MyWidgetState extends State<AppointmentDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppbarDrawer(title: "Chi tiết lịch khám"),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            IconButton(
-                onPressed: () {
-                  print(thongBao);
-                  widget.onChangeNoti!(thongBao);
-                  Navigator.pop(context);
-                },
-                icon: Icon(
-                  Icons.close,
-                  size: 40,
-                )),
             Container(
               margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
               padding: const EdgeInsets.all(16),
