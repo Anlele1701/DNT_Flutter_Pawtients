@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:frontend/model/appointment_model.dart';
 import 'package:frontend/model/pet_model.dart';
+import 'package:frontend/view/confirmation_screen.dart';
 import 'package:frontend/view/widget/Layout/app_bar.dart';
 import 'package:frontend/view_model/appointment_view_model.dart';
 import 'package:frontend/view_model/pet_view_model.dart';
@@ -39,7 +40,6 @@ class _BookingScreenState extends State<BookingScreen> {
   }
 
   Future<void> getPetList() async {
-    print(widget.userID);
     List<Pet?>? list = await petViewModel.getPetList(widget.userID);
     setState(() {
       petList = list;
@@ -101,13 +101,12 @@ class _BookingScreenState extends State<BookingScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     "Dịch vụ",
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   DropdownMenu<String>(
-                    menuStyle: MenuStyle(),
+                    menuStyle: const MenuStyle(),
                     hintText: "Chọn dịch vụ",
                     onSelected: (String? value) {
                       setState(() {
@@ -131,13 +130,12 @@ class _BookingScreenState extends State<BookingScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     "Chọn thú cưng",
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   DropdownMenu<String>(
-                    menuStyle: MenuStyle(),
+                    menuStyle: const MenuStyle(),
                     hintText: "Chọn thú cưng",
                     onSelected: (String? value) {
                       setState(() {
@@ -164,7 +162,7 @@ class _BookingScreenState extends State<BookingScreen> {
                     BoxShadow(
                         color: Colors.black.withOpacity(.25),
                         blurRadius: 4,
-                        offset: Offset(0, 4))
+                        offset: const Offset(0, 4))
                   ]),
               child: FilledButton(
                   onPressed: () async {
@@ -175,26 +173,37 @@ class _BookingScreenState extends State<BookingScreen> {
                         DateFormat('dd/MM/yyyy').parse(formattedDateString);
                     appointment?.loaiDichVu = dropdownValue;
                     appointment?.idThuCung = idPet;
-                    print(widget.userID);
                     final result = await appointmentViewModel.createAppointment(
                         appointment!, widget.userID);
                     if (result is Appointment) {
-                      print("success");
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ConfirmationScreen(
+                                    isBooked: true,
+                                  )));
+                    } else {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ConfirmationScreen(
+                                    isBooked: false,
+                                  )));
                     }
                   },
-                  child: Text("Đặt lịch"),
                   style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all<Color>(Color(0xffF48B29)),
-                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                        WidgetStateProperty.all<Color>(const Color(0xffF48B29)),
+                    padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
                         const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 10)),
-                    textStyle: MaterialStateProperty.all<TextStyle>(
+                    textStyle: WidgetStateProperty.all<TextStyle>(
                         const TextStyle(
                             color: Colors.white,
                             fontSize: 20,
                             fontWeight: FontWeight.bold)),
-                  )),
+                  ),
+                  child: const Text("Đặt lịch")),
             )
           ],
         ),

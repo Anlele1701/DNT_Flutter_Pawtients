@@ -12,7 +12,6 @@ class CustomDelegate extends SearchDelegate {
   ];
   @override
   List<Widget>? buildActions(BuildContext context) {
-    // TODO: implement buildActions
     return [
       IconButton(
           onPressed: () {
@@ -24,7 +23,6 @@ class CustomDelegate extends SearchDelegate {
 
   @override
   Widget? buildLeading(BuildContext context) {
-    // TODO: implement buildLeading
     return IconButton(
       onPressed: () {
         close(context, null);
@@ -35,13 +33,11 @@ class CustomDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    // TODO: implement buildResults
     List<String> testres = [];
     for (var item in test) {
       if (item.toLowerCase().contains(query.toLowerCase())) {
         testres.add(item);
       }
-      ;
     }
     return ListView.builder(
       itemCount: testres.length,
@@ -54,13 +50,11 @@ class CustomDelegate extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    // TODO: implement buildSuggestions
     List<String> testres = [];
     for (var item in test) {
       if (item.toLowerCase().contains(query.toLowerCase())) {
         testres.add(item);
       }
-      ;
     }
     return ListView.builder(
       itemCount: testres.length,
@@ -74,13 +68,13 @@ class CustomDelegate extends SearchDelegate {
 
 Widget ListViewBuild(var result) {
   return Container(
-    margin: EdgeInsets.fromLTRB(8, 12, 8, 8),
+    margin: const EdgeInsets.fromLTRB(8, 12, 8, 8),
     height: 250,
-    padding: EdgeInsets.all(15),
+    padding: const EdgeInsets.all(15),
     decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         border: Border.all(width: 0.1),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.black26,
             spreadRadius: 0.5,
@@ -103,7 +97,7 @@ Widget ListViewBuild(var result) {
               width: 150,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                       color: Colors.black26,
                       spreadRadius: 0.5,

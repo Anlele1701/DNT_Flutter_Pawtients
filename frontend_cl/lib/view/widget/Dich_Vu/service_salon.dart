@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/view/widget/Layout/app_bar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:frontend/view/widget/Dich_Vu/service_content.dart';
+import 'package:frontend/view/widget/Layout/appbar_drawer.dart';
 
 class SalonService extends StatefulWidget {
   const SalonService({super.key});
@@ -18,13 +19,7 @@ class _SalonServiceState extends State<SalonService> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(kToolbarHeight),
-          child: MyAppBar(
-            title: "",
-          ),
-        ),
-        // bottomNavigationBar: const BottomNavBar(),
+        appBar: const AppbarDrawer(title: "Dịch vụ Salon"),
         body: SingleChildScrollView(
           child: Column(children: [
             CarouselSlider(
@@ -37,7 +32,7 @@ class _SalonServiceState extends State<SalonService> {
                 initialPage: 0,
                 autoPlay: true,
                 enlargeCenterPage: true,
-                autoPlayInterval: Duration(seconds: 3),
+                autoPlayInterval: const Duration(seconds: 3),
                 viewportFraction: 0.73, // dòng này chỉnh kích thước hàng banner
                 aspectRatio: 3, // dòng này chỉnh kích thước hình
                 onPageChanged: (value, reason) {
@@ -53,10 +48,10 @@ class _SalonServiceState extends State<SalonService> {
               child: Row(
                 children: [
                   Image.asset("assets/icons/health_and_beauty.png"),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
-                  Text("Dịch vụ cắt tỉa",
+                  const Text("Dịch vụ cắt tỉa",
                       style: TextStyle(
                         fontSize: 23,
                         color: Color(0xFF8F6B51),
@@ -67,6 +62,22 @@ class _SalonServiceState extends State<SalonService> {
             Row(children: containers),
             Container(
               margin: const EdgeInsets.fromLTRB(15, 10, 15, 0),
+              width: double.infinity,
+              height: 200,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(
+                          0.5), // Shadow color with some transparency
+                      offset: const Offset(0,
+                          0), // Offset the shadow slightly to the right and down
+                      blurRadius: 5.0, // Blur the shadow for a softer effect
+                      spreadRadius: 0.0, // Don't spread the shadow outwards
+                    ),
+                  ]),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -76,59 +87,46 @@ class _SalonServiceState extends State<SalonService> {
                       "assets/images/salon_body_3.png",
                       cacheHeight: 150,
                     ),
-                    Text("Cắt móng",style: TextStyle(fontSize: 17),),
+                    const Text(
+                      "Cắt móng",
+                      style: TextStyle(fontSize: 17),
+                    ),
                   ],
                 ),
               ),
-              width: double.infinity,
-              height: 200,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5), // Shadow color with some transparency
-                      offset: Offset(0,0), // Offset the shadow slightly to the right and down
-                      blurRadius: 5.0, // Blur the shadow for a softer effect
-                      spreadRadius: 0.0, // Don't spread the shadow outwards
-                    ),
-                  ]),
             ),
             Padding(
-                    padding: EdgeInsets.all(20),
-                    child: SizedBox(
-                      width: 300,
-                      height: 45,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Color(0xFFFF7B00)),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image(
-                              image: AssetImage("assets/icons/Paws_Button.png"),
-                            ),
-                            SizedBox(
-                              width: 7,
-                            ),
-                            Text(
-                              "Đặt lịch ngay",
-                              style: TextStyle(
-                                  color: Color(0xFFFFFFFF), fontSize: 16),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
+              padding: const EdgeInsets.all(20),
+              child: SizedBox(
+                width: 300,
+                height: 45,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ButtonStyle(
+                    backgroundColor:
+                        WidgetStateProperty.all(const Color(0xFFFF7B00)),
                   ),
-          ]
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image(
+                        image: AssetImage("assets/icons/Paws_Button.png"),
+                      ),
+                      SizedBox(
+                        width: 7,
+                      ),
+                      Text(
+                        "Đặt lịch ngay",
+                        style:
+                            TextStyle(color: Color(0xFFFFFFFF), fontSize: 16),
+                      )
+                    ],
+                  ),
                 ),
-        )
-    );
+              ),
+            ),
+          ]),
+        ));
   }
 }
 
@@ -137,20 +135,7 @@ List<Widget> containers = pairUpLists(imagesbody, imagesbodytext).map((tuple) {
   final String text = tuple.item2;
   return Container(
     margin: const EdgeInsets.fromLTRB(10, 10, 0, 10),
-    child: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            image,
-            cacheHeight: 140,
-          ),
-          Text(text,style: TextStyle(fontSize: 17),),
-        ],
-      ),
-    ),
-    width: 200,
+    width: 100,
     height: 180,
     decoration: BoxDecoration(
       color: Colors.white,
@@ -160,12 +145,28 @@ List<Widget> containers = pairUpLists(imagesbody, imagesbodytext).map((tuple) {
         BoxShadow(
           color: Colors.grey
               .withOpacity(0.5), // Shadow color with some transparency
-          offset:
-              Offset(0, 0), // Offset the shadow slightly to the right and down
+          offset: const Offset(
+              0, 0), // Offset the shadow slightly to the right and down
           blurRadius: 5.0, // Blur the shadow for a softer effect
           spreadRadius: 0.0, // Don't spread the shadow outwards
         ),
       ],
+    ),
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            image,
+            cacheHeight: 140,
+          ),
+          Text(
+            text,
+            style: const TextStyle(fontSize: 17),
+          ),
+        ],
+      ),
     ), // Hiển thị hình ảnh
   );
 }).toList();
@@ -181,7 +182,7 @@ buildCarouselIndicator() {
           height: i == banner_cur ? 3 : 3,
           width: i == banner_cur ? 20 : 15,
           decoration: BoxDecoration(
-            color: i == banner_cur ? Color(0xFFF48B29) : Colors.grey,
+            color: i == banner_cur ? const Color(0xFFF48B29) : Colors.grey,
             shape: BoxShape.rectangle,
           ),
         )

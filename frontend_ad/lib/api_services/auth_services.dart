@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:frontend_ad/models/employee.dart';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +17,7 @@ class AuthServices {
       final loadingState = Provider.of<LoadingState>(context, listen: false);
       loadingState.isLoading = true;
       final body = jsonEncode({'tenTK': tenTK, 'matKhau': matKhau});
-      final response =
-          await dio.post("${devURL}/employees/login", data: body);
+      final response = await dio.post("$devURL/employees/login", data: body);
       if (response.data['success'] == true) {
         successToast("Đăng nhập thành công");
         SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -35,14 +35,14 @@ class AuthServices {
     }
   }
 
-  Future getInfo() async {
+  Future<Employee> getInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
     final response = await http.get(Uri.parse(devEmpAuth), headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ${prefs.getString('token')}',
     });
     final data = jsonDecode(response.body);
-    return data;
+    Employee employee = Employee.fromJson(data);
+    return employee;
   }
 }
