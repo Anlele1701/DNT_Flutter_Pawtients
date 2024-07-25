@@ -4,6 +4,7 @@ import { Body, Controller, Get, Param, Post, Query, UploadedFile, UseInterceptor
 import { CreatePetDto } from './dto/create_pet.dto';
 import { Pet } from 'src/schemas/Pet.schema';
 import { PetService } from './pet.service';
+import { Image } from "src/schemas/Image";
 
 @Controller('pet')
 export class PetController{
@@ -23,5 +24,20 @@ export class PetController{
     @Get('/get-pet/:id')
     async getPet(@Param('id') idThuCung: String): Promise<Pet>{
         return await this.petService.getPet(idThuCung);
+    }
+
+    @Get('/get-pet-list-ad')
+    async getPetListAd(@Query('dsIdThuCung') dsIdThuCung: String[]):Promise<Pet[]>{
+        return await this.petService.getPetListAd(dsIdThuCung);
+    }
+
+    @Get('/get-pet-image/:id')
+    async getHinhAnh(@Param('id') idThuCung: String):Promise<{}>{
+        try{
+            return await this.petService.getHinhAnh(idThuCung);
+        }catch(e){
+            console.log(e);
+            return e;
+        }
     }
 }

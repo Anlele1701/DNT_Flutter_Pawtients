@@ -18,4 +18,33 @@ class Pet_Services_Service {
       return null;
     }
   }
+
+  Future<String?> getNameService(String? idService)async{
+    try{
+      final dio= Dio();
+      Response response= await dio.get('${devURL}/pet-service/getNameService/${idService}');
+      if(response.statusCode==200){
+        return response.data;
+      }
+      else return '';
+    }catch(e){
+      print(e);
+      return null;
+    }
+  }
+
+  Future<int?> getPrice(String? loaiDichVu)async{
+    try{
+      final dio=Dio();
+      Response response= await dio.get('${devURL}/pet-service/getPrice/${loaiDichVu}');
+      if(response.statusCode==200){
+        int? price=int.tryParse(response.data);
+        return price;
+      }
+      else return 0;
+    }catch(e){
+      print(e);
+      return 0;
+    }
+  }
 }

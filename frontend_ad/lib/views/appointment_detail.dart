@@ -2,30 +2,58 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:frontend_ad/models/appointment.dart';
+import 'package:frontend_ad/views/bill_detail.dart';
 import 'package:frontend_ad/views/create_bill.dart';
 import 'package:frontend_ad/views/public_views/appbar.dart';
+import 'package:frontend_ad/views/widget/ToastNoti.dart';
+import 'package:frontend_ad/views_models/appointment_view_model.dart';
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppointmentDetail extends StatefulWidget {
-  const AppointmentDetail({super.key});
-
+  AppointmentDetail(
+      {super.key, this.appointment, this.onChangeStatus, this.onChangeNoti});
+  Appointment? appointment;
+  Function(String?)? onChangeStatus;
+  Function(bool?)? onChangeNoti;
   @override
   State<AppointmentDetail> createState() => _MyWidgetState();
 }
 
 class _MyWidgetState extends State<AppointmentDetail> {
-  String? stateChoose = "Chưa xác nhận";
-  final List<String> listState = ["Chưa xác nhận", "Đồng ý", "Hủy"];
+  String? stateChoose;
+  bool? thongBao;
+  AppointmentViewModel appointmentViewModel = AppointmentViewModel();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    stateChoose = "${widget.appointment?.trangThai}";
+    thongBao = widget.appointment?.thongBao;
+    if (widget.appointment?.thongBao == false) updateNoti();
+  }
+
+  Future<void> updateNoti() async {
+    await appointmentViewModel.updateNoti(widget.appointment?.id);
+    setState(() {
+      thongBao = true;
+    });
+  }
+
+  final List<String> listState = ["Chưa xác nhận", "Đã xác nhận", "Hủy"];
   final String? tinhTrangBenh = "Khám bệnh";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             IconButton(
                 onPressed: () {
+                  print(thongBao);
+                  widget.onChangeNoti!(thongBao);
                   Navigator.pop(context);
                 },
                 icon: Icon(
@@ -33,7 +61,6 @@ class _MyWidgetState extends State<AppointmentDetail> {
                   size: 40,
                 )),
             Container(
-              decoration: BoxDecoration(color: Color(0xffffffff)),
               margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
               padding: const EdgeInsets.all(16),
               child: Column(
@@ -41,36 +68,34 @@ class _MyWidgetState extends State<AppointmentDetail> {
                   Row(
                     children: [
                       Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: Color(0xff000000)),
-                        height: 150,
-                        width: 150,
-                        child: Image.asset(
-                          "images/cat_rect.png",
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: Color(0xff000000)),
+                          height: 150,
+                          width: 150,
+                          child: widget.appointment?.thuCung?.data != null
+                              ? Image.memory(widget.appointment!.thuCung!.data)
+                              : Container()),
                       const SizedBox(
                         width: 10,
                       ),
-                      const Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             children: [
-                              Text(
+                              const Text(
                                 "Tên thú cưng: ",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 18),
                               ),
                               Text(
-                                "Chấu Đọ",
+                                "${widget.appointment?.tenThuCung}",
                                 style: TextStyle(fontSize: 18),
                               )
                             ],
                           ),
-                          Text(
+                          const Text(
                             "Đặt ngày:",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -78,7 +103,7 @@ class _MyWidgetState extends State<AppointmentDetail> {
                             ),
                           ),
                           Text(
-                            "2:00 PM - 16/7/2024",
+                            "${DateFormat('dd/MM/yyyy').format(widget.appointment!.ngayKham!)}",
                             style: TextStyle(fontSize: 18),
                           )
                         ],
@@ -88,14 +113,14 @@ class _MyWidgetState extends State<AppointmentDetail> {
                   const SizedBox(
                     height: 20,
                   ),
-                  const Row(
+                  Row(
                     children: [
-                      Text("Dịch vụ khám: ",
+                      const Text("Dịch vụ khám: ",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
                           )),
-                      Text("Tỉa lông",
+                      Text("${widget.appointment?.tenDichVu}",
                           style: TextStyle(
                             fontSize: 18,
                           ))
@@ -111,6 +136,9 @@ class _MyWidgetState extends State<AppointmentDetail> {
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
                           )),
+                      SizedBox(
+                        width: 10,
+                      ),
                       Container(
                         decoration: BoxDecoration(
                             color: Color(0xffffffff),
@@ -171,35 +199,82 @@ class _MyWidgetState extends State<AppointmentDetail> {
                   const SizedBox(
                     height: 20,
                   ),
+                  widget.appointment?.idHoaDon==null?Column(
+                    children: [
+                      Container(
+                        width: 350,
+                        decoration: BoxDecoration(
+                            color: Color(0xffF48B29),
+                            borderRadius: BorderRadius.circular(30)),
+                        child: TextButton(
+                            onPressed: () async {
+                              final pref = await SharedPreferences.getInstance();
+                              String? idNV = pref.getString('id');
+                              final result =
+                                  await appointmentViewModel.updateStatus(
+                                      stateChoose, widget.appointment?.id, idNV);
+                              if (result is Appointment) {
+                                successToast("Cập nhật lịch khám thành công");
+                                widget.onChangeNoti!(thongBao);
+                                widget.onChangeStatus!(stateChoose);
+                                Navigator.pop(context);
+                              } else {
+                                errorToast(
+                                    'Cập nhật lịch khám thất bại', 'Lỗi server');
+                              }
+                            },
+                            child: const Text(
+                              "Lưu trạng thái",
+                              style: TextStyle(
+                                  color: Color(0xffffffff),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                            )),
+                      ),
+                      const SizedBox(
+                    height: 10,
+                  ),
                   Container(
-                    width: 400,
+                    width: 350,
                     decoration: BoxDecoration(
-                        color: Color(0xffF48B29),
+                        color: const Color(0xff00A1E6),
                         borderRadius: BorderRadius.circular(30)),
                     child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (widget.appointment?.trangThai ==
+                              "Chưa xác nhận") {
+                            errorToast("Không thể tạo hóa đơn",
+                                "Lịch khám chưa được xác nhận");
+                          } else {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CreateBill(appointment: widget.appointment)));
+                          }
+                        },
                         child: const Text(
-                          "Lưu trạng thái",
+                          "Tạo hóa đơn",
                           style: TextStyle(
                               color: Color(0xffffffff),
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         )),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    width: 400,
+                    ],
+                  ):Container(
+                    width: 350,
                     decoration: BoxDecoration(
                         color: const Color(0xff00A1E6),
                         borderRadius: BorderRadius.circular(30)),
                     child: TextButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>CreateBill()));
+                          Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => BillDetail(idHD: widget.appointment?.idHoaDon)));
                         },
                         child: const Text(
-                          "Tạo hóa đơn",
+                          "Xem hóa đơn",
                           style: TextStyle(
                               color: Color(0xffffffff),
                               fontSize: 18,

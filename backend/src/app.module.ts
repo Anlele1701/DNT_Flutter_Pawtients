@@ -9,6 +9,7 @@ import { ChatbotModule } from './modules/chatbot/chatbot.module';
 import { DrugModule } from './modules/drug/drug.module';
 import { AppointmentModule } from './modules/appointment/appointment.module';
 import { VacxinModule } from './modules/vacxin/vacxin.module';
+import { BillModule } from './modules/bill/bill.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -24,6 +25,7 @@ import { VacxinModule } from './modules/vacxin/vacxin.module';
     PetModule,
     AppointmentModule,
     VacxinModule,
+    BillModule
   ],
   controllers: [],
   providers: [],

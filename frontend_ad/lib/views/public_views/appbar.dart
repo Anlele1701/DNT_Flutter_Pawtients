@@ -5,6 +5,7 @@ import 'package:frontend_ad/models/employee.dart';
 import 'package:frontend_ad/views/items/appointment_item.dart';
 import 'package:frontend_ad/views/items/notification_item.dart';
 import 'package:frontend_ad/views/public_views/notification_top_sheet.dart';
+import 'package:frontend_ad/views/web_views/employee.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   CustomAppBar({super.key, this.employee});

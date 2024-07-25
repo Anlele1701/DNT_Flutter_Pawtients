@@ -3,8 +3,8 @@ import 'package:frontend_ad/views/public_views/appbar.dart';
 import 'package:intl/intl.dart';
 
 class BillDetail extends StatefulWidget {
-  const BillDetail({super.key});
-
+  BillDetail({super.key, this.idHD});
+  String? idHD;
   @override
   State<BillDetail> createState() => _MyWidgetState();
 }

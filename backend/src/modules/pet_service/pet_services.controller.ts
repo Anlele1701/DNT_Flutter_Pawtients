@@ -16,4 +16,9 @@ export class Pet_Services_Controller{
     async getNameService(@Param('id') idService: String):Promise<String>{
         return await this.petService.getNameService(idService);
     }
+
+    @Get('/getPrice/:id')
+    async getPrice(@Param('id') idService: String):Promise<Number>{
+        return await this.petService.getPrice(idService);
+    }
 }

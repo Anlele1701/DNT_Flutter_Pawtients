@@ -115,4 +115,16 @@ export class UsersService {
     await user.save();
     return { success: true, message: 'Cập nhật mật khẩu thành công' };
   }
+
+  async getUserList():Promise<User[]>{
+    try{
+      const userList= await this.userModel.find();
+      if(userList) return userList;
+      else return [];
+    }
+    catch(e){
+      console.log(e);
+      return e;
+    }
+  }
 }
