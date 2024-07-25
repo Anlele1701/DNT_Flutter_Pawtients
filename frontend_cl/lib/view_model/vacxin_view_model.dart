@@ -9,4 +9,14 @@ class VacxinViewModel{
       print(e);
     }
   }
+
+  Future<List<Vacxin?>?> searchVacxinList(String? search) async{
+    try{
+      return await VacxinService().searchVacxinList(search);
+    }
+    catch(e){
+      print(e);
+      return null;
+    }
+  }
 }

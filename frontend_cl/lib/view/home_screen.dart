@@ -79,8 +79,8 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _updateGreetingText();
     listAppointment = appointmentViewModel.getListAppointment(widget.userID);
-    lstDrug = DrugViewModel().getDrugs(0, 8);
-    lstVacxin= VacxinViewModel().getVacxin(0,8);
+    lstDrug = DrugViewModel().getDrugs(0, 50);
+    lstVacxin= VacxinViewModel().getVacxin(0,50);
   }
 
   @override
@@ -161,8 +161,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   backgroundColor: const WidgetStatePropertyAll(Colors.white),
                   padding: const WidgetStatePropertyAll(
                       EdgeInsets.symmetric(horizontal: 14)),
-                  onTap: () {
-                    showSearch(context: context, delegate: CustomDelegate());
+                  onTap: () async{
+                    List<Drug?>? drugs= await lstDrug;
+                    List<Vacxin?>? vacxins= await lstVacxin;
+                    showSearch(context: context, delegate: CustomDelegate(lstDrugs: drugs, lstVacxins: vacxins));
                   },
                   onChanged: (_) {
                     controller.openView();

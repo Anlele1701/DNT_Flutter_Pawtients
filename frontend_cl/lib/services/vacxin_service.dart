@@ -20,4 +20,22 @@ class VacxinService{
       return null;
     }
   }
+
+  Future<List<Vacxin?>?> searchVacxinList(String? search)async{
+    try{
+      final dio= Dio();
+      List<Vacxin?> listVacxin=[];
+      Response response= await dio.get('${devUrl}/vacxin/search-vacxin-list', queryParameters: {'skip': 0, 'limit': 10,'search':search});
+      if(response.statusCode==200){
+        List<dynamic> vacxinListJson=response.data;
+        listVacxin=vacxinListJson.map((vacxinJson)=>Vacxin.fromJson(vacxinJson)).toList();
+        return listVacxin;
+      }
+      else return null;
+    }catch(e){
+      print(e);
+      return null;
+    }
+  }
+
 }

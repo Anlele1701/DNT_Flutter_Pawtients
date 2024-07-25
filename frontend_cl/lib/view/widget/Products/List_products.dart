@@ -111,88 +111,73 @@ class ProductsState extends State<Products> {
                         // dòng này mốt truyền length của các item vào
                         itemCount: drugs?.length,
                         itemBuilder: (context, index) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Color.fromARGB(26, 190, 182, 182),
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(20),
-                                      topRight: Radius.circular(20),
-                                    ),
-                                  ),
-                                  child: Center(
-                                      child: Image.memory(
-                                          drugs![index]!.hinhAnh!.data)),
-                                ),
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                    color: Color(0xFFF7F2F2),
-                                    borderRadius: BorderRadius.only(
-                                      bottomLeft: Radius.circular(20),
-                                      bottomRight: Radius.circular(20),
-                                    ),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.black26,
-                                          offset: Offset(0, 3),
-                                          blurRadius: 14,
-                                          blurStyle: BlurStyle.inner),
-                                    ]),
-                                padding:
-                                    const EdgeInsets.fromLTRB(10, 5, 10, 15),
-                                child: Column(children: [
-                                  Text(
-                                    "${drugs[index]?.tenThuoc}",
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w500,
-                                        overflow: TextOverflow.ellipsis),
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        NumberFormat.currency(
-                                                locale: 'vi_VN', symbol: 'đ')
-                                            .format(drugs[index]?.giaTien),
-                                        style: TextStyle(fontSize: 18),
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return Prodetail(product: drugs[index]);
+                              }));
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Color.fromARGB(26, 190, 182, 182),
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20),
                                       ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      Prodetail()));
-                                        },
-                                        child: Container(
-                                          width: 25,
-                                          height: 25,
-                                          decoration: BoxDecoration(
-                                            color: Color(0xFFFF7B00),
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                          ),
-                                          child: Icon(
-                                            Icons.add,
-                                            size: 18,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      )
-                                    ],
+                                    ),
+                                    child: Center(
+                                        child: Image.memory(
+                                            drugs![index]!.hinhAnh!.data)),
                                   ),
-                                ]),
-                              ),
-                            ],
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                      color: Color(0xFFF7F2F2),
+                                      borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(20),
+                                        bottomRight: Radius.circular(20),
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(0, 3),
+                                            blurRadius: 14,
+                                            blurStyle: BlurStyle.inner),
+                                      ]),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(10, 5, 10, 15),
+                                  child: Column(children: [
+                                    Text(
+                                      "${drugs[index]?.tenThuoc}",
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500,
+                                          overflow: TextOverflow.ellipsis),
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          NumberFormat.currency(
+                                                  locale: 'vi_VN', symbol: 'đ')
+                                              .format(drugs[index]?.giaTien),
+                                          style: TextStyle(fontSize: 18),
+                                        ),
+                                      ],
+                                    ),
+                                  ]),
+                                ),
+                              ],
+                            ),
                           );
                         },
                       );

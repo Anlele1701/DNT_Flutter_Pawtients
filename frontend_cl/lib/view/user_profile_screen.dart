@@ -163,18 +163,18 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               children: [
                                 Stack(
                                   children: [
-                                    FittedBox(
-                                      fit: BoxFit.contain,
-                                      child: CircleAvatar(
-                                        radius: 100,
-                                        foregroundImage: _image != null
-                                            ? FileImage(_image!)
-                                                as ImageProvider
-                                            : Image.memory(
-                                                user!.image?.data as Uint8List,
-                                              ).image,
-                                      ),
-                                    ),
+                                    // FittedBox(
+                                    //   fit: BoxFit.contain,
+                                    //   child: CircleAvatar(
+                                    //     radius: 100,
+                                    //     foregroundImage: _image != null
+                                    //         ? FileImage(_image!)
+                                    //             as ImageProvider
+                                    //         : Image.memory(
+                                    //             user!.image!.data,
+                                    //           ).image,
+                                    //   ),
+                                    // ),
                                     Visibility(
                                       visible: isEdit,
                                       child: Positioned(
