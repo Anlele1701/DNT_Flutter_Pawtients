@@ -9,7 +9,6 @@ async function bootstrap() {
     .setTitle('Pawtient API')
     .setDescription('Pawtient App API description')
     .setVersion('1.0')
-    .addTag('pawtient')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

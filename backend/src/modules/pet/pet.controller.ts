@@ -5,7 +5,8 @@ import { CreatePetDto } from './dto/create_pet.dto';
 import { Pet } from 'src/schemas/Pet.schema';
 import { PetService } from './pet.service';
 import { Image } from "src/schemas/Image";
-
+import { ApiTags } from '@nestjs/swagger';
+@ApiTags("PETS")
 @Controller('pet')
 export class PetController{
     constructor(private readonly petService:PetService){}

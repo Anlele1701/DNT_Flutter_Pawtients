@@ -1,20 +1,10 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Post,
-  UploadedFiles,
-  UseInterceptors,
-  UsePipes,
-  ValidationPipe,
-} from '@nestjs/common';
-import { BillService } from './bill.service';
-import { Bill } from 'src/schemas/Bill.schema';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-import { CreateBillDto } from './dto/create_bill.dto';
-import mongoose from 'mongoose';
-
+import { Body, Controller, Get, Post, UploadedFiles, UseInterceptors, UsePipes, ValidationPipe } from "@nestjs/common";
+import { BillService } from "./bill.service";
+import { Bill } from "src/schemas/Bill.schema";
+import { FileInterceptor, FilesInterceptor } from "@nestjs/platform-express";
+import { CreateBillDto } from "./dto/create_bill.dto";
+import { ApiTags } from "@nestjs/swagger";
+@ApiTags("BILLS")
 @Controller('bill')
 export class BillController {
   constructor(private readonly billService: BillService) {}

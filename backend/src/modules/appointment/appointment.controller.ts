@@ -2,6 +2,8 @@ import { Appointment } from 'src/schemas/Appointment.schema';
 import { AppointmentService } from './appointment.service';
 import { Body, Controller, Get, Param, Patch, Post, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { CreateAppointmentDto } from './dto/create_new_appointment.dto';
+import { ApiTags } from '@nestjs/swagger';
+@ApiTags("APPOINTMENT")
 @Controller('appointment')
 export class AppointmentController{
     constructor(private readonly appointmentService: AppointmentService){}
