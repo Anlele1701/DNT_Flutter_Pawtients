@@ -157,19 +157,20 @@ class _LayoutScreenState extends State<LayoutScreen> {
                     label: ''),
                 BottomNavigationBarItem(
                     icon: CircleAvatar(
-                      backgroundColor: const Color(0xff474747),
-                      child: user?.image?.data != null
-                          ? ClipOval(
-                              child: Image.memory(
-                                user?.image?.data as Uint8List,
-                                width: 100,
-                                height: 100,
-                              ),
-                            )
-                          : const CircleAvatar(
-                              backgroundColor: Colors.transparent,
-                            ),
-                    ),
+                        backgroundColor: const Color(0xff474747),
+                        child: user?.image?.data != null
+                            ? ClipOval(
+                                child: Image.memory(
+                                  user?.image?.data as Uint8List,
+                                  width: 100,
+                                  height: 100,
+                                ),
+                              )
+                            : CircleAvatar(
+                                child: Image.network(
+                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDoKp0wum3Z8G1cQXa7j9UtFbpTYqG5YhUcg&s%27",
+                                ),
+                              )),
                     label: '')
               ],
             ),
@@ -248,19 +249,24 @@ class _buildDrawer extends StatelessWidget {
                         Color(0xffFDB777),
                       ])),
                   currentAccountPicture: CircleAvatar(
-                    backgroundColor: Colors.white,
-                    child: user?.image?.data != null
-                        ? ClipOval(
-                            child: Image.memory(
-                              user?.image?.data as Uint8List,
-                              width: 100,
-                              height: 100,
-                            ),
-                          )
-                        : const CircleAvatar(
-                            backgroundColor: Colors.transparent,
-                          ),
-                  ),
+                      backgroundColor: Colors.white,
+                      child: user?.image?.data != null
+                          ? ClipOval(
+                              child: Image.memory(
+                                user?.image?.data as Uint8List,
+                                width: 100,
+                                height: 100,
+                              ),
+                            )
+                          : CircleAvatar(
+                              child: Image.network(
+                                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDoKp0wum3Z8G1cQXa7j9UtFbpTYqG5YhUcg&s%27",
+                              ),
+                            ))
+                  // : const CircleAvatar(
+                  //     backgroundColor: Colors.transparent,
+                  //   ),
+                  ,
                   accountName: Text(userName),
                   accountEmail: Text(userEmail)),
           Container(

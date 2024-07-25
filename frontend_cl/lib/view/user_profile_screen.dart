@@ -163,18 +163,21 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               children: [
                                 Stack(
                                   children: [
-                                    // FittedBox(
-                                    //   fit: BoxFit.contain,
-                                    //   child: CircleAvatar(
-                                    //     radius: 100,
-                                    //     foregroundImage: _image != null
-                                    //         ? FileImage(_image!)
-                                    //             as ImageProvider
-                                    //         : Image.memory(
-                                    //             user!.image!.data,
-                                    //           ).image,
-                                    //   ),
-                                    // ),
+                                    FittedBox(
+                                      fit: BoxFit.contain,
+                                      child: CircleAvatar(
+                                        radius: 100,
+                                        foregroundImage: hinhAnh != null
+                                            ? _image != null
+                                                ? FileImage(_image!)
+                                                    as ImageProvider
+                                                : Image.memory(
+                                                    user!.image!.data,
+                                                  ).image
+                                            : const NetworkImage(
+                                                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDoKp0wum3Z8G1cQXa7j9UtFbpTYqG5YhUcg&s'),
+                                      ),
+                                    ),
                                     Visibility(
                                       visible: isEdit,
                                       child: Positioned(

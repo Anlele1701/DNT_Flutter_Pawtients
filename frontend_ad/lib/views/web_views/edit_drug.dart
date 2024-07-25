@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:frontend_ad/models/drug.dart';
 import 'package:frontend_ad/models/image_model.dart';
+import 'package:frontend_ad/views/public_views/appbar_drawer.dart';
 import 'package:frontend_ad/views_models/drug_view_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
@@ -59,29 +60,14 @@ class _MyWidgetState extends State<EditDrug> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const AppbarDrawer(
+        title: "Thông tin thuốc men",
+      ),
       body: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back_ios_new_outlined),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  const SizedBox(
-                    width: 70,
-                  ),
-                  const Text(
-                    "Cập nhật sản phẩm",
-                    style: TextStyle(fontSize: 25),
-                  )
-                ],
-              ),
               Container(
                 margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                 padding: const EdgeInsets.all(10),
@@ -199,6 +185,9 @@ class _MyWidgetState extends State<EditDrug> {
                   padding: EdgeInsets.all(16),
                   width: double.infinity,
                   child: FilledButton(
+                      style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all<Color>(
+                              Color(0xffF48B29))),
                       onPressed: () async {
                         drug!.id = widget.drugItem?.id;
                         drug!.tenThuoc = tenthuocController!.text;

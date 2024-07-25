@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend_ad/api_services/auth_services.dart';
 import 'package:frontend_ad/models/employee.dart';
+import 'package:frontend_ad/views/public_views/appbar_drawer.dart';
 
 class EmployeeView extends StatefulWidget {
   EmployeeView({super.key, this.employee});
@@ -15,6 +17,9 @@ class _EmployeeViewState extends State<EmployeeView> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      appBar: const AppbarDrawer(
+        title: "Thông tin nhân viên",
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -22,17 +27,6 @@ class _EmployeeViewState extends State<EmployeeView> {
               children: [
                 Column(
                   children: [
-                    GestureDetector(
-                      onTap: (){
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        child: Icon(Icons.arrow_back,size: 40,),
-                        alignment: Alignment.topLeft,
-                        padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                        margin: EdgeInsets.only(top: 10),
-                      ),
-                    ),
                     Container(
                       height: 200,
                       width: 200,
@@ -94,7 +88,8 @@ class _EmployeeViewState extends State<EmployeeView> {
                         UserProfileInfo(
                           screenWidth: screenWidth,
                           title: 'Giới tính',
-                          content: widget.employee?.gioiTinh==true? "Nam": "Nữ",
+                          content:
+                              widget.employee?.gioiTinh == true ? "Nam" : "Nữ",
                         ),
                         UserProfileInfo(
                           screenWidth: screenWidth,
@@ -109,6 +104,18 @@ class _EmployeeViewState extends State<EmployeeView> {
                       ],
                     ),
                   ),
+                  Row(children: [
+                    Expanded(
+                        child: FilledButton(
+                            style: const ButtonStyle(
+                                backgroundColor:
+                                    const WidgetStatePropertyAll<Color>(
+                                        Color(0xffF48B29))),
+                            onPressed: () {
+                              AuthServices().logout(context);
+                            },
+                            child: const Text("Đăng xuất")))
+                  ])
                 ],
               ),
             )

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:frontend_ad/models/image_model.dart';
 import 'package:frontend_ad/models/vacxin.dart';
+import 'package:frontend_ad/views/public_views/appbar_drawer.dart';
 import 'package:frontend_ad/views_models/vacxin_view_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
@@ -47,29 +48,14 @@ class _MyWidgetState extends State<CreateVacxin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const AppbarDrawer(
+        title: "Thêm vaccine mới",
+      ),
       body: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back_ios_new_outlined),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  const SizedBox(
-                    width: 70,
-                  ),
-                  const Text(
-                    "Thêm vacxin mới",
-                    style: TextStyle(fontSize: 25),
-                  )
-                ],
-              ),
               Container(
                 margin: const EdgeInsets.all(16),
                 padding: const EdgeInsets.all(10),
