@@ -41,8 +41,13 @@ class _MyWidgetState extends State<AppointmentDetail> {
     });
   }
 
-  final List<String> listState = ["Chưa xác nhận", "Đã xác nhận", "Hủy"];
-  final String? tinhTrangBenh = "Khám bệnh";
+  final List<String> listState = [
+    "Chưa xác nhận",
+    "Đã xác nhận",
+    "Đã khám",
+    "Hoàn thành"
+  ];
+  String? tinhTrangBenh;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -199,88 +204,98 @@ class _MyWidgetState extends State<AppointmentDetail> {
                   const SizedBox(
                     height: 20,
                   ),
-                  widget.appointment?.idHoaDon==null?Column(
-                    children: [
-                      Container(
-                        width: 350,
-                        decoration: BoxDecoration(
-                            color: Color(0xffF48B29),
-                            borderRadius: BorderRadius.circular(30)),
-                        child: TextButton(
-                            onPressed: () async {
-                              final pref = await SharedPreferences.getInstance();
-                              String? idNV = pref.getString('id');
-                              final result =
-                                  await appointmentViewModel.updateStatus(
-                                      stateChoose, widget.appointment?.id, idNV);
-                              if (result is Appointment) {
-                                successToast("Cập nhật lịch khám thành công");
-                                widget.onChangeNoti!(thongBao);
-                                widget.onChangeStatus!(stateChoose);
-                                Navigator.pop(context);
-                              } else {
-                                errorToast(
-                                    'Cập nhật lịch khám thất bại', 'Lỗi server');
-                              }
-                            },
-                            child: const Text(
-                              "Lưu trạng thái",
-                              style: TextStyle(
-                                  color: Color(0xffffffff),
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
-                            )),
-                      ),
-                      const SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    width: 350,
-                    decoration: BoxDecoration(
-                        color: const Color(0xff00A1E6),
-                        borderRadius: BorderRadius.circular(30)),
-                    child: TextButton(
-                        onPressed: () {
-                          if (widget.appointment?.trangThai ==
-                              "Chưa xác nhận") {
-                            errorToast("Không thể tạo hóa đơn",
-                                "Lịch khám chưa được xác nhận");
-                          } else {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => CreateBill(appointment: widget.appointment)));
-                          }
-                        },
-                        child: const Text(
-                          "Tạo hóa đơn",
-                          style: TextStyle(
-                              color: Color(0xffffffff),
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        )),
-                  ),
-                    ],
-                  ):Container(
-                    width: 350,
-                    decoration: BoxDecoration(
-                        color: const Color(0xff00A1E6),
-                        borderRadius: BorderRadius.circular(30)),
-                    child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => BillDetail(idHD: widget.appointment?.idHoaDon)));
-                        },
-                        child: const Text(
-                          "Xem hóa đơn",
-                          style: TextStyle(
-                              color: Color(0xffffffff),
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        )),
-                  ),
+                  widget.appointment?.idHoaDon == null
+                      ? Column(
+                          children: [
+                            Container(
+                              width: 350,
+                              decoration: BoxDecoration(
+                                  color: Color(0xffF48B29),
+                                  borderRadius: BorderRadius.circular(30)),
+                              child: TextButton(
+                                  onPressed: () async {
+                                    final pref =
+                                        await SharedPreferences.getInstance();
+                                    String? idNV = pref.getString('id');
+                                    final result =
+                                        await appointmentViewModel.updateStatus(
+                                            stateChoose,
+                                            widget.appointment?.id,
+                                            idNV);
+                                    if (result is Appointment) {
+                                      successToast(
+                                          "Cập nhật lịch khám thành công");
+                                      widget.onChangeNoti!(thongBao);
+                                      widget.onChangeStatus!(stateChoose);
+                                      Navigator.pop(context);
+                                    } else {
+                                      errorToast('Cập nhật lịch khám thất bại',
+                                          'Lỗi server');
+                                    }
+                                  },
+                                  child: const Text(
+                                    "Lưu trạng thái",
+                                    style: TextStyle(
+                                        color: Color(0xffffffff),
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              width: 350,
+                              decoration: BoxDecoration(
+                                  color: const Color(0xff00A1E6),
+                                  borderRadius: BorderRadius.circular(30)),
+                              child: TextButton(
+                                  onPressed: () {
+                                    if (widget.appointment?.trangThai ==
+                                        "Chưa xác nhận") {
+                                      errorToast("Không thể tạo hóa đơn",
+                                          "Lịch khám chưa được xác nhận");
+                                    } else {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => CreateBill(
+                                                  appointment:
+                                                      widget.appointment)));
+                                    }
+                                  },
+                                  child: const Text(
+                                    "Tạo hóa đơn",
+                                    style: TextStyle(
+                                        color: Color(0xffffffff),
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                            ),
+                          ],
+                        )
+                      : Container(
+                          width: 350,
+                          decoration: BoxDecoration(
+                              color: const Color(0xff00A1E6),
+                              borderRadius: BorderRadius.circular(30)),
+                          child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => BillDetail(
+                                            idHD:
+                                                widget.appointment?.idHoaDon)));
+                              },
+                              child: const Text(
+                                "Xem hóa đơn",
+                                style: TextStyle(
+                                    color: Color(0xffffffff),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
+                              )),
+                        ),
                 ],
               ),
             )
