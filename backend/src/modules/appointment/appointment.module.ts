@@ -6,6 +6,8 @@ import { AppointmentService } from "./appointment.service";
 import { PetService, PetServiceSchema } from "src/schemas/PetService.schema";
 import { Pet_Services_Service } from "../pet_service/pet_services.service";
 import { User, UserSchema } from "src/schemas/User.schema";
+import { NotiService } from "../notification/noti.service";
+import { AppointmentGateway } from "../notification/noti";
 
 @Module({
     imports:[
@@ -14,6 +16,6 @@ import { User, UserSchema } from "src/schemas/User.schema";
         MongooseModule.forFeature([{name: User.name, schema: UserSchema}]),
     ],
     controllers:[AppointmentController],
-    providers:[AppointmentService, Pet_Services_Service]
+    providers:[AppointmentService, Pet_Services_Service, NotiService, AppointmentGateway]
 })
 export class AppointmentModule {};

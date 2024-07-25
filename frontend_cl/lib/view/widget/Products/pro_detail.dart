@@ -6,7 +6,8 @@ import 'package:frontend/view/widget/Products/content_filter.dart';
 import 'package:frontend/view/widget/Layout/app_bar.dart';
 
 class Prodetail extends StatefulWidget {
-  const Prodetail({super.key});
+  Prodetail({super.key, this.product});
+  dynamic product;
 
   @override
   State<Prodetail> createState() => ProdetailState();
@@ -85,8 +86,6 @@ class ProdetailState extends State<Prodetail> {
                 Text("VC001 | Thương hiệu : Biorables"),
                 Text("1,500,000 VND",style: TextStyle(fontSize: 25,color: Color(0xFFF09036),fontWeight: FontWeight.w500,),),
                 Text("Mô tả sản phẩm",style: TextStyle(fontSize: 20,color: Color.fromARGB(255, 102, 101, 101),fontWeight: FontWeight.w500,)),
-                Text("Thành phần",style: TextStyle(fontSize: 18,color: Color.fromARGB(255, 102, 101, 101),fontWeight: FontWeight.w500,)),
-                Text("Nước, Etylen Glicol, Benzen, Alcohol, Sorbitol, Poloxamer, Sodium"),
                 Text("Phòng bệnh",style: TextStyle(fontSize: 18,color: Color.fromARGB(255, 102, 101, 101),fontWeight: FontWeight.w500,)),
                 Text("Dại cho chó mèo, khùng"),
                 Text("Thông tin chung",style: TextStyle(fontSize: 18,color: Color.fromARGB(255, 102, 101, 101),fontWeight: FontWeight.w500,)),

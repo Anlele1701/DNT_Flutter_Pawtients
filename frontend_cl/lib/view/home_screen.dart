@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/model/appointment_model.dart';
 import 'package:frontend/model/drug_model.dart';
+import 'package:frontend/model/vacxin_model.dart';
 import 'package:frontend/view/widget/Dich_Vu/service_page.dart';
 import 'package:frontend/view/widget/Dich_Vu/service_salon.dart';
 import 'package:frontend/view/widget/Products/List_products.dart';
@@ -9,6 +10,7 @@ import 'package:frontend/view/widget/item_list_view.dart';
 import 'package:frontend/view/widget/search_bar.dart';
 import 'package:frontend/view_model/appointment_view_model.dart';
 import 'package:frontend/view_model/drug_view_model.dart';
+import 'package:frontend/view_model/vacxin_view_model.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'widget/item_card_view.dart';
@@ -34,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _showedItems = 0;
 
   late Future<List<Drug?>?> lstDrug;
+  late Future<List<Vacxin?>?> lstVacxin;
   //ảnh tạm
   final List<String> imgList = [
     'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
@@ -77,6 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _updateGreetingText();
     listAppointment = appointmentViewModel.getListAppointment(widget.userID);
     lstDrug = DrugViewModel().getDrugs(0, 8);
+    lstVacxin= VacxinViewModel().getVacxin(0,8);
   }
 
   @override
@@ -265,14 +269,33 @@ class _HomeScreenState extends State<HomeScreen> {
               margin: const EdgeInsets.symmetric(vertical: 2),
               width: double.infinity,
               height: 200,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                physics: BouncingScrollPhysics(),
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return ItemCardView();
+              child: FutureBuilder(
+                future: lstVacxin,
+                builder: (context, snapshot){
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return const Center(child: Text('Error'));
+                } else {
+                  final List<Vacxin?>? vacxins = snapshot.data as List<Vacxin?>?;
+                  return Container(
+                    margin: const EdgeInsets.symmetric(vertical: 2),
+                    width: double.infinity,
+                    height: 200,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      physics: BouncingScrollPhysics(),
+                      itemCount: 5,
+                      itemBuilder: (context, index) {
+                        return ItemCardView(
+                          drugModel: vacxins?[index],
+                        );
+                      },
+                    ),
+                  );
+                }
                 },
-              ),
+              )
             ),
             //VACCINE NỔI BẬT
             const SizedBox(height: 16),

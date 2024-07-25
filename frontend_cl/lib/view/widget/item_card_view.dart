@@ -10,7 +10,7 @@ class ItemCardView extends StatefulWidget {
     this.drugModel,
   });
 
-  Drug? drugModel;
+  dynamic drugModel;
   //Vaccine? vaccineModel;
 
   @override
@@ -54,8 +54,16 @@ class _ItemCardViewState extends State<ItemCardView> {
                     )
                   : Container(),
             ),
-            Text(
+            widget.drugModel is Drug? Text(
               widget.drugModel?.tenThuoc ?? "N/A",
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                overflow: TextOverflow.ellipsis,
+              ),
+              maxLines: 2,
+            ): Text(
+              widget.drugModel?.tenVacxin ?? "N/A",
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
