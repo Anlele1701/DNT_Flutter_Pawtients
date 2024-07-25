@@ -21,6 +21,12 @@ export class Bill{
     tongTien: number;
     @Prop({type: String})
     idLichKham: String;
+    @Prop({type: String})
+    tenThuCung: String;
+    @Prop({type: String})
+    tenDichVu: String;
+    @Prop({type: Date})
+    ngayKham: Date;
 }
 
 export const BillSchema= SchemaFactory.createForClass(Bill);

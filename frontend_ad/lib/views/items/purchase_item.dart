@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend_ad/models/bill.dart';
 import 'package:frontend_ad/views/bills.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class PurchaseItem extends StatefulWidget {
-  const PurchaseItem({super.key});
+  PurchaseItem({super.key, this.item});
+  Bill? item;
   @override
   State<PurchaseItem> createState() => _PurchaseItemState();
 }
@@ -49,8 +52,8 @@ class _PurchaseItemState extends State<PurchaseItem> {
                 Expanded(flex: 8,child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("KH001", style: TextStyle(fontWeight: FontWeight.w500,fontSize: 24),),
-                    Text("Ngày khám : 16/7/2024")
+                    Text("${widget.item?.id}", style: TextStyle(fontWeight: FontWeight.w500,fontSize: 24, overflow: TextOverflow.ellipsis),),
+                    Text("Ngày khám: ${DateFormat('dd/MM/yyyy').format(widget.item!.ngayKham!)}")
                   ],
                 )),
                 Expanded(flex: 2,child: GestureDetector(
@@ -69,7 +72,9 @@ class _PurchaseItemState extends State<PurchaseItem> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween ,
               children: [
                 Text("Tổng tiền: ",style: TextStyle(fontSize: 17),),
-                Text("1.000.000 VNĐ",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),)
+                Text(NumberFormat.currency(
+                                      locale: 'vi_VN', symbol: 'đ')
+                                  .format(widget.item?.tongTien),style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),)
               ],
             )
           ],

@@ -17,7 +17,7 @@ class Appointment{
   Appointment.fromJson(Map<String, dynamic> json){
     print(json['_id']);
     id=json["_id"];
-    ngayKham=DateTime.parse(json['ngayKham']);;
+    ngayKham=DateTime.parse(json['ngayKham']);
     loaiDichVu=json['loaiDichVu'];
     tinhTrangBenh=json['tinhTrangBenh'];
     trangThai=json['trangThai'];

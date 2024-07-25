@@ -7,4 +7,7 @@ export class CreateBillDto{
     hinhAnh: Image[];
     tongTien: number;
     idLichKham: String;
+    tenThuCung: String;
+    tenDichVu: String;
+    ngayKham: Date;
 }

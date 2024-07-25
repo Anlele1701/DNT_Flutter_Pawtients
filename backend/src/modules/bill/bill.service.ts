@@ -17,6 +17,10 @@ export class BillService{
             } else {
                 createBillObj = createBillDto;
             }
+            createBillObj.keDonThuoc.forEach((item)=>{
+                item.soLuong=parseInt(item.soLuong.toString());
+                item.thanhTien=parseInt(item.thanhTien.toString());
+            })
             createBillObj.hinhAnh=[];
             file.forEach((item)=>{
                 createBillObj.hinhAnh.push(new Image(item.originalname, item.buffer, item.mimetype));

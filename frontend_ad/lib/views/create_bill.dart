@@ -391,6 +391,9 @@ class _MyWidgetState extends State<CreateBill> {
                               bill.phiDichVu = widget.appointment?.loaiDichVu;
                               bill.tongTien = tongTien;
                               bill.idLichKham = widget.appointment?.id;
+                              bill.tenThuCung=widget.appointment?.tenThuCung;
+                              bill.tenDichVu=widget.appointment?.tenDichVu;
+                              bill.ngayKham=widget.appointment?.ngayKham;
                               List<ImagePet?>? listImage = [];
                               for (XFile file in imagePickerList) {
                                 String fileName = file.name;
@@ -406,7 +409,7 @@ class _MyWidgetState extends State<CreateBill> {
                                 successToast('Tạo hóa đơn thành công');
                               }
                               else{
-                                errorToast('Thấ bại','');
+                                errorToast('Thất bại','');
                               }
                             },
                             child: const Text(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:frontend_ad/models/appointment.dart';
+import 'package:frontend_ad/views/bill_detail.dart';
 import 'package:frontend_ad/views/create_bill.dart';
 import 'package:frontend_ad/views/public_views/appbar.dart';
 import 'package:frontend_ad/views/widget/ToastNoti.dart';
@@ -198,37 +199,39 @@ class _MyWidgetState extends State<AppointmentDetail> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Container(
-                    width: 350,
-                    decoration: BoxDecoration(
-                        color: Color(0xffF48B29),
-                        borderRadius: BorderRadius.circular(30)),
-                    child: TextButton(
-                        onPressed: () async {
-                          final pref = await SharedPreferences.getInstance();
-                          String? idNV = pref.getString('id');
-                          final result =
-                              await appointmentViewModel.updateStatus(
-                                  stateChoose, widget.appointment?.id, idNV);
-                          if (result is Appointment) {
-                            successToast("Cập nhật lịch khám thành công");
-                            widget.onChangeNoti!(thongBao);
-                            widget.onChangeStatus!(stateChoose);
-                            Navigator.pop(context);
-                          } else {
-                            errorToast(
-                                'Cập nhật lịch khám thất bại', 'Lỗi server');
-                          }
-                        },
-                        child: const Text(
-                          "Lưu trạng thái",
-                          style: TextStyle(
-                              color: Color(0xffffffff),
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        )),
-                  ),
-                  const SizedBox(
+                  widget.appointment?.idHoaDon==null?Column(
+                    children: [
+                      Container(
+                        width: 350,
+                        decoration: BoxDecoration(
+                            color: Color(0xffF48B29),
+                            borderRadius: BorderRadius.circular(30)),
+                        child: TextButton(
+                            onPressed: () async {
+                              final pref = await SharedPreferences.getInstance();
+                              String? idNV = pref.getString('id');
+                              final result =
+                                  await appointmentViewModel.updateStatus(
+                                      stateChoose, widget.appointment?.id, idNV);
+                              if (result is Appointment) {
+                                successToast("Cập nhật lịch khám thành công");
+                                widget.onChangeNoti!(thongBao);
+                                widget.onChangeStatus!(stateChoose);
+                                Navigator.pop(context);
+                              } else {
+                                errorToast(
+                                    'Cập nhật lịch khám thất bại', 'Lỗi server');
+                              }
+                            },
+                            child: const Text(
+                              "Lưu trạng thái",
+                              style: TextStyle(
+                                  color: Color(0xffffffff),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                            )),
+                      ),
+                      const SizedBox(
                     height: 10,
                   ),
                   Container(
@@ -251,6 +254,27 @@ class _MyWidgetState extends State<AppointmentDetail> {
                         },
                         child: const Text(
                           "Tạo hóa đơn",
+                          style: TextStyle(
+                              color: Color(0xffffffff),
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        )),
+                  ),
+                    ],
+                  ):Container(
+                    width: 350,
+                    decoration: BoxDecoration(
+                        color: const Color(0xff00A1E6),
+                        borderRadius: BorderRadius.circular(30)),
+                    child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => BillDetail(idHD: widget.appointment?.idHoaDon)));
+                        },
+                        child: const Text(
+                          "Xem hóa đơn",
                           style: TextStyle(
                               color: Color(0xffffffff),
                               fontSize: 18,

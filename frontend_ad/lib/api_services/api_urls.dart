@@ -1,5 +1,5 @@
 //? Developments APIs
-const devURL = "http://192.168.1.100:3000";
+const devURL = "http://10.21.38.127:3000";
 const devLogin = "$devURL/employees/login";
 const devEmpCreate = "$devURL/employees/create";
 const devEmpAuth = "$devURL/employees/getUser";
