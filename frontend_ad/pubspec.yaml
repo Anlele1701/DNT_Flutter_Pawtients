@@ -26,6 +26,7 @@ dependencies:
   device_info_plus: ^10.1.0
   network_info_plus: ^5.0.3
   http_parser: ^4.0.2
+  socket_io_client: ^2.0.3+1
 
 dev_dependencies:
   flutter_test:

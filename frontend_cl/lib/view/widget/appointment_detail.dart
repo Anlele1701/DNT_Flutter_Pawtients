@@ -128,31 +128,36 @@ class AppointmentDetailState extends State<AppointmentDetail> {
                     return Column(
                       children: [
                         const SizedBox(height: 15),
-                        CarouselSlider(
-                          items: images
-                              .map((e) => SizedBox(
-                                    width: MediaQuery.of(context).size.width,
-                                    child: Image.asset(
-                                      e,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ))
-                              .toList(),
-                          options: CarouselOptions(
-                            initialPage: 0,
-                            viewportFraction: 1,
-                            autoPlay: true,
-                            enlargeCenterPage: true,
-                            autoPlayInterval: const Duration(seconds: 3),
-                            onPageChanged: (value, reason) {
-                              setState(() {
-                                banner_cur = value;
-                              });
-                            },
-                          ),
-                        ),
+                        widget.appointment?.trangThai == "Hoàn thành"
+                            ? CarouselSlider(
+                                items: images
+                                    .map((e) => SizedBox(
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          child: Image.asset(
+                                            e,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ))
+                                    .toList(),
+                                options: CarouselOptions(
+                                  initialPage: 0,
+                                  viewportFraction: 1,
+                                  autoPlay: true,
+                                  enlargeCenterPage: true,
+                                  autoPlayInterval: const Duration(seconds: 3),
+                                  onPageChanged: (value, reason) {
+                                    setState(() {
+                                      banner_cur = value;
+                                    });
+                                  },
+                                ),
+                              )
+                            : Container(),
                         const SizedBox(height: 15),
-                        buildCarouselIndicator(),
+                        widget.appointment?.trangThai == "Hoàn thành"
+                            ? buildCarouselIndicator()
+                            : Container(),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

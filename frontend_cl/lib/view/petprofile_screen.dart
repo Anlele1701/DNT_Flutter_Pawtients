@@ -48,7 +48,7 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
         body: Container(
-            child: petList == null
+            child: petList == null || petList!.isEmpty
                 ? Center(
                     child: isLoading
                         ? const CircularProgressIndicator()

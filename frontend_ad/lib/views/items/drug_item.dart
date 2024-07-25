@@ -58,6 +58,10 @@ class _MyWidgetState extends State<DrugItem> {
                     "Product ID: ${widget.drugItem?.id}",
                     style: TextStyle(color: Color(0xffB5B5B5)),
                   ),
+                  Text(
+                    "Số lượng: ${widget.drugItem?.soLuong}",
+                    style: TextStyle(color: Color(0xffB5B5B5)),
+                  ),
                   Container(
                     margin: EdgeInsets.only(top: 10),
                     child: Row(
@@ -81,79 +85,84 @@ class _MyWidgetState extends State<DrugItem> {
                             height: 30,
                             width: 65,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              gradient: LinearGradient(colors: [
-                                Color.fromARGB(255, 0, 44, 241),
-                                Colors.blue
-                              ],
-                              stops: [0.2,0.8],
-                              begin: Alignment.topRight,
-                              end: Alignment.bottomLeft,
-                              )
-                            ),
-                            child: Icon(Icons.edit_note_rounded,size: 23,color: Colors.white),
+                                borderRadius: BorderRadius.circular(8),
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Color.fromARGB(255, 0, 44, 241),
+                                    Colors.blue
+                                  ],
+                                  stops: [0.2, 0.8],
+                                  begin: Alignment.topRight,
+                                  end: Alignment.bottomLeft,
+                                )),
+                            child: Icon(Icons.edit_note_rounded,
+                                size: 23, color: Colors.white),
                           ),
                         ),
-                        SizedBox(width: 10,),
+                        SizedBox(
+                          width: 10,
+                        ),
                         GestureDetector(
                           onTap: () {
                             showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return SimpleDialog(
-                                          title: Center(
-                                            child: Text("Có muốn xóa sản phẩm?"),
-                                          ),
+                                context: context,
+                                builder: (context) {
+                                  return SimpleDialog(
+                                    title: Center(
+                                      child: Text("Có muốn xóa sản phẩm?"),
+                                    ),
+                                    children: [
+                                      Container(
+                                        margin:
+                                            EdgeInsets.fromLTRB(20, 0, 20, 0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Container(
-                                              margin:
-                                                  EdgeInsets.fromLTRB(20, 0, 20, 0),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  TextButton(
-                                                      onPressed: () async {
-                                                        String result =
-                                                            await drugViewModel
-                                                                .deleteDrug(widget
-                                                                    .drugItem!.id);
-                                                        if (result != "null") {
-                                                          widget.onDelete!(
-                                                              widget.drugItem!.id);
-                                                          Navigator.of(context).pop();
-                                                        } else {}
-                                                      },
-                                                      child: Text("Có")),
-                                                  TextButton(
-                                                      onPressed: () {
-                                                        Navigator.of(context).pop();
-                                                      },
-                                                      child: Text("Không"))
-                                                ],
-                                              ),
-                                            )
+                                            TextButton(
+                                                onPressed: () async {
+                                                  String result =
+                                                      await drugViewModel
+                                                          .deleteDrug(widget
+                                                              .drugItem!.id);
+                                                  if (result != "null") {
+                                                    widget.onDelete!(
+                                                        widget.drugItem!.id);
+                                                    Navigator.of(context).pop();
+                                                  } else {}
+                                                },
+                                                child: Text("Có")),
+                                            TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: Text("Không"))
                                           ],
-                                        );
-                                      });
+                                        ),
+                                      )
+                                    ],
+                                  );
+                                });
                           },
                           child: Container(
-                            alignment: Alignment.center,
-                            height: 30,
-                            width: 65,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              gradient: LinearGradient(colors: [
-                                Color.fromARGB(255, 255, 0, 0),
-                                Color.fromARGB(255, 255, 136, 0)
-                              ],
-                              stops: [0.2,0.8],
-                              begin: Alignment.topRight,
-                              end: Alignment.bottomLeft,
-                              )
-                            ),
-                            child: Icon(Icons.delete_forever_sharp, color: Colors.white,)
-                          ),
+                              alignment: Alignment.center,
+                              height: 30,
+                              width: 65,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Color.fromARGB(255, 255, 0, 0),
+                                      Color.fromARGB(255, 255, 136, 0)
+                                    ],
+                                    stops: [0.2, 0.8],
+                                    begin: Alignment.topRight,
+                                    end: Alignment.bottomLeft,
+                                  )),
+                              child: Icon(
+                                Icons.delete_forever_sharp,
+                                color: Colors.white,
+                              )),
                         )
                       ],
                     ),

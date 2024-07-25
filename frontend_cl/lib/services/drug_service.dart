@@ -22,4 +22,23 @@ class DrugService {
       return null;
     }
   }
+
+  Future<List<Drug?>?> searchDrugList(String? search)async{
+    final dio = Dio();
+    try {
+      List<Drug?> listDrug = [];
+      Response response = await dio.get('${devUrl}/drug/search-drug-list',
+          queryParameters: {'skip': 0, 'limit': 8, 'search': search});
+      if (response.statusCode == 200) {
+        List<dynamic> drugListJson = response.data;
+        listDrug =
+            drugListJson.map((drugJson) => Drug.fromJson(drugJson)).toList();
+        return listDrug;
+      } else
+        return null;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 }

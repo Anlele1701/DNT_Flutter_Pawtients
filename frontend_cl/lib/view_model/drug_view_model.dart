@@ -5,4 +5,8 @@ class DrugViewModel {
   Future<List<Drug?>?> getDrugs(int skip, int limit) async {
     return DrugService().getDrugs(skip, limit);
   }
+
+  Future<List<Drug?>?> searchDrugList(String? search)async{
+    return DrugService().searchDrugList(search);
+  }
 }

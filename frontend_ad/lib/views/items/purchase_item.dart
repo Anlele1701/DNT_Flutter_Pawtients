@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend_ad/models/bill.dart';
+import 'package:frontend_ad/views/bill_detail.dart';
 import 'package:frontend_ad/views/bills.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -16,14 +17,13 @@ class _PurchaseItemState extends State<PurchaseItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.only(bottom: 30),
+        margin: const EdgeInsets.only(bottom: 30),
         height: 130,
         decoration: BoxDecoration(
-          color: Color(0xFFFffafa),
-          border: Border.all(width: 0.5),
-          borderRadius: BorderRadius.circular(10)
-        ),
-        padding: EdgeInsets.all(15),
+            color: const Color(0xFFFffafa),
+            border: Border.all(width: 0.5),
+            borderRadius: BorderRadius.circular(10)),
+        padding: const EdgeInsets.all(15),
         child: Column(
           children: [
             Row(
@@ -31,50 +31,80 @@ class _PurchaseItemState extends State<PurchaseItem> {
                 Expanded(
                   flex: 2,
                   child: Container(
-                    height: 50  ,
+                    height: 50,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      gradient: LinearGradient(colors: [
-                      Color.fromARGB(255, 4, 140, 8),
-                      const Color.fromARGB(255, 0, 250, 129)],
-                      stops: [0.8,0.2],
-                      begin: Alignment.topRight,
-                      end: Alignment.bottomLeft                    
-                      )) ,
-                    child: Icon(
+                        borderRadius: BorderRadius.circular(5),
+                        gradient: const LinearGradient(
+                            colors: [
+                              Color.fromARGB(255, 4, 140, 8),
+                              Color.fromARGB(255, 0, 250, 129)
+                            ],
+                            stops: [
+                              0.8,
+                              0.2
+                            ],
+                            begin: Alignment.topRight,
+                            end: Alignment.bottomLeft)),
+                    child: const Icon(
                       Icons.receipt_long_rounded,
                       color: Colors.white,
                       size: 40,
                     ),
                   ),
                 ),
-                SizedBox(width: 10,),
-                Expanded(flex: 8,child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("${widget.item?.id}", style: TextStyle(fontWeight: FontWeight.w500,fontSize: 24, overflow: TextOverflow.ellipsis),),
-                    Text("Ngày khám: ${DateFormat('dd/MM/yyyy').format(widget.item!.ngayKham!)}")
-                  ],
-                )),
-                Expanded(flex: 2,child: GestureDetector(
-                  onTap: () {
-
-                  },
-                  child: Container(
-                    alignment: Alignment.center,
-                    child: Icon(Icons.arrow_forward_ios_sharp),
-                  ),
-                )),
+                const SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                    flex: 8,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "${widget.item?.id}",
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 24,
+                              overflow: TextOverflow.ellipsis),
+                        ),
+                        Text(
+                            "Ngày khám: ${DateFormat('dd/MM/yyyy').format(widget.item!.ngayKham!)}")
+                      ],
+                    )),
+                Expanded(
+                    flex: 2,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BillDetail(
+                                      idHD: widget.item!.id,
+                                    )));
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: const Icon(Icons.arrow_forward_ios_sharp),
+                      ),
+                    )),
               ],
             ),
-            Divider(thickness: 0.5,),
+            const Divider(
+              thickness: 0.5,
+            ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween ,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Tổng tiền: ",style: TextStyle(fontSize: 17),),
-                Text(NumberFormat.currency(
-                                      locale: 'vi_VN', symbol: 'đ')
-                                  .format(widget.item?.tongTien),style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),)
+                const Text(
+                  "Tổng tiền: ",
+                  style: TextStyle(fontSize: 17),
+                ),
+                Text(
+                  NumberFormat.currency(locale: 'vi_VN', symbol: 'đ')
+                      .format(widget.item?.tongTien),
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.w500),
+                )
               ],
             )
           ],

@@ -7,10 +7,11 @@ import { PetService } from "src/schemas/PetService.schema";
 import { Pet_Services_Service } from "../pet_service/pet_services.service";
 import { Pet } from "src/schemas/Pet.schema";
 import { User } from "src/schemas/User.schema";
+import { NotiService } from "../notification/noti.service";
 
 @Injectable()
 export class AppointmentService {
-    constructor(@InjectModel(Appointment.name) private appointmentModel: Model<Appointment>, private petServicesService: Pet_Services_Service, @InjectModel(User.name) private userModel: Model<User>){}
+    constructor(@InjectModel(Appointment.name) private appointmentModel: Model<Appointment>, private petServicesService: Pet_Services_Service, @InjectModel(User.name) private userModel: Model<User>, private notiService: NotiService){}
     async createNewAppointment(createAppointmentDto: CreateAppointmentDto, userID: String){
         try{
             const petServiceId= await this.petServicesService.findIDPeTService(createAppointmentDto.loaiDichVu);
@@ -57,6 +58,7 @@ export class AppointmentService {
                 lichKham.idNV= idNV;
                 lichKham.trangThai=trangThai;
                 lichKham.save();
+                this.notiService.updateAppointmentStatus(idLichKham,'');
                 return lichKham;
             }
             else return null;

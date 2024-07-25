@@ -2,14 +2,41 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/model/drug_model.dart';
+import 'package:frontend/model/vacxin_model.dart';
+import 'package:frontend/view/widget/Products/pro_detail.dart';
+import 'package:frontend/view_model/drug_view_model.dart';
+import 'package:frontend/view_model/vacxin_view_model.dart';
+import 'package:intl/intl.dart';
+import 'package:path/path.dart';
 
 class CustomDelegate extends SearchDelegate {
+  List<Drug?>? lstDrugs;
+  List<Vacxin?>? lstVacxins;
+  CustomDelegate({this.lstDrugs, this.lstVacxins});
+  bool isLoading = false;
   List<String> test = [
     "Vaccine ngừa dại chó mèo Biorabies",
     "Vaccine ngừa dại chó mèo JKSADKAHDaaaaaaaaabbbbbbbbbbcccccccccccc",
     "Vaccine ngừa dại chó mèo fijweoifjw",
     "Thuốc skdajsdjkkasdiwoowiid",
   ];
+  List<dynamic>? getResult() {
+    List<dynamic>? lstResult = [];
+    isLoading = true;
+    if (lstDrugs != null) lstResult.addAll(lstDrugs!);
+    if (lstVacxins != null) lstResult.addAll(lstVacxins!);
+    return lstResult;
+  }
+
+  Future<List<Drug?>?> getDrugsList(String? search) async {
+    return await DrugViewModel().searchDrugList(search);
+  }
+
+  Future<List<Vacxin?>?> getVacxinList(String? search) async {
+    return await VacxinViewModel().searchVacxinList(search);
+  }
+
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
@@ -33,9 +60,12 @@ class CustomDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    List<String> testres = [];
-    for (var item in test) {
-      if (item.toLowerCase().contains(query.toLowerCase())) {
+    List<dynamic>? results = getResult();
+    print(results?.length);
+    List<dynamic> testres = [];
+    for (var item in results!) {
+      String? tenSP = item is Drug ? item.tenThuoc : item.tenVacxin;
+      if (tenSP!.toLowerCase().contains(query.toLowerCase())) {
         testres.add(item);
       }
     }
@@ -43,16 +73,19 @@ class CustomDelegate extends SearchDelegate {
       itemCount: testres.length,
       itemBuilder: (context, index) {
         var result = testres[index];
-        return ListViewBuild(result);
+        return ListViewBuild(result, context);
       },
     );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    List<String> testres = [];
-    for (var item in test) {
-      if (item.toLowerCase().contains(query.toLowerCase())) {
+    List<dynamic>? results = getResult();
+    print(results?.length);
+    List<dynamic> testres = [];
+    for (var item in results!) {
+      String? tenSP = item is Drug ? item.tenThuoc : item.tenVacxin;
+      if (tenSP!.toLowerCase().contains(query.toLowerCase())) {
         testres.add(item);
       }
     }
@@ -60,13 +93,13 @@ class CustomDelegate extends SearchDelegate {
       itemCount: testres.length,
       itemBuilder: (context, index) {
         var result = testres[index];
-        return ListViewBuild(result);
+        return ListViewBuild(result, context);
       },
     );
   }
 }
 
-Widget ListViewBuild(var result) {
+Widget ListViewBuild(var result, BuildContext context) {
   return Container(
     margin: const EdgeInsets.fromLTRB(8, 12, 8, 8),
     height: 250,
@@ -109,7 +142,7 @@ Widget ListViewBuild(var result) {
                       offset: Offset(0, 0),
                     )
                   ]),
-              child: Image.asset("assets/images/productest.png"),
+              child: Image.memory(result.hinhAnh.data),
             ),
             SizedBox(
               width: 40,
@@ -118,7 +151,7 @@ Widget ListViewBuild(var result) {
               height: 70,
               width: 190,
               child: Text(
-                result,
+                "${result is Drug ? result.tenThuoc : result.tenVacxin}",
                 style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w500,
@@ -137,7 +170,7 @@ Widget ListViewBuild(var result) {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Phòng bệnh : aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "Phòng bệnh : ${result.phongBenh}",
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -145,7 +178,8 @@ Widget ListViewBuild(var result) {
                 height: 5,
               ),
               Text(
-                "1.300.000 VNĐ",
+                NumberFormat.currency(locale: 'vi_VN', symbol: '₫')
+                    .format(result.giaTien),
                 style: TextStyle(
                     color: Color(0xFFF48B29),
                     fontSize: 20,
@@ -155,7 +189,11 @@ Widget ListViewBuild(var result) {
                 height: 5,
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return Prodetail(product: result);
+                  }));
+                },
                 child: Center(
                   child: Container(
                     alignment: Alignment.center,

@@ -170,9 +170,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                         foregroundImage: _image != null
                                             ? FileImage(_image!)
                                                 as ImageProvider
-                                            : Image.memory(
-                                                user!.image?.data as Uint8List,
-                                              ).image,
+                                            : const NetworkImage(
+                                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDoKp0wum3Z8G1cQXa7j9UtFbpTYqG5YhUcg&s'),
                                       ),
                                     ),
                                     Visibility(

@@ -3,7 +3,8 @@ import { VacxinService } from "./vacxin.service";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { CreateNewVacxinDto } from "./dto/create_new_vacxin.dto";
 import { UpdateVacxinDto } from "./dto/update_vacxin.dto";
-
+import { ApiTags } from "@nestjs/swagger";
+@ApiTags("VACXIN")
 @Controller('vacxin')
 export class VacxinController{
     constructor(private readonly vacxinService: VacxinService){}

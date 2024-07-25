@@ -21,17 +21,28 @@ import { AuthGuard } from '../auth.guard';
 import mongoose from 'mongoose';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Employee } from 'src/schemas/Employee.schema';
-
+import { ApiBadRequestResponse, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
+@ApiTags("EMPLOYEE")
 @Controller('employees')
 export class EmployeesController {
   constructor(private employeeService: EmployeesService) {}
   @UsePipes(new ValidationPipe())
   @Post('login')
+  @ApiBadRequestResponse({
+    description:"Tài khoản không thể tạo vui lòng thử lại."
+  })
   async login(@Body() loginEmployeesDTO: LoginEmployeeDto) {
     return this.employeeService.login(loginEmployeesDTO);
   }
   @UsePipes(new ValidationPipe())
+
   @Post('create')
+  @ApiCreatedResponse({
+    description:"Tạo object employee đẻ response lại.",
+  })
+  @ApiBadRequestResponse({
+    description:"Tài khoản không thể tạo vui lòng thử lại."
+  })
   @UseInterceptors(FileInterceptor('hinhAnh'))
   async register(
     @UploadedFile() file: Express.Multer.File,

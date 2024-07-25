@@ -98,6 +98,34 @@ class _MyWidgetState extends State<Drugs> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        shape: CircleBorder(),
+        backgroundColor: Color(0xFFF48B29),
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+          size: 35,
+        ),
+        onPressed: () async {
+          if (cateChoose == "Vacxin") {
+            final result = await Navigator.push(context,
+                MaterialPageRoute(builder: (context) => CreateVacxin()));
+            if (result is Vacxin) {
+              setState(() {
+                listDrug!.add(result);
+              });
+            }
+          } else {
+            final result = await Navigator.push(
+                context, MaterialPageRoute(builder: (context) => CreateDrug()));
+            if (result is Drug) {
+              setState(() {
+                listDrug!.add(result);
+              });
+            }
+          }
+        },
+      ),
       body: RefreshIndicator(
         onRefresh: () {
           listDrug!.clear();
@@ -108,50 +136,46 @@ class _MyWidgetState extends State<Drugs> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              const SizedBox(height: 15),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.arrow_back_ios,
-                        size: 35,
-                      )),
                   Text(
                     "Sản phẩm",
                     style: TextStyle(fontSize: 25),
                   ),
-                  IconButton(
-                    onPressed: () async {
-                      if (cateChoose == "Vacxin") {
-                        final result = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => CreateVacxin()));
-                        if (result is Vacxin) {
-                          setState(() {
-                            listDrug!.add(result);
-                          });
-                        }
-                      } else {
-                        final result = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => CreateDrug()));
-                        if (result is Drug) {
-                          setState(() {
-                            listDrug!.add(result);
-                          });
-                        }
-                      }
-                    },
-                    icon: const Icon(
-                      Icons.add,
-                      size: 35,
-                    ),
-                  )
+                  // IconButton(
+                  //   onPressed: () async {
+                  //     if (cateChoose == "Vacxin") {
+                  //       final result = await Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(
+                  //               builder: (context) => CreateVacxin()));
+                  //       if (result is Vacxin) {
+                  //         setState(() {
+                  //           listDrug!.add(result);
+                  //         });
+                  //       }
+                  //     } else {
+                  //       final result = await Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(
+                  //               builder: (context) => CreateDrug()));
+                  //       if (result is Drug) {
+                  //         setState(() {
+                  //           listDrug!.add(result);
+                  //         });
+                  //       }
+                  //     }
+                  //   },
+                  //   icon: const Icon(
+                  //     Icons.add,
+                  //     size: 35,
+                  //   ),
+                  // )
                 ],
               ),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

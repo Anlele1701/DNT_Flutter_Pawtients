@@ -20,7 +20,7 @@ class _MyWidgetState extends State<BottomNav> {
   late String hoten;
   late String chucVu;
   List<Widget> body = [
-    const HomePage(),
+    //const HomePage(),
     const Customers(),
     const Appointments(),
     const Drugs(),
@@ -50,11 +50,11 @@ class _MyWidgetState extends State<BottomNav> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            label: 'TRANG CHỦ',
-            icon: Icon(Icons.home),
-            backgroundColor: Colors.white,
-          ),
+          // BottomNavigationBarItem(
+          //   label: 'TRANG CHỦ',
+          //   icon: Icon(Icons.home),
+          //   backgroundColor: Colors.white,
+          // ),
           BottomNavigationBarItem(
               label: 'KHÁCH HÀNG', icon: Icon(Icons.people)),
           BottomNavigationBarItem(

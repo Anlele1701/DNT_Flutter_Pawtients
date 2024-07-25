@@ -1,12 +1,22 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { ApiProperty } from '@nestjs/swagger';
 import { Image } from 'src/schemas/Image';
 
 @Schema()
 export class User {
+  @ApiProperty({
+    example:"Trương Quang Huy"
+  })
   @Prop({ required: true, trim: true })
   hoTen: string;
+  @ApiProperty({
+    example:"0987654321"
+  })
   @Prop({ required: true })
   sdt: string;
+  @ApiProperty({
+    example:"jksfdnksdf@132314saA"
+  })
   @Prop({
     required: true,
     trim: true,
@@ -21,6 +31,9 @@ export class User {
   })
   password: string;
   @Prop({ required: true, trim: true, lowercase: true, unique: true })
+  @ApiProperty({
+    example:"Example@gmail.com"
+  })
   email: string;
   @Prop({ required: false })
   gender: boolean;

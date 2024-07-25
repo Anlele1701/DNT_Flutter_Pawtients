@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:frontend_ad/models/employee.dart';
+import 'package:frontend_ad/views/login_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,15 @@ class AuthServices {
       errorToast("Đăng nhập thất bại", "Lỗi server");
       print(e);
     }
+  }
+
+  logout(BuildContext context) {
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.remove('token');
+    });
+    successToast("Đăng xuất thành công");
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => const LoginScreen()));
   }
 
   Future<Employee> getInfo() async {

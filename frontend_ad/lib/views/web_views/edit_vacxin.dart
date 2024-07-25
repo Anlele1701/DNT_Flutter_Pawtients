@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:frontend_ad/models/image_model.dart';
 import 'package:frontend_ad/models/vacxin.dart';
+import 'package:frontend_ad/views/public_views/appbar_drawer.dart';
 import 'package:frontend_ad/views_models/vacxin_view_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
@@ -27,7 +28,7 @@ class _MyWidgetState extends State<EditVacxin> {
   File? _image;
   ImagePet? hinhAnh;
   final picker = ImagePicker();
-  VacxinViewModel vacxinViewModel=VacxinViewModel();
+  VacxinViewModel vacxinViewModel = VacxinViewModel();
   @override
   void initState() {
     super.initState();
@@ -38,7 +39,7 @@ class _MyWidgetState extends State<EditVacxin> {
     soLuongController = TextEditingController(text: "${vacxin?.soLuong}");
     giaTienController = TextEditingController(text: "${vacxin?.giaTien}");
     phongBenhController = TextEditingController(text: "${vacxin?.phongBenh}");
-    quocGiaController=TextEditingController(text: "${vacxin?.quocGia}");
+    quocGiaController = TextEditingController(text: "${vacxin?.quocGia}");
     hinhAnh = vacxin?.hinhAnh;
   }
 
@@ -61,29 +62,12 @@ class _MyWidgetState extends State<EditVacxin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const AppbarDrawer(title: "Thông tin vaccine"),
       body: SingleChildScrollView(
         child: Container(
-          margin: const EdgeInsets.only(top: 30),
+          margin: const EdgeInsets.only(top: 0),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back_ios_new_outlined),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  const SizedBox(
-                    width: 70,
-                  ),
-                  const Text(
-                    "Cập nhật sản phẩm",
-                    style: TextStyle(fontSize: 25),
-                  )
-                ],
-              ),
               Container(
                 margin: const EdgeInsets.all(16),
                 padding: const EdgeInsets.all(10),
@@ -210,18 +194,22 @@ class _MyWidgetState extends State<EditVacxin> {
                   padding: EdgeInsets.all(16),
                   width: double.infinity,
                   child: FilledButton(
-                      onPressed: () async{
-                        vacxin!.id=widget.vacxinItem?.id;
-                          vacxin!.tenVacxin = tenVacxinController!.text;
-                          vacxin!.hangVacxin = hangVacxinController!.text;
-                          vacxin!.moTa = moTaController!.text;
-                          vacxin!.soLuong = int.tryParse(soLuongController!.text);
-                          vacxin!.giaTien = int.parse(giaTienController!.text);
-                          vacxin!.phongBenh = phongBenhController!.text;
-                          final result=await vacxinViewModel.updateVacxin(vacxin!, hinhAnh!);
-                          if(result is Vacxin){
-                            Navigator.pop(context);
-                          }
+                      style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all<Color>(
+                              Color(0xffF48B29))),
+                      onPressed: () async {
+                        vacxin!.id = widget.vacxinItem?.id;
+                        vacxin!.tenVacxin = tenVacxinController!.text;
+                        vacxin!.hangVacxin = hangVacxinController!.text;
+                        vacxin!.moTa = moTaController!.text;
+                        vacxin!.soLuong = int.tryParse(soLuongController!.text);
+                        vacxin!.giaTien = int.parse(giaTienController!.text);
+                        vacxin!.phongBenh = phongBenhController!.text;
+                        final result = await vacxinViewModel.updateVacxin(
+                            vacxin!, hinhAnh!);
+                        if (result is Vacxin) {
+                          Navigator.pop(context);
+                        }
                       },
                       child: Text(
                         "Lưu",

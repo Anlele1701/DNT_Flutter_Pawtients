@@ -90,10 +90,17 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   SizedBox(
                     height: 50,
                     width: 50,
-                    child: CircleAvatar(
-                        backgroundImage: Image.memory(
-                      emp.hinhAnh?.data ?? Uint8List(0),
-                    ).image),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context){
+                          return EmployeeView(employee: emp);
+                        }));
+                      },
+                      child: CircleAvatar(
+                          backgroundImage: Image.memory(
+                        emp.hinhAnh?.data ?? Uint8List(0),
+                      ).image),
+                    ),
                   ),
                   const SizedBox(
                     width: 10,

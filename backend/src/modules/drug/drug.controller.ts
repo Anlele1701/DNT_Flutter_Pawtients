@@ -3,7 +3,8 @@ import { CreateDrugDto } from "./dto/create_new_drug.dto";
 import { DrugService } from "./drug.service";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { UpdateDrugDto } from "./dto/update_drug.dto";
-
+import { ApiTags } from "@nestjs/swagger";
+@ApiTags("DRUGS")
 @Controller('drug')
 export class DrugController{
     constructor(private readonly drugService:DrugService){}

@@ -41,6 +41,7 @@ class PetService {
       if (response.statusCode == 200) {
         List<dynamic> petListJson = response.data;
         listPet = petListJson.map((petJson) => Pet.fromJson(petJson)).toList();
+        print(listPet.length);
         return listPet;
       } else {
         throw Exception('Failed to load Pet');

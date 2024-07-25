@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/model/appointment_model.dart';
 import 'package:frontend/model/drug_model.dart';
+import 'package:frontend/model/vacxin_model.dart';
 import 'package:frontend/view/widget/Dich_Vu/service_page.dart';
 import 'package:frontend/view/widget/Dich_Vu/service_salon.dart';
 import 'package:frontend/view/widget/Products/List_products.dart';
@@ -9,6 +10,7 @@ import 'package:frontend/view/widget/item_list_view.dart';
 import 'package:frontend/view/widget/search_bar.dart';
 import 'package:frontend/view_model/appointment_view_model.dart';
 import 'package:frontend/view_model/drug_view_model.dart';
+import 'package:frontend/view_model/vacxin_view_model.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'widget/item_card_view.dart';
@@ -34,11 +36,13 @@ class _HomeScreenState extends State<HomeScreen> {
   int _showedItems = 0;
 
   late Future<List<Drug?>?> lstDrug;
+  late Future<List<Vacxin?>?> lstVacxin;
+  int listApp2 = 0;
   //ảnh tạm
   final List<String> imgList = [
-    'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
-    'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
-    'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
+    'assets/images/banner_1.png',
+    'assets/images/banner_2.png',
+    'assets/images/banner_3.png'
   ];
   //dữ liệu cho danh mục
   List<String> categoryTitle = [
@@ -76,7 +80,8 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _updateGreetingText();
     listAppointment = appointmentViewModel.getListAppointment(widget.userID);
-    lstDrug = DrugViewModel().getDrugs(0, 8);
+    lstDrug = DrugViewModel().getDrugs(0, 50);
+    lstVacxin = VacxinViewModel().getVacxin(0, 50);
   }
 
   @override
@@ -120,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: ClipRRect(
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(16)),
-                              child: Image.network(item, fit: BoxFit.cover)),
+                              child: Image.asset(item, fit: BoxFit.cover)),
                         ))
                     .toList(),
               ),
@@ -153,12 +158,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 return SearchBar(
                   controller: controller,
                   shadowColor: WidgetStatePropertyAll(
-                      Color(0xffD5D5D5).withOpacity(0.25)),
+                      const Color(0xffD5D5D5).withOpacity(0.25)),
                   backgroundColor: const WidgetStatePropertyAll(Colors.white),
                   padding: const WidgetStatePropertyAll(
                       EdgeInsets.symmetric(horizontal: 14)),
-                  onTap: () {
-                    showSearch(context: context, delegate: CustomDelegate());
+                  onTap: () async {
+                    List<Drug?>? drugs = await lstDrug;
+                    List<Vacxin?>? vacxins = await lstVacxin;
+                    showSearch(
+                        context: context,
+                        delegate: CustomDelegate(
+                            lstDrugs: drugs, lstVacxins: vacxins));
                   },
                   onChanged: (_) {
                     controller.openView();
@@ -176,7 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ServicePage()));
+                              builder: (context) => const ServicePage()));
                     },
                   );
                 });
@@ -198,6 +208,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 } else {
                   final listApp = snapshot.data;
+                  listApp2 = snapshot.data!.length;
                   return ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
@@ -212,29 +223,40 @@ class _HomeScreenState extends State<HomeScreen> {
                 }
               },
             ),
-
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  _isShowMore = !_isShowMore;
-                });
-              },
-              child:
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Text(
-                  _isShowMore ? 'Thu Gọn' : 'Hiện Thêm',
-                  style: TextStyle(
-                      fontSize: 14, color: Color(0xff474747).withOpacity(0.8)),
-                ),
-                Icon(
-                  _isShowMore
-                      ? Icons.keyboard_double_arrow_up_rounded
-                      : Icons.keyboard_double_arrow_down_rounded,
-                  size: 20,
-                  color: Color(0xff474747).withOpacity(0.8),
-                )
-              ]),
-            ),
+            listApp2 == 0
+                ? const Center(
+                    child: Padding(
+                    padding: EdgeInsets.all(12.0),
+                    child: Text(
+                      "Chưa có lịch hẹn nào",
+                      style: TextStyle(fontSize: 21, color: Colors.grey),
+                    ),
+                  ))
+                : TextButton(
+                    onPressed: () {
+                      setState(() {
+                        _isShowMore = !_isShowMore;
+                      });
+                    },
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            _isShowMore ? 'Thu Gọn' : 'Hiện Thêm',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color:
+                                    const Color(0xff474747).withOpacity(0.8)),
+                          ),
+                          Icon(
+                            _isShowMore
+                                ? Icons.keyboard_double_arrow_up_rounded
+                                : Icons.keyboard_double_arrow_down_rounded,
+                            size: 20,
+                            color: const Color(0xff474747).withOpacity(0.8),
+                          )
+                        ]),
+                  ),
 
             //DANH MỤC
             const Text('Danh Mục',
@@ -246,7 +268,7 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 120,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 itemCount: categoryTitle.length,
                 itemBuilder: (context, index) {
                   return CateItemView(index: index);
@@ -262,18 +284,37 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: Color(0xffF48B29))),
             const SizedBox(height: 10),
             Container(
-              margin: const EdgeInsets.symmetric(vertical: 2),
-              width: double.infinity,
-              height: 200,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                physics: BouncingScrollPhysics(),
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return ItemCardView();
-                },
-              ),
-            ),
+                margin: const EdgeInsets.symmetric(vertical: 2),
+                width: double.infinity,
+                height: 200,
+                child: FutureBuilder(
+                  future: lstVacxin,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return const Center(child: Text('Error'));
+                    } else {
+                      final List<Vacxin?>? vacxins =
+                          snapshot.data as List<Vacxin?>?;
+                      return Container(
+                        margin: const EdgeInsets.symmetric(vertical: 2),
+                        width: double.infinity,
+                        height: 200,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          physics: BouncingScrollPhysics(),
+                          itemCount: 5,
+                          itemBuilder: (context, index) {
+                            return ItemCardView(
+                              drugModel: vacxins?[index],
+                            );
+                          },
+                        ),
+                      );
+                    }
+                  },
+                )),
             //VACCINE NỔI BẬT
             const SizedBox(height: 16),
             const Text('Thuốc Nổi Bật',
@@ -297,7 +338,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 200,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       itemCount: 5,
                       itemBuilder: (context, index) {
                         return ItemCardView(
@@ -354,11 +395,11 @@ class _CateItemViewState extends State<CateItemView> {
               height: 70,
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
-                color: Color(0xffF48B29),
-                borderRadius: BorderRadius.all(Radius.circular(14)),
+                color: const Color(0xffF48B29),
+                borderRadius: const BorderRadius.all(Radius.circular(14)),
                 boxShadow: [
                   BoxShadow(
-                    color: Color(0xffD5D5D5).withOpacity(0.25),
+                    color: const Color(0xffD5D5D5).withOpacity(0.25),
                     blurRadius: 4,
                     spreadRadius: 2,
                     offset: const Offset(4, 5),
@@ -373,22 +414,22 @@ class _CateItemViewState extends State<CateItemView> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ServicePage()));
+                                builder: (context) => const ServicePage()));
                       } else if (selectedIndex == 1) {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => VaccinePro()));
+                                builder: (context) => const VaccinePro()));
                       } else if (selectedIndex == 2) {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Products()));
+                                builder: (context) => const Products()));
                       } else if (selectedIndex == 3) {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SalonService()));
+                                builder: (context) => const SalonService()));
                       } else {
                         print('Value not in range (0-3)');
                       }
@@ -400,7 +441,7 @@ class _CateItemViewState extends State<CateItemView> {
             const SizedBox(height: 6),
             Text(
               categoryTitle[widget.index],
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
             ),
           ],
         ));
