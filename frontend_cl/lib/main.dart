@@ -7,8 +7,8 @@ import 'package:frontend/view/spash_screen.dart';
 import 'package:toastification/toastification.dart';
 
 void main() {
-  final webSocketService = WebSocketService();
-  webSocketService.connect();
+  //final webSocketService = WebSocketService();
+  //webSocketService.connect();
   runApp(const ProviderScope(child: MainApp()));
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
 }

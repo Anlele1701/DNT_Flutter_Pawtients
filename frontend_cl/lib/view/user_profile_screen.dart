@@ -167,15 +167,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                       fit: BoxFit.contain,
                                       child: CircleAvatar(
                                         radius: 100,
-                                        foregroundImage: hinhAnh != null
-                                            ? _image != null
-                                                ? FileImage(_image!)
-                                                    as ImageProvider
-                                                : Image.memory(
-                                                    user!.image!.data,
-                                                  ).image
+                                        foregroundImage: _image != null
+                                            ? FileImage(_image!)
+                                                as ImageProvider
                                             : const NetworkImage(
-                                                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDoKp0wum3Z8G1cQXa7j9UtFbpTYqG5YhUcg&s'),
+                                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDoKp0wum3Z8G1cQXa7j9UtFbpTYqG5YhUcg&s'),
                                       ),
                                     ),
                                     Visibility(
