@@ -9,6 +9,8 @@ const devVerifyOTP = "$devUrl/users/verifyPinCode";
 const devUpdatePassword = "$devUrl/users/updatePassword";
 //product
 const devDrug = "$devUrl/drug/get-drug-list";
+//user
+const devUserUpdate = "$devUrl/users/updateUser";
 //? Production APIs
 //* Authenication
 const prodUrl = "https://dnt-flutter-pawtients.onrender.com";

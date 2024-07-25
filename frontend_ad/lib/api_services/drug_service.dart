@@ -76,7 +76,7 @@ class DrugService {
         ),
       });
       Response response =
-          await dio.patch('${devURL}/drug/update-drug', data: formData);
+          await dio.patch('$devURL/drug/update-drug', data: formData);
       return Drug.fromJson(response.data);
     } catch (e) {
       print(e);
