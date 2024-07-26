@@ -171,7 +171,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                             ? FileImage(_image!)
                                                 as ImageProvider
                                             : const NetworkImage(
-                                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDoKp0wum3Z8G1cQXa7j9UtFbpTYqG5YhUcg&s'),
+                                                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDoKp0wum3Z8G1cQXa7j9UtFbpTYqG5YhUcg&s'),
                                       ),
                                     ),
                                     Visibility(

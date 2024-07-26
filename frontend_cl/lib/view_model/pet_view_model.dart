@@ -28,12 +28,11 @@ class PetViewModel {
     }
   }
 
-  Future<Pet?> getPet(String? idThuCung)async{
-    try{
-      Pet? pet= await PetService().getPet(idThuCung);
+  Future<Pet?> getPet(String? idThuCung) async {
+    try {
+      Pet? pet = await PetService().getPet(idThuCung);
       return pet;
-    }
-    catch(e){
+    } catch (e) {
       print(e);
       return null;
     }

@@ -11,7 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class AddPetProfileScreen extends StatefulWidget {
-  AddPetProfileScreen({super.key, this.userID = ""});
+  AddPetProfileScreen({super.key, this.userID});
   String? userID;
   @override
   State<AddPetProfileScreen> createState() => _AddPetProfileScreenState();
@@ -279,7 +279,8 @@ class _AddPetProfileScreenState extends State<AddPetProfileScreen> {
                                           await petViewModel.createNewPet(pet,
                                               hinhAnh!, widget.userID, context);
                                       if (result == null)
-                                        print('null');
+                                        print(pet.toJson());
+                                      //    print('null');
                                       else
                                         print('hello ${result.tenThuCung}');
                                     },
